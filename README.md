@@ -2,6 +2,8 @@
 
 Event Management System
 
+-------------------------------------------------------
+
 Classes:
 
 Vendor
@@ -21,4 +23,11 @@ Payment
 - Online Payment
 
 Logger
-- Record Purchase Histroy and ...
+- Record Purchase History and ...
+
+-------------------------------------------------------
+
+General Practice:
+
+- User UUID for Class ids to avoid duplication
+- User ArrayList<T>
