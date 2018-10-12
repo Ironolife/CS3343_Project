@@ -8,12 +8,118 @@ public abstract class User {
 	private String name;
 	private int age;
 	private Ticket[] tickets;
+	private String hkID;
 	
-	public User(UUID id, String name, int age) {
+	public User(UUID id, String name, int age, String hkID) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.tickets = new Ticket[] {};
+		this.hkID = hkID;
+	}
+	
+	public UUID getId() {
+		return this.id;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getAge() {
+		return this.age;
+	}
+	
+	public Ticket[] getTickets() {
+		return this.tickets;
+	}
+	
+	public String getHKID() {
+		return this.hkID;
+	}
+	
+	public static boolean validateHKID(String hkID) {
+		
+		if(hkID.length() == 10) {
+			
+			if(Character.isLetter(hkID.charAt(0))) {
+				
+				int sum = 0;
+				int checkDigit = (int)hkID.charAt(hkID.length()-2);
+				
+				if(Character.isLetter(hkID.charAt(hkID.length()-2))) {
+					if(hkID.charAt(hkID.length()-2) == 'A') {
+						checkDigit = 0;
+					}
+					else {
+						return false;
+					}
+				}
+				else {
+					if(Character.isDigit(hkID.charAt(hkID.length()-2))) {
+						checkDigit = (int)hkID.charAt(hkID.length()-2) - 48;
+					}
+				}
+				
+				for(int i = 0; i <= 6; i++) {
+					if(i > 0 && !Character.isDigit(hkID.charAt(i))) {
+						return false;
+					}
+					if(i == 0) {
+						sum += ((int)hkID.charAt(i) - 64) * (8 - i);
+					}
+					else {
+						sum += ((int)hkID.charAt(i) - 48) * (8 - i);
+					}
+				}
+				
+				return (11 - (sum % 11) == checkDigit);
+				
+			}
+			return false;
+			
+		}
+		else if(hkID.length() == 11) {
+			
+			if(Character.isLetter(hkID.charAt(0)) && Character.isLetter(hkID.charAt(1))) {
+				
+				int sum = 0;
+				int checkDigit = (int)hkID.charAt(hkID.length()-2);
+				
+				if(Character.isLetter(hkID.charAt(hkID.length()-2))) {
+					if(hkID.charAt(hkID.length()-2) == 'A') {
+						checkDigit = 0;
+					}
+					else {
+						return false;
+					}
+				}
+				else {
+					if(Character.isDigit(hkID.charAt(hkID.length()-2))) {
+						checkDigit = (int)hkID.charAt(hkID.length()-2) - 48;
+					}
+				}
+				
+				for(int i = 0; i <= 7; i++) {
+					if(i > 1 && !Character.isDigit(hkID.charAt(i))) {
+						return false;
+					}
+					if(i < 2) {
+						sum += ((int)hkID.charAt(i) - 64) * (9 - i);
+					}
+					else {
+						sum += ((int)hkID.charAt(i) - 48) * (9 - i);
+					}
+				}
+				System.out.println(sum);
+				return (11 - (sum % 11) == checkDigit);
+				
+			}
+			return false;
+			
+		}
+		return false;
+		
 	}
 
 }
