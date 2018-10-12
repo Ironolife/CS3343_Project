@@ -1,5 +1,6 @@
 package ems;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public abstract class User {
@@ -7,14 +8,14 @@ public abstract class User {
 	private UUID id;
 	private String name;
 	private int age;
-	private Ticket[] tickets;
 	private String hkID;
+	private ArrayList<Ticket> tickets;
 	
 	public User(UUID id, String name, int age, String hkID) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
-		this.tickets = new Ticket[] {};
+		this.tickets = new ArrayList<Ticket>();
 		this.hkID = hkID;
 	}
 	
@@ -30,8 +31,20 @@ public abstract class User {
 		return this.age;
 	}
 	
-	public Ticket[] getTickets() {
+	public ArrayList<Ticket> getTickets() {
 		return this.tickets;
+	}
+	
+	public void addTicket(Ticket ticket) {
+		this.tickets.add(ticket);
+	}
+	
+	public Ticket removeTicket(Ticket ticket) {
+		boolean result = this.tickets.remove(ticket);
+		if(result == true) {
+			return ticket;
+		}
+		return null;
 	}
 	
 	public String getHKID() {
@@ -121,5 +134,7 @@ public abstract class User {
 		return false;
 		
 	}
+	
+	public abstract double getDiscount();
 
 }

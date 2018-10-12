@@ -31,4 +31,10 @@ public class UserTest {
 		assertEquals(false, User.validateHKID(hkID));
 	}
 	
+	@Test
+	public void validateHKIDTest_4() {
+		String hkID = "ABCDEFG(A)";
+		assertEquals(false, User.validateHKID(hkID));
+	}
+	
 }
