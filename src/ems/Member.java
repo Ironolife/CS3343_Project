@@ -5,13 +5,34 @@ import java.util.UUID;
 
 public class Member extends User {
 
+	private double balance;
 	private ArrayList<Coupon> coupons;
 	
-	public Member(UUID id, String name, int age, String hkID) {
+	public Member(String name, int age, String hkID) {
 		
-		super(id, name, age, hkID);
+		super(name, age, hkID);
 		this.coupons = new ArrayList<Coupon>();
+		this.balance = 0;
 		
+	}
+	
+	public double getBalance() {
+		return this.balance;
+	}
+	
+	public void addBalance(double amount) {
+		this.balance += amount;
+	}
+	
+	public boolean substractBalance(double amount) {
+		double resultBalance = this.balance - amount;
+		if(resultBalance >= 0) {
+			this.balance = resultBalance;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public ArrayList<Coupon> getCoupon() {

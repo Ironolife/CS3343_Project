@@ -27,7 +27,13 @@ public class LogsRecorder {
 	}
 	
 	public void readLogs() {
+		System.out.println("- Start of Logs -");
 		this.logs.forEach(l -> System.out.println(l.getDate() + ": " + l.getMessage()));
+		System.out.println("- End of Logs -");
+	}
+	
+	public void clearLogs() {
+		this.logs.clear();
 	}
 
 }

@@ -11,8 +11,8 @@ public abstract class User {
 	private String hkID;
 	private ArrayList<Ticket> tickets;
 	
-	public User(UUID id, String name, int age, String hkID) {
-		this.id = id;
+	public User(String name, int age, String hkID) {
+		this.id = UUID.randomUUID();
 		this.name = name;
 		this.age = age;
 		this.tickets = new ArrayList<Ticket>();
