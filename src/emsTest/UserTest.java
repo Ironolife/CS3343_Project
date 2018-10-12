@@ -30,4 +30,5 @@ public class UserTest {
 		String hkID = "AB987654(5)";
 		assertEquals(false, User.validateHKID(hkID));
 	}
+	
 }
