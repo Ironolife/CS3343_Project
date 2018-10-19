@@ -1,9 +1,11 @@
 package ems;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Ticket {
 	
+	private UUID id;
 	private Event event;
 	private double price;
 	private String seat;
@@ -11,9 +13,14 @@ public class Ticket {
 	private Date exitTime;
 	
 	public Ticket(Event event, double price, String seat) {
+		this.id = UUID.randomUUID();
 		this.event = event;
 		this.price = price;
 		this.seat = seat;
+	}
+	
+	public UUID getId() {
+		return this.id;
 	}
 	
 	public Event getEvent() {

@@ -1,7 +1,6 @@
 package ems;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class Member extends User {
 

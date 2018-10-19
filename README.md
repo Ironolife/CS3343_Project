@@ -31,3 +31,5 @@ General Practice:
 
 - User UUID for Class ids to avoid duplication
 - User ArrayList<T>
+- Pull origin before working session
+- Push to origin after working session
