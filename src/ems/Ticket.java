@@ -12,10 +12,10 @@ public class Ticket {
 	private Date entryTime;
 	private Date exitTime;
 	/**
-	 * 0 = can be bought
-	 * 1 = bought
+	 * false = not be bought by anyone
+	 * true = bought by someone
 	 */
-	private int boughtStatus; 
+	private boolean isBoughtFlag; 
 
 
 	/**
@@ -28,7 +28,7 @@ public class Ticket {
 		this.event = event;
 		this.price = price;
 		this.seat = seat;
-		this.boughtStatus = 0;
+		this.isBoughtFlag = false;
 	}
 	
 	public UUID getId() {
@@ -67,12 +67,12 @@ public class Ticket {
 		
 	}
 	
-	public void setBoughtStatus(int aBoughtStatus) {
-		this.boughtStatus = aBoughtStatus;
+	public void setBoughtStatus(boolean aIsBoughtFlag) {
+		this.isBoughtFlag = aIsBoughtFlag;
 	}
 	
-	public int getBoughtStatus() {
-		return boughtStatus;
+	public boolean getBoughtStatus() {
+		return isBoughtFlag;
 	}
 	
 	public int getStatus() {
@@ -95,6 +95,6 @@ public class Ticket {
 	}
 	
 	public String getEventInformation() {
-		return null;
+		return this.getEvent().getEventInfo();
 	}
 }
