@@ -2,7 +2,7 @@ package ems;
 
 import java.util.Date;
 
-public class Log {
+public class Log implements java.io.Serializable {
 	
 	private Date date;
 	private String message;
@@ -13,7 +13,7 @@ public class Log {
 	}
 	
 	public String getDate() {
-		return this.date.toString();
+		return this.date.toLocaleString();
 	}
 	
 	public String getMessage() {

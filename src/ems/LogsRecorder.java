@@ -1,9 +1,6 @@
 package ems;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,19 +10,31 @@ public class LogsRecorder {
 	private ArrayList<Log> logs;
 	private File file;
 	
-	private LogsRecorder() throws IOException {
+	private LogsRecorder() {
 		this.logs = new ArrayList<Log>();
 		LogsRecorder.instance = this;
-		this.file = new File("logs.txt");
+		Date today = new Date();
+		String dateString = today.getDate() + "-" + (today.getMonth() + 1) + "-" + (today.getYear() + 1900);
+		this.file = new File(dateString + ".log");
 		if(!file.exists()) {
-			file.createNewFile();
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				System.out.println("Failed to create file.");
+				e.printStackTrace();
+			}
 		}
 		else {
-			this.readFile();
+			try {
+				this.readFile();
+			} catch (IOException e) {
+				System.out.println("Failed to read file.");
+				e.printStackTrace();
+			}
 		}
 	}
 	
-	public LogsRecorder getInstance() throws IOException {
+	public static LogsRecorder getInstance() {
 		if(LogsRecorder.instance == null) {
 			return new LogsRecorder();
 		}
@@ -34,26 +43,35 @@ public class LogsRecorder {
 		}
 	}
 	
-	private void readFile() throws IOException {
-		FileReader fileReader = new FileReader(this.file);
-		String fileString = new String();
-		int fileChar;
-		while((fileChar = fileReader.read()) != -1) {
-			fileString += fileChar;
-		}
-		//TO DO: Input fileString into ArrayList<Log> logs
-	}
-	
 	private void writeFile() throws IOException {
-		FileWriter fileWriter = new FileWriter(this.file);
-		String fileString = new String();
-		//TO DO: Output ArrayList<Log> logs into fileString
-		fileWriter.write(fileString);
+		FileOutputStream fileOut = new FileOutputStream(file);
+		ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+		objectOut.writeObject(this.logs);
+		objectOut.close();
+		fileOut.close();
 	}
 	
-	public void writeLog(Date date, String message) throws IOException {
+	public void readFile() throws IOException {
+		FileInputStream fileIn = new FileInputStream(file);
+		ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+		try {
+			this.logs = (ArrayList<Log>) objectIn.readObject();
+		} catch (ClassNotFoundException e) {
+			System.out.println("Log class not found.");
+			e.printStackTrace();
+		}
+		objectIn.close();
+		fileIn.close();
+	}
+	
+	public void writeLog(Date date, String message) {
 		logs.add(new Log(date, message));
-		this.writeFile();
+		try {
+			this.writeFile();
+		} catch (IOException e) {
+			System.out.println("Failed to write to file.");
+			e.printStackTrace();
+		}
 	}
 	
 	public void readLogs() {
@@ -62,8 +80,16 @@ public class LogsRecorder {
 		System.out.println("- End of Logs -");
 	}
 	
+	public ArrayList<Log> getLogs() {
+		return this.logs;
+	}
+	
 	public void clearLogs() {
 		this.logs.clear();
+	}
+	
+	public void clearFile() {
+		this.file.delete();
 	}
 
 }
