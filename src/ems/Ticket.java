@@ -95,6 +95,6 @@ public class Ticket {
 	}
 	
 	public String getEventInformation() {
-		return null;
+		return this.getEvent().getEventInfo();
 	}
 }
