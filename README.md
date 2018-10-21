@@ -15,7 +15,12 @@ User
 	- Tiers
 
 Event
-
+- getAverageRating(): double
+- Reviews: ArrayList<Review>
+	- reviewer: User
+	- rating: double
+	- comment: String
+	
 Ticket
 
 Payment
