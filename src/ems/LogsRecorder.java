@@ -28,7 +28,7 @@ public class LogsRecorder {
 			try {
 				this.readFile();
 			} catch (IOException e) {
-				System.out.println("Failed to read file.");
+				System.out.println("Failed to read from file.");
 				e.printStackTrace();
 			}
 		}
@@ -74,10 +74,39 @@ public class LogsRecorder {
 		}
 	}
 	
+	//Read today logs
 	public void readLogs() {
 		System.out.println("- Start of Logs -");
 		this.logs.forEach(l -> System.out.println(l.getDate() + ": " + l.getMessage()));
 		System.out.println("- End of Logs -");
+	}
+	
+	//Read specific date logs
+	public void readLogs(Date date) {
+		String dateString = date.getDate() + "-" + (date.getMonth() + 1) + "-" + (date.getYear() + 1900);
+		File file = new File(dateString + ".log");
+		if(file.exists()) {
+			try {
+				FileInputStream fileIn = new FileInputStream(file);
+				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+				ArrayList<Log> logs = (ArrayList<Log>) objectIn.readObject();
+				objectIn.close();
+				fileIn.close();
+				
+				System.out.println("- Start of Logs -");
+				logs.forEach(l -> System.out.println(l.getDate() + ": " + l.getMessage()));
+				System.out.println("- End of Logs -");
+			} catch (IOException e) {
+				System.out.println("Failed to read from file.");
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				System.out.println("Log class not found.");
+				e.printStackTrace();
+			}
+		}
+		else {
+			System.out.println("Logs not found on specified date.");
+		}
 	}
 	
 	public ArrayList<Log> getLogs() {
