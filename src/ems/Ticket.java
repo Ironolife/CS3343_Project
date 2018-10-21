@@ -11,12 +11,24 @@ public class Ticket {
 	private String seat;
 	private Date entryTime;
 	private Date exitTime;
+	/**
+	 * 0 = can be bought
+	 * 1 = bought
+	 */
+	private int boughtStatus; 
+
+
+	/**
+	 * logger is static since it does not belong to object
+	 */
+	private static Log logger;
 	
 	public Ticket(Event event, double price, String seat) {
 		this.id = UUID.randomUUID();
 		this.event = event;
 		this.price = price;
 		this.seat = seat;
+		this.boughtStatus = 0;
 	}
 	
 	public UUID getId() {
@@ -55,6 +67,14 @@ public class Ticket {
 		
 	}
 	
+	public void setBoughtStatus(int aBoughtStatus) {
+		this.boughtStatus = aBoughtStatus;
+	}
+	
+	public int getBoughtStatus() {
+		return boughtStatus;
+	}
+	
 	public int getStatus() {
 		
 		if(this.entryTime == null) {
@@ -68,5 +88,13 @@ public class Ticket {
 		}
 		
 	}
-
+	
+	
+	public void linkTheTicketToAnEvent(Event anEvent) {
+		this.event = anEvent;
+	}
+	
+	public String getEventInformation() {
+		return null;
+	}
 }
