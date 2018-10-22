@@ -15,7 +15,11 @@ public class LogsRecorder {
 		LogsRecorder.instance = this;
 		Date today = new Date();
 		String dateString = today.getDate() + "-" + (today.getMonth() + 1) + "-" + (today.getYear() + 1900);
-		this.file = new File(dateString + ".log");
+		File folder = new File("logs");
+		if(!folder.exists()) {
+			folder.mkdir();
+		}
+		this.file = new File("logs/" + dateString + ".log");
 		if(!file.exists()) {
 			try {
 				file.createNewFile();
@@ -84,7 +88,7 @@ public class LogsRecorder {
 	//Read specific date logs
 	public void readLogs(Date date) {
 		String dateString = date.getDate() + "-" + (date.getMonth() + 1) + "-" + (date.getYear() + 1900);
-		File file = new File(dateString + ".log");
+		File file = new File("logs/" + dateString + ".log");
 		if(file.exists()) {
 			try {
 				FileInputStream fileIn = new FileInputStream(file);
