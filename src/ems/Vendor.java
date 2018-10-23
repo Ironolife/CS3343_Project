@@ -2,5 +2,6 @@ package ems;
 
 public class Vendor {
 
-  //create new events
+  Event event = new Event();
+  
 }
