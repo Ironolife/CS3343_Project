@@ -1,7 +1,12 @@
 package ems;
 
 public class Coupon {
-  public Coupon(double discount, Date expiryDate) {
+  
+  private String couponCode;
+  private double discount;
+  private Date expiryDate;
+  
+  public Coupon(String couponCode, double discount, Date expiryDate) {
     this.discount = discount;
     this.expiryDate = expiryDate;
   }
