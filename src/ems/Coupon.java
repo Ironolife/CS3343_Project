@@ -1,5 +1,7 @@
 package ems;
 
+import java.util.Date;
+
 public class Coupon {
   
   private String couponCode;
