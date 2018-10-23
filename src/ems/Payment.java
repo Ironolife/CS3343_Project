@@ -6,12 +6,14 @@ public class Payment {
 	private double amount;
 	private String payer;
 	private String receiver;
+	private String paymentMethod;
 	
-	public Payment(int transactionId, double amount, String payer, String receiver) {
+	public Payment(int transactionId, double amount, String payer, String receiver, String paymentMethod) {
 		this.transactionId = transactionId;
 		this.amount = amount;
 		this.payer = payer;
 		this.receiver = receiver;
+		this.paymentMethod = paymentMethod;
 	}
 
 	public int getTransactionId() {
@@ -46,6 +48,12 @@ public class Payment {
 		this.receiver = receiver;
 	}
 	
-	
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
 	
 }
