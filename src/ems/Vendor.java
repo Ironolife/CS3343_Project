@@ -4,12 +4,13 @@ import java.util.Date;
 
 public class Vendor {
 	
-	private String eventName;
-	private Date startTime;
-	private Date endTime;
-	private String location;
+	private String vendorName;
+	private Event event;
 	
-	public Vendor(String eventName, Date startTime, Date endTime, String location){
-		Event event = new Event(eventName, startTime, endTime, location);
+	public Vendor(String vendorName, Event event){
+		this.vendorName = vendorName;
+		this.event = event;
 	}
+	
+	public String
 }
