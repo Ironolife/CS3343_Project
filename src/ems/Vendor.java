@@ -12,5 +12,11 @@ public class Vendor {
 		this.event = event;
 	}
 	
-	public String
+	public String getVendorName(){
+		return vendorName;
+	}
+	
+	public Event getEvent(){
+		return event;
+	}
 }
