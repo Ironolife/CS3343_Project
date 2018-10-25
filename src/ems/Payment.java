@@ -1,6 +1,6 @@
 package ems;
 
-public class Payment {
+public abstract class Payment {
     private double amount;
     public Payment(double a){
         this.amount = a;

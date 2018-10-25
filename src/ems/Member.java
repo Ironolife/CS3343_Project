@@ -4,15 +4,21 @@ import java.util.ArrayList;
 
 public class Member extends User {
 
+	private String name;
 	private double balance;
 	private ArrayList<Coupon> coupons;
 	
-	public Member(String name, int age, String hkID) {
+	public Member(String loginId, String password, String name, int age, String hkID) {
 		
-		super(name, age, hkID);
+		super(loginId, password, age, hkID);
+		this.name = name;
 		this.coupons = new ArrayList<Coupon>();
 		this.balance = 0;
 		
+	}
+
+	public String getName() {
+		return this.name;
 	}
 	
 	public double getBalance() {

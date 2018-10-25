@@ -6,14 +6,16 @@ import java.util.UUID;
 public abstract class User {
 	
 	private UUID id;
-	private String name;
+	private String loginId;
+	private String password;
 	private int age;
 	private String hkID;
 	private ArrayList<Ticket> tickets;
 	
-	public User(String name, int age, String hkID) {
+	public User(String loginId, String password, int age, String hkID) {
 		this.id = UUID.randomUUID();
-		this.name = name;
+		this.loginId = loginId;
+		this.password = password;
 		this.age = age;
 		this.tickets = new ArrayList<Ticket>();
 		this.hkID = hkID;
@@ -23,8 +25,16 @@ public abstract class User {
 		return this.id;
 	}
 	
-	public String getName() {
-		return this.name;
+	public String getLoginId() {
+		return this.loginId;
+	}
+	
+	public boolean validatePassword(String inputPassword) {
+		return this.password == inputPassword;
+	}
+	
+	public void changePassword(String newPassword) {
+		this.password = newPassword;
 	}
 	
 	public int getAge() {
