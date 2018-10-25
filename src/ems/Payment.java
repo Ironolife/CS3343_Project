@@ -10,5 +10,5 @@ public class Payment {
         return this.amount;
     }
     
-    publuc abstract boolean buy();
+    public abstract boolean buy();
 }
