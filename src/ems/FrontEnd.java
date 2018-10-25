@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public abstract class FrontEnd {
 	
+	public FrontEnd() {
+		
+	}
+	
 	public void displayEvents() {
 		
 		BackEnd backEnd = BackEnd.getInstance();

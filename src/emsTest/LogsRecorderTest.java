@@ -16,7 +16,6 @@ public class LogsRecorderTest {
 	public void writeLogTest_0() {
 		LogsRecorder logsRecorder = LogsRecorder.getInstance();
 		
-		Date date = new Date();
 		String message = "Test Message 0";
 		
 		//Clear old logs for serialization testing
@@ -24,7 +23,7 @@ public class LogsRecorderTest {
 		logsRecorder.clearLogs();
 		
 		//Create a new log and serialize it to file.
-		logsRecorder.writeLog(date, message);
+		logsRecorder.writeLog(message);
 		
 		//Clear program logs variable.
 		logsRecorder.clearLogs();
@@ -37,7 +36,7 @@ public class LogsRecorderTest {
 		}
 		
 		//Compare the written log object with the deserialized object
-		Log log = new Log(date, message);
+		Log log = new Log(message);
 		assertEquals(log.getMessage(), logsRecorder.getLogs().get(0).getMessage());
 	}
 
