@@ -7,28 +7,19 @@ public class Ticket {
 	
 	private UUID id;
 	private Event event;
-	private double price;
-	private String seat;
+	private int seat;
 	private Date entryTime;
 	private Date exitTime;
-	/**
-	 * false = not be bought by anyone
-	 * true = bought by someone
-	 */
-	private boolean isBoughtFlag; 
-
-
-	/**
-	 * logger is static since it does not belong to object
-	 */
-	private static Log logger;
 	
-	public Ticket(Event event, double price, String seat) {
+	private double price;
+	private User purchaser;
+	private Date purchaseTime;
+	
+	public Ticket(Event event, double price, int seat) {
 		this.id = UUID.randomUUID();
 		this.event = event;
 		this.price = price;
 		this.seat = seat;
-		this.isBoughtFlag = false;
 	}
 	
 	public UUID getId() {
@@ -39,12 +30,12 @@ public class Ticket {
 		return this.event;
 	}
 	
-	public double getPrice() {
-		return this.price;
+	public int getSeat() {
+		return this.seat;
 	}
 	
-	public String getSeat() {
-		return this.seat;
+	public double getPrice() {
+		return this.price;
 	}
 	
 	public boolean setEntryTime() {
@@ -67,34 +58,40 @@ public class Ticket {
 		
 	}
 	
-	public void setBoughtStatus(boolean aIsBoughtFlag) {
-		this.isBoughtFlag = aIsBoughtFlag;
+	public boolean Purchase(User purchaser) {
+		
+		if(this.purchaser == null) {
+			this.purchaser = purchaser;
+			this.purchaseTime = new Date();
+			return true;
+		}
+		return false;
+		
 	}
 	
-	public boolean getBoughtStatus() {
-		return isBoughtFlag;
+	public User getPurchaser() {
+		return this.purchaser;
+	}
+	
+	public Date getPurchaseTime() {
+		return this.purchaseTime;
 	}
 	
 	public int getStatus() {
 		
-		if(this.entryTime == null) {
-			return 0; //Unused Ticket
+		if(this.purchaser == null) {
+			return 0; //Available Ticket
+		}
+		else if(this.entryTime == null) {
+			return 1; //Purchased but Unused Ticket
 		}
 		else if(this.exitTime == null) {
-			return 1; //Entered Ticket
+			return 2; //Entered Ticket
 		}
 		else {
-			return 2; //Left Ticket
+			return 3; //Left Ticket
 		}
 		
 	}
 	
-	
-	public void linkTheTicketToAnEvent(Event anEvent) {
-		this.event = anEvent;
-	}
-	
-	public String getEventInformation() {
-		return this.getEvent().getEventInfo();
-	}
 }

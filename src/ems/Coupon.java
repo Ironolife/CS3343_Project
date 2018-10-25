@@ -16,4 +16,5 @@ public class Coupon {
   public double useCoupon() {
     return discount;
   }
+  
 }

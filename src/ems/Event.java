@@ -7,18 +7,22 @@ import java.util.UUID;
 public class Event {
 	
 	private UUID id;
-	private String eventName;
+	private String name;
 	private Date startTime;
 	private Date endTime;
-	private String location;
+	private Location location;
+	private ArrayList<Ticket> tickets;
+	private boolean isMature;
 	private ArrayList<Review> reviews;
 	
-	public Event(String aEventName, Date aStartTime, Date aEndTime, String aLocation) {
+	public Event(String name, Date startTime, Date endTime, Location location, boolean isMature) {
 		this.id = UUID.randomUUID();
-		this.eventName = aEventName;
-		this.startTime = aStartTime;
-		this.endTime = aEndTime;
-		this.location = aLocation;
+		this.name = name;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.location = location;
+		this.tickets = new ArrayList<Ticket>();
+		this.isMature = isMature;
 		this.reviews = new ArrayList<Review>();
 	}
 	
@@ -27,11 +31,11 @@ public class Event {
 	}
 	
 	public String getEventName() {
-		return eventName;
+		return name;
 	}
 
 	public void setEventName(String eventName) {
-		this.eventName = eventName;
+		this.name = eventName;
 	}
 
 	public Date getStartTime() {
@@ -50,12 +54,58 @@ public class Event {
 		this.endTime = endTime;
 	}
 
-	public String getLocation() {
+	public Location getLocation() {
 		return location;
 	}
+	
+	public boolean generateTickets(double price, double vipPriceMultiplier, int normalSize, int vipSize) {
+		
+		int totalSize = normalSize + vipSize;
+		
+		if(totalSize <= this.location.getCapacity()) {
+			
+			for(int i = 0; i < normalSize; i++) {
+				Ticket ticket = new Ticket(this, price, i);
+				this.tickets.add(ticket);
+			}
+			for(int i = normalSize; i < normalSize + vipSize; i++) {
+				VIPTicket vipTicket = new VIPTicket(this, price, i, vipPriceMultiplier);
+				this.tickets.add(vipTicket);
+			}
+			
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+	public ArrayList<Ticket> getTickets() {
+		return this.tickets;
+	}
+	
+	public Ticket removeTicket(Ticket ticket) {
+		boolean result = this.tickets.remove(ticket);
+		if(result == true) {
+			return ticket;
+		}
+		return null;
+	}
+	
+	public double getSales() {
+		double total = 0;
+		
+		for(Ticket ticket: this.tickets) {
+			if(ticket.getPurchaser() != null) {
+				total += ticket.getPrice();
+			}
+		}
+		return total;
+	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public boolean getIsMature() {
+		return this.isMature;
 	}
 	
 	public void addReview(User user, double rating, String comment) {
@@ -73,12 +123,6 @@ public class Event {
 			ratingSum += r.getRating();
 		}
 		return ratingSum / this.reviews.size();
-	}
-	
-	public String getEventInfo() {
-		String eventInfo = this.getEventName() + ": " + this.getStartTime() + " - " + this.getEndTime() + "\n";
-		eventInfo +=  "Location: " + this.getLocation() + "\n";
-		return eventInfo;
 	}
 
 }

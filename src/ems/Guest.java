@@ -2,9 +2,9 @@ package ems;
 
 public class Guest extends User {
 	
-	public Guest(String name, int age, String hkID) {
+	public Guest(String loginId, String password, int age, String hkID) {
 		
-		super(name, age, hkID);
+		super(loginId, password, age, hkID);
 		
 	}
 	
