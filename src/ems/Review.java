@@ -1,26 +1,30 @@
 package ems;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class Review {
 	
 	private UUID id;
-	private User user;
+	private Member member;
 	private double rating;
 	private String comment;
+	private Date date;
 	
-	public Review(User user, double rating, String comment) {
+	public Review(Member member, double rating, String comment) {
 		this.id = UUID.randomUUID();
+		this.member = member;
 		this.rating = rating;
 		this.comment = comment;
+		this.date = new Date();
 	}
 	
 	public UUID getID() {
 		return this.id;
 	}
 	
-	public User getUser() {
-		return this.user;
+	public Member getMember() {
+		return this.member;
 	}
 	
 	public double getRating() {
@@ -29,6 +33,10 @@ public class Review {
 	
 	public String getComment() {
 		return this.comment;
+	}
+	
+	public String getDate() {
+		return this.date.toLocaleString();
 	}
 
 }

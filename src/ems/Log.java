@@ -7,8 +7,8 @@ public class Log implements java.io.Serializable {
 	private Date date;
 	private String message;
 	
-	public Log(Date date, String message) {
-		this.date = date;
+	public Log(String message) {
+		this.date = new Date();
 		this.message = message;
 	}
 	

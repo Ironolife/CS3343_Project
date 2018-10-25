@@ -68,8 +68,8 @@ public class LogsRecorder {
 		fileIn.close();
 	}
 	
-	public void writeLog(Date date, String message) {
-		logs.add(new Log(date, message));
+	public void writeLog(String message) {
+		logs.add(new Log(message));
 		try {
 			this.writeFile();
 		} catch (IOException e) {

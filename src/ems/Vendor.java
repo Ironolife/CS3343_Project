@@ -6,17 +6,33 @@ import java.util.UUID;
 public class Vendor {
 	
 	private UUID id;
+	private String loginId;
+	private String password;
 	private String name;
 	private ArrayList<Event> events;
 	
-	public Vendor(String name){
+	public Vendor(String loginId, String password, String name){
 		this.id = UUID.randomUUID();
+		this.loginId = loginId;
+		this.password = password;
 		this.name = name;
 		this.events = new ArrayList<Event>();
 	}
 	
 	public UUID getId() {
 		return this.id;
+	}
+	
+	public String getLoginId() {
+		return this.loginId;
+	}
+	
+	public boolean validatePassword(String inputPassword) {
+		return this.password == inputPassword;
+	}
+	
+	public void changePassword(String newPassword) {
+		this.password = newPassword;
 	}
 	
 	public String getName(){

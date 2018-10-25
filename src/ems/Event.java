@@ -30,12 +30,8 @@ public class Event {
 		return this.id;
 	}
 	
-	public String getEventName() {
+	public String getName() {
 		return name;
-	}
-
-	public void setEventName(String eventName) {
-		this.name = eventName;
 	}
 
 	public Date getStartTime() {
@@ -108,13 +104,17 @@ public class Event {
 		return this.isMature;
 	}
 	
-	public void addReview(User user, double rating, String comment) {
-		Review review = new Review(user, rating, comment);
+	public void addReview(Member member, double rating, String comment) {
+		Review review = new Review(member, rating, comment);
 		this.reviews.add(review);
 	}
 	
 	public void removeReview(Review review) {
 		this.reviews.remove(review);
+	}
+	
+	public ArrayList<Review> getReviews() {
+		return this.reviews;
 	}
 	
 	public double getAverageRating() {
