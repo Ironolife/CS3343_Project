@@ -9,4 +9,6 @@ public class Payment {
     public double getAmount(){
         return this.amount;
     }
+    
+    publuc abstract boolean buy();
 }
