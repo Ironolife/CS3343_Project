@@ -51,6 +51,7 @@ Log
 
 EMS (Base Class with main())
 	- FrontEnd
+<<<<<<< HEAD
 		- View Events, Tickets Details
 		- UserFrontEnd
 			- Ticket Purchase
