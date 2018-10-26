@@ -4,7 +4,7 @@ public class EMS {
 	
 	public static void main(String[] args) {
 		
-		//Program Starts, display operations
+		System.out.println("- Event Management System -");
 		
     }
 

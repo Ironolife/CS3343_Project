@@ -10,25 +10,55 @@ Vendor
 - Create New Event
 
 User
+- HKID (Unique)
 - Guest
 - Member
 	- Tiers
 
 Event
+- StartTime, EndTime
+- Location
+- isMature
 - getAverageRating(): double
 - Reviews: ArrayList<Review>
 	- reviewer: User
 	- rating: double
 	- comment: String
+	- date: Date
+
+Location
+- Name (Unique)
+- Capacity
+* 2 Events should not have be at the same location with overlapping time.
 	
 Ticket
+	- EntryTime, ExitTime, PurchaseTime
+	- VIPTicket
 
 Payment
 - Credit Card
 - Online Payment
 
-Logger
-- Record Purchase History and ...
+LogsRecorder
+- Read and Write Logs
+Log
+- Date
+- Message
+
+EMS (Base Class with main())
+	- FrontEnd
+- View Events, Tickets Details
+- UserFrontEnd
+	- Ticket Purchase
+	- Write Reviews
+	- Upgrade User Tier
+- VendorFrontEnd
+	- Create Event
+	- Generate Tickets
+	- Generate Coupons
+	- View Sales
+- BackEnd
+	- Store Vendor, User and Location Lists
 
 -------------------------------------------------------
 
