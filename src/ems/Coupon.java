@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Coupon {
-<<<<<<< HEAD
 	
 	private UUID id;
 	private String code;
@@ -34,20 +33,4 @@ public class Coupon {
     	return this.expiryDate;
     }
     
-  
-  private String couponCode;
-  private double discount;
-  private Date expiryDate;
-  
-  public Coupon(String couponCode, double discount, Date expiryDate) {
-    this.couponCode = couponCode
-    this.discount = discount;
-    this.expiryDate = expiryDate;
-  }
-  
-  public double useCoupon() {
-    return discount;
-  }
-  
->>>>>>> 7e40e3b7002d580633c9be0e52f4a14e56404fcc
 }

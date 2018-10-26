@@ -40,8 +40,8 @@ Payment
 - Online Payment
 
 Coupon
-- Discount
-Distributed by Vendor
+- Amount Deduction (Eg. Deduct $20)
+- Percentage Deduction (Eg. 30% Off)
 
 LogsRecorder
 - Read and Write Logs
@@ -51,7 +51,6 @@ Log
 
 EMS (Base Class with main())
 	- FrontEnd
-<<<<<<< HEAD
 		- View Events, Tickets Details
 		- UserFrontEnd
 			- Ticket Purchase
