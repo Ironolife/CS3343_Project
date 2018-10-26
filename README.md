@@ -59,6 +59,10 @@ EMS (Base Class with main())
 	- View Sales
 - BackEnd
 	- Store Vendor, User and Location Lists
+	
+Coupon
+- Amount Deduction (Eg. Deduct $20)
+- Percentage Deduction (Eg. 30% Off)
 
 -------------------------------------------------------
 
