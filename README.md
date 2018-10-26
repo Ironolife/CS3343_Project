@@ -39,6 +39,10 @@ Payment
 - Credit Card
 - Online Payment
 
+Coupon
+- Discount
+Distributed by Vendor
+
 LogsRecorder
 - Read and Write Logs
 Log
@@ -47,18 +51,18 @@ Log
 
 EMS (Base Class with main())
 	- FrontEnd
-- View Events, Tickets Details
-- UserFrontEnd
-	- Ticket Purchase
-	- Write Reviews
-	- Upgrade User Tier
-- VendorFrontEnd
-	- Create Event
-	- Generate Tickets
-	- Generate Coupons
-	- View Sales
-- BackEnd
-	- Store Vendor, User and Location Lists
+		- View Events, Tickets Details
+		- UserFrontEnd
+			- Ticket Purchase
+			- Write Reviews
+			- Upgrade User Tier
+		- VendorFrontEnd
+			- Create Event
+			- Generate Tickets
+			- Generate Coupons
+			- View Sales
+	- BackEnd
+		- Store Vendor, User and Location Lists
 
 -------------------------------------------------------
 
