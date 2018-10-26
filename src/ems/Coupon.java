@@ -9,6 +9,7 @@ public class Coupon {
   private Date expiryDate;
   
   public Coupon(String couponCode, double discount, Date expiryDate) {
+    this.couponCode = couponCode
     this.discount = discount;
     this.expiryDate = expiryDate;
   }
