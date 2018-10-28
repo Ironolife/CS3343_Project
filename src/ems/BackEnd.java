@@ -14,6 +14,7 @@ public class BackEnd {
 		this.vendors = new ArrayList<Vendor>();
 		this.users = new ArrayList<User>();
 		this.locations = new ArrayList<Location>();
+		BackEnd.instance = this;
 	}
 	
 	public static BackEnd getInstance() {

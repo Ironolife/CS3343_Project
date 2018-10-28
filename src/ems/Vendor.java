@@ -28,7 +28,7 @@ public class Vendor {
 	}
 	
 	public boolean validatePassword(String inputPassword) {
-		return this.password == inputPassword;
+		return this.password.equals(inputPassword);
 	}
 	
 	public void changePassword(String newPassword) {

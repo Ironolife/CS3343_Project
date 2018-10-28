@@ -46,7 +46,7 @@ public class PayPal extends Payment {
 
     public boolean buy(){
         boolean serverConn = true; //status of server
-        if(this.getBalance() <= this.getAmount()){
+        if(this.getBalance() >= this.getAmount()){
             return true;
         }else if(this.card.size() > 0){ //not enough balance but got credit card linked
             CreditCard c = this.getDefaultCard();
