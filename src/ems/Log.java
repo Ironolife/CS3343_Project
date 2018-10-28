@@ -2,7 +2,7 @@ package ems;
 
 import java.util.Date;
 
-public class Log implements java.io.Serializable {
+public class Log {
 	
 	private Date date;
 	private String message;

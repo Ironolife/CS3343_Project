@@ -4,6 +4,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+
 public class LogsRecorder {
 	
 	private static LogsRecorder instance;
@@ -13,6 +17,7 @@ public class LogsRecorder {
 	private LogsRecorder() {
 		this.logs = new ArrayList<Log>();
 		LogsRecorder.instance = this;
+		
 		Date today = new Date();
 		String dateString = today.getDate() + "-" + (today.getMonth() + 1) + "-" + (today.getYear() + 1900);
 		File folder = new File("logs");
@@ -28,14 +33,8 @@ public class LogsRecorder {
 				e.printStackTrace();
 			}
 		}
-		else {
-			try {
-				this.readFile();
-			} catch (IOException e) {
-				System.out.println("Failed to read from file.");
-				e.printStackTrace();
-			}
-		}
+
+		this.deserialize();
 	}
 	
 	public static LogsRecorder getInstance() {
@@ -47,35 +46,41 @@ public class LogsRecorder {
 		}
 	}
 	
-	private void writeFile() throws IOException {
-		FileOutputStream fileOut = new FileOutputStream(file);
-		ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-		objectOut.writeObject(this.logs);
-		objectOut.close();
-		fileOut.close();
-	}
-	
-	public void readFile() throws IOException {
-		FileInputStream fileIn = new FileInputStream(file);
-		ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+	private void serialize() {
 		try {
-			this.logs = (ArrayList<Log>) objectIn.readObject();
-		} catch (ClassNotFoundException e) {
-			System.out.println("Log class not found.");
+			FileWriter fileWriter = new FileWriter(this.file);
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String json = gson.toJson(this.logs);
+			fileWriter.write(json);
+			fileWriter.close();
+		}
+		catch (IOException e) {
+			System.out.println("Failed to write to file.");
 			e.printStackTrace();
 		}
-		objectIn.close();
-		fileIn.close();
+	}
+	
+	public void deserialize() {
+		try {
+			FileReader fileReader = new FileReader(this.file);
+			Gson gson = new Gson();
+			JsonReader jsonReader = new JsonReader(fileReader);
+			this.logs = gson.fromJson(jsonReader, new TypeToken<ArrayList<Log>>(){}.getType()) ;
+			if(this.logs == null) {
+				this.logs = new ArrayList<Log>();
+			}
+			jsonReader.close();
+			fileReader.close();
+		}
+		catch (IOException e) {
+			System.out.println("Failed to read from file.");
+			e.printStackTrace();
+		}
 	}
 	
 	public void writeLog(String message) {
 		logs.add(new Log(message));
-		try {
-			this.writeFile();
-		} catch (IOException e) {
-			System.out.println("Failed to write to file.");
-			e.printStackTrace();
-		}
+		this.serialize();
 	}
 	
 	//Read today logs
@@ -91,20 +96,21 @@ public class LogsRecorder {
 		File file = new File("logs/" + dateString + ".log");
 		if(file.exists()) {
 			try {
-				FileInputStream fileIn = new FileInputStream(file);
-				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-				ArrayList<Log> logs = (ArrayList<Log>) objectIn.readObject();
-				objectIn.close();
-				fileIn.close();
+				FileReader fileReader = new FileReader(file);
+				Gson gson = new Gson();
+				JsonReader jsonReader = new JsonReader(fileReader);
+				ArrayList<Log> logs = gson.fromJson(jsonReader, new TypeToken<ArrayList<Log>>(){}.getType()) ;
+				if(logs == null) {
+					logs = new ArrayList<Log>();
+				}
+				jsonReader.close();
+				fileReader.close();
 				
 				System.out.println("- Start of Logs -");
 				logs.forEach(l -> System.out.println(l.getDate() + ": " + l.getMessage()));
 				System.out.println("- End of Logs -");
 			} catch (IOException e) {
 				System.out.println("Failed to read from file.");
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				System.out.println("Log class not found.");
 				e.printStackTrace();
 			}
 		}
