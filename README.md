@@ -45,24 +45,29 @@ Coupon
 
 LogsRecorder
 - Read and Write Logs
-Log
-- Date
-- Message
+- Serialize Logs
+	Log
+	- Date
+	- Message
 
 EMS (Base Class with main())
-	- FrontEnd
-		- View Events, Tickets Details
-		- UserFrontEnd
-			- Ticket Purchase
-			- Write Reviews
-			- Upgrade User Tier
-		- VendorFrontEnd
-			- Create Event
-			- Generate Tickets
-			- Generate Coupons
-			- View Sales
+	- Account Management
+		- Registration
+		- Login
+			- FrontEnd
+				- View Events, Tickets Details
+				- UserFrontEnd
+					- Ticket Purchase
+					- Write Reviews
+					- Upgrade User Tier
+				- VendorFrontEnd
+					- Create Event
+					- Generate Tickets
+					- Generate Coupons
+					- View Sales
 	- BackEnd
 		- Store Vendor, User and Location Lists
+		- Serialize Data
 
 -------------------------------------------------------
 
