@@ -1,0 +1,27 @@
+[
+  {
+    "type": "Guest",
+    "properties": {
+      "id": "cb2df838-124b-4668-aee5-b8b140f92f72",
+      "loginId": "U1",
+      "password": "U1",
+      "age": 20,
+      "hkID": "A123456(3)",
+      "tickets": []
+    }
+  },
+  {
+    "type": "Member",
+    "properties": {
+      "name": "U2",
+      "balance": 0.0,
+      "coupons": [],
+      "id": "e9e7e127-f1e9-4700-9ef4-eccfbcf08b3f",
+      "loginId": "U2",
+      "password": "U2",
+      "age": 20,
+      "hkID": "Y666283(6)",
+      "tickets": []
+    }
+  }
+]

@@ -29,11 +29,7 @@ public class LogsRecorderTest {
 		logsRecorder.clearLogs();
 		
 		//Deserialize the written log from file.
-		try {
-			logsRecorder.readFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		logsRecorder.deserialize();
 		
 		//Compare the written log object with the deserialized object
 		Log log = new Log(message);
