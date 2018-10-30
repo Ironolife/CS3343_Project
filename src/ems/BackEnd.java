@@ -1,6 +1,8 @@
 package ems;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class BackEnd {
 	
@@ -81,5 +83,35 @@ public class BackEnd {
 		}
 		return null;
 	}
-
+	
+	public Location getRequiredLocation(String locationName) {
+		for(Location location: this.getLocations()) {
+			if(location.getName().equals(locationName)) {
+				return location;
+			}
+		}
+		return new Location();
+	}
+	
+	public boolean isEventBeingCreatedHasConflictWithOtherEvents(Location eventGoingToBeCreatedLocation, Date startTime, Date endTime) {
+		Location targetLocation = new Location();
+		boolean foundTheTargetedLocation = false;
+		for(int i = 0; i < this.locations.size() && !foundTheTargetedLocation; i++) {
+			if(locations.get(i).getName().equals(eventGoingToBeCreatedLocation.getName())) {
+				targetLocation = locations.get(i);
+				foundTheTargetedLocation = true;		
+			}
+		}
+		
+		
+		List<Event> eventListOfTargetLocation = targetLocation.getEventList();
+		for(Event aEvent: eventListOfTargetLocation) {
+			if(DateUtils.isStartTimeEndTimePairOverlappedWithOtherEventDatePair(startTime, endTime, aEvent)) {
+				return true;
+			}
+		}
+		return false;
+		
+		
+	}
 }
