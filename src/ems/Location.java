@@ -9,7 +9,8 @@ public class Location {
 	private UUID id;
 	private String name;
 	private int capacity;
-	private ArrayList<Event> eventList; //  a list of events taken place there
+	private ArrayList<Event> eventList = new ArrayList<>(); //  a list of events taken place there
+	
 	
 	public Location() {
 		
@@ -40,6 +41,9 @@ public class Location {
 	public void addEventToTheEventList(Event event) {
 		this.eventList.add(event);
 	}
-	
+
+	public void setEventList(ArrayList<Event> eventList) {
+		this.eventList = eventList;
+	}
 
 }
