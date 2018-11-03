@@ -1,9 +1,13 @@
 package ems;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class VendorFrontEnd extends FrontEnd{
+	
+	private List<Integer> operationList = new ArrayList<Integer>();
 	
 	private Vendor vendor;
 	
@@ -89,6 +93,8 @@ public class VendorFrontEnd extends FrontEnd{
 		Event newEvent = new Event(name,startTime, endTime, eventLocation, true);
 		eventLocation.addEventToTheEventList(newEvent);
 		vendor.addEvent(newEvent);
+		System.out.println("The Event Has Been Added.");
+		
 		
 		input.close();
 		
@@ -102,6 +108,8 @@ public class VendorFrontEnd extends FrontEnd{
 	public void vendorFrontEndOperation() {
 		System.out.println("Choose Operation:");
 		//TODO : Display Vendor allowed operation and the handling of operation
+		System.out.println("1: Create Event");
+		
 	}
 
 }
