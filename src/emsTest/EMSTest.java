@@ -1,6 +1,7 @@
 package emsTest;
 
-import java.util.Scanner;
+import java.io.ByteArrayInputStream;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -22,6 +23,15 @@ public class EMSTest {
 			}
 		}
 		EMSStub emsStub = new EMSStub();
+	}
+	@Test
+	public void testReadInput()
+	{
+		EMS testingEMS = new EMS();
+		String input = "This is an input.";
+		System.setIn(new ByteArrayInputStream(input.getBytes()));
+		String result = testingEMS.readInput();
+		assertEquals(input, result);
 	}
 
 }
