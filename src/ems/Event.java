@@ -53,7 +53,7 @@ public class Event {
 	public Location getLocation() {
 		BackEnd backEnd = BackEnd.getInstance();
 		for(Location location: backEnd.getLocations()) {
-			if(location.getId() == this.locationId) {
+			if(location.getId().equals(this.locationId)) {
 				return location;
 			}
 		}
@@ -92,7 +92,7 @@ public class Event {
 		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 		for(UUID ticketId: this.ticketIds) {
 			for(Ticket ticket: backEnd.getTickets()) {
-				if(ticket.getId() == ticketId) {
+				if(ticket.getId().equals(ticketId)) {
 					tickets.add(ticket);
 				}
 			}
@@ -136,7 +136,7 @@ public class Event {
 		ArrayList<Review> reviews = new ArrayList<Review>();
 		for(UUID reviewId: this.reviewIds) {
 			for(Review review: backEnd.getReviews()) {
-				if(review.getId() == reviewId) {
+				if(review.getId().equals(reviewId)) {
 					reviews.add(review);
 				}
 			}

@@ -21,12 +21,11 @@ public abstract class FrontEnd {
 		
 		BackEnd backEnd = BackEnd.getInstance();
 		
-		int count = 0;
-		for(Vendor vendor: backEnd.getVendors()) {
-			for(Event event: vendor.getEvents()) {
-				System.out.println(count + ": " + event.getName());
-				count ++;
-			}
+		EMS.PrintHeader("- All Events -");
+		int count = 1;
+		for(Event event: backEnd.getEvents()) {
+			System.out.println(count + ": " + event.getName());
+			count++;
 		}
 		
 	}

@@ -46,7 +46,7 @@ public class Member extends User {
 		ArrayList<Coupon> coupons = new ArrayList<Coupon>();
 		for(UUID couponId: this.couponIds) {
 			for(Coupon coupon: backEnd.getCoupons()) {
-				if(coupon.getId() == couponId) {
+				if(coupon.getId().equals(couponId)) {
 					coupons.add(coupon);
 				}
 			}

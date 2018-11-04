@@ -1,9 +1,7 @@
 package ems;
 public class FreeTicket extends Ticket {
 	
-	private double price;
-	
-	public VIPTicket(Event event, double price, int seat, double priceMultiplier) {
+	public FreeTicket(Event event, double price, int seat) {
 		super(event, price, seat);
 	}
 	

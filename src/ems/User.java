@@ -46,7 +46,7 @@ public abstract class User {
 		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 		for(UUID ticketId: this.ticketIds) {
 			for(Ticket ticket: backEnd.getTickets()) {
-				if(ticket.getId() == ticketId) {
+				if(ticket.getId().equals(ticketId)) {
 					tickets.add(ticket);
 				}
 			}

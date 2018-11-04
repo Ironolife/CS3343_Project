@@ -26,7 +26,7 @@ public class Review {
 	public Member getMember() {
 		BackEnd backEnd = BackEnd.getInstance();
 		for(User user: backEnd.getUsers()) {
-			if(user.getId() == this.memberId) {
+			if(user.getId().equals(this.memberId)) {
 				return (Member) user;
 			}
 		}

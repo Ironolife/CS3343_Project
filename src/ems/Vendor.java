@@ -44,7 +44,7 @@ public class Vendor {
 		ArrayList<Event> events = new ArrayList<Event>();
 		for(UUID eventId: this.eventIds) {
 			for(Event event: backEnd.getEvents()) {
-				if(event.getId() == eventId) {
+				if(event.getId().equals(eventId)) {
 					events.add(event);
 				}
 			}

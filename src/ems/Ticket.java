@@ -29,7 +29,7 @@ public class Ticket {
 	public Event getEvent() {
 		BackEnd backEnd = BackEnd.getInstance();
 		for(Event event: backEnd.getEvents()) {
-			if(event.getId() == this.eventId) {
+			if(event.getId().equals(this.eventId)) {
 				return event;
 			}
 		}
@@ -78,7 +78,7 @@ public class Ticket {
 	public User getPurchaser() {
 		BackEnd backEnd = BackEnd.getInstance();
 		for(User user: backEnd.getUsers()) {
-			if(user.getId() == this.purchaserId) {
+			if(user.getId().equals(this.purchaserId)) {
 				return user;
 			}
 		}
