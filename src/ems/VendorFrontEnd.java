@@ -18,7 +18,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void vendorOperations() {
+	public void vendorOperations() {
 		
 		super.baseOperations();
 		System.out.println("3: Create Location");
