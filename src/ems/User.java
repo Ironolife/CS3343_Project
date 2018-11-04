@@ -143,7 +143,6 @@ public abstract class User {
 						sum += ((int)hkID.charAt(i) - 48) * (9 - i);
 					}
 				}
-				System.out.println(sum);
 				return (11 - (sum % 11) == checkDigit);
 				
 			}

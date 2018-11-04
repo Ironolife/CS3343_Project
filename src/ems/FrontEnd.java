@@ -10,7 +10,7 @@ public abstract class FrontEnd {
 	}
 	
 	protected void baseOperations() {
-		
+
 		System.out.println("Choose operations: ");
 		System.out.println("1: Display Events");
 		System.out.println("2: Search Events");
@@ -23,9 +23,31 @@ public abstract class FrontEnd {
 		
 		EMS.PrintHeader("- All Events -");
 		int count = 1;
-		for(Event event: backEnd.getEvents()) {
+		ArrayList<Event> events = backEnd.getEvents();
+		for(Event event: events) {
 			System.out.println(count + ": " + event.getName());
 			count++;
+		}
+		
+		int eventIndex = -1;
+		while(eventIndex == -1) {
+			try {
+				System.out.println("Select an event to view details (0 to exit): ");
+				eventIndex = Integer.parseInt(this.readInput());
+				while(eventIndex < 0 || eventIndex > events.size()) {
+					EMS.PrintHeader("Invalid Input");
+					System.out.println("Select an event to view details (0 to exit): ");
+					eventIndex = Integer.parseInt(this.readInput());
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Input!");
+				eventIndex = -1;
+			}
+		}
+		System.out.println();
+		if(eventIndex > 0) {
+			Event event = events.get(eventIndex - 1);
+			this.displayEventInfo(event);
 		}
 		
 	}
@@ -41,7 +63,7 @@ public abstract class FrontEnd {
 		System.out.println("Event Name: " + event.getName());
 		System.out.println("Start Time: " + event.getStartTime().toLocaleString());
 		System.out.println("End Time: " + event.getEndTime().toLocaleString());
-		System.out.println("Location: " + event.getLocation());
+		System.out.println("Location: " + event.getLocation().getName());
 		if(event.getIsMature() == true) {
 			System.out.println("* Event is only available for age over 18.");
 		}
@@ -51,11 +73,15 @@ public abstract class FrontEnd {
 		System.out.println("Average Rating: " + event.getAverageRating());
 		System.out.println();
 		System.out.println("Reviews: ");
+		if(event.getReviews().size() == 0) {
+			System.out.println("No Reviews.");
+		}
 		for(Review r: event.getReviews()) {
 			System.out.println(r.getMember().getName() + " - " + r.getRating());
 			System.out.println(r.getComment() + " - " + r.getDate());
 			System.out.println();
 		}
+		System.out.println();
 		
 	}
 	

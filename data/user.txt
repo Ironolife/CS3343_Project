@@ -23,5 +23,19 @@
       "hkID": "Y666283(6)",
       "ticketIds": []
     }
+  },
+  {
+    "type": "Member",
+    "properties": {
+      "name": "U3",
+      "balance": 0.0,
+      "couponIds": [],
+      "id": "bcd30a59-b12e-4fbe-aa12-ba6bf6923111",
+      "loginId": "U3",
+      "password": "U3",
+      "age": 20,
+      "hkID": "AB987654(2)",
+      "ticketIds": []
+    }
   }
 ]

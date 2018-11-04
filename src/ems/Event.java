@@ -60,29 +60,31 @@ public class Event {
 		return null;
 	}
 	
-	public boolean generateTickets(double price, double vipPriceMultiplier, int normalSize, int vipSize) {
+	public ArrayList<Ticket> generateTickets(double price, double vipPriceMultiplier, int normalSize, int vipSize) {
 		
-		int totalSize = normalSize + vipSize;
+		int totalSize = normalSize + vipSize + this.ticketIds.size();
 		
 		BackEnd backEnd = BackEnd.getInstance();
-		
 		Location location = this.getLocation();
 		
 		if(totalSize <= location.getCapacity()) {
+			ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 			
 			for(int i = 0; i < normalSize; i++) {
 				Ticket ticket = new Ticket(this, price, i);
+				tickets.add(ticket);
 				this.ticketIds.add(ticket.getId());
 			}
 			for(int i = normalSize; i < normalSize + vipSize; i++) {
 				VIPTicket vipTicket = new VIPTicket(this, price, i, vipPriceMultiplier);
+				tickets.add(vipTicket);
 				this.ticketIds.add(vipTicket.getId());
 			}
 			
-			return true;
+			return tickets;
 		}
 		else {
-			return false;
+			return null;
 		}
 		
 	}

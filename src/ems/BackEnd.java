@@ -104,12 +104,15 @@ public class BackEnd {
 			Gson userGson = new GsonBuilder()
 					.registerTypeAdapter(this.users.getClass(), new UserListAdapter())
 					.setPrettyPrinting().create();
+			Gson ticketGson = new GsonBuilder()
+					.registerTypeAdapter(this.tickets.getClass(), new TicketListAdapter())
+					.setPrettyPrinting().create();
 			
 			String vendorJson = gson.toJson(this.vendors);
 			String userJson = userGson.toJson(this.users);
 			String locationJson = gson.toJson(this.locations);
 			String eventJson = gson.toJson(this.events);
-			String ticketJson = gson.toJson(this.tickets);
+			String ticketJson = ticketGson.toJson(this.tickets);
 			String couponJson = gson.toJson(this.counpons);
 			String reviewJson = gson.toJson(this.reviews);
 			
@@ -147,6 +150,7 @@ public class BackEnd {
 			
 			Gson gson = new Gson();
 			Gson userGson = new GsonBuilder().registerTypeAdapter(this.users.getClass(), new UserListAdapter()).create();
+			Gson ticketGson = new GsonBuilder().registerTypeAdapter(this.tickets.getClass(), new TicketListAdapter()).create();
 			
 			JsonReader vendorJsonReader = new JsonReader(vendorFileReader);
 			JsonReader userJsonReader = new JsonReader(userFileReader);
@@ -160,7 +164,7 @@ public class BackEnd {
 			this.users = userGson.fromJson(userJsonReader, new TypeToken<ArrayList<User>>(){}.getType());
 			this.locations = gson.fromJson(locationJsonReader, new TypeToken<ArrayList<Location>>(){}.getType());
 			this.events = gson.fromJson(eventJsonReader, new TypeToken<ArrayList<Event>>(){}.getType());
-			this.tickets = gson.fromJson(ticketJsonReader, new TypeToken<ArrayList<Ticket>>(){}.getType());
+			this.tickets = ticketGson.fromJson(ticketJsonReader, new TypeToken<ArrayList<Ticket>>(){}.getType());
 			this.counpons = gson.fromJson(couponJsonReader, new TypeToken<ArrayList<Coupon>>(){}.getType());
 			this.reviews = gson.fromJson(reviewJsonReader, new TypeToken<ArrayList<Review>>(){}.getType());
 			

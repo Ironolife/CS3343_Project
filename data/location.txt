@@ -7,5 +7,11 @@
       "3c42bf5e-b7c7-41c9-bb7c-711db2b5c001",
       "882b5264-1374-4910-b2b5-4ffd3b59e2a5"
     ]
+  },
+  {
+    "id": "ad9d6c4d-e059-4dce-8be2-a3e3a3007ff7",
+    "name": "L2",
+    "capacity": 40,
+    "eventIds": []
   }
 ]
