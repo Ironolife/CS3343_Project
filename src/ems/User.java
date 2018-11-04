@@ -10,14 +10,14 @@ public abstract class User {
 	private String password;
 	private int age;
 	private String hkID;
-	private ArrayList<Ticket> tickets;
+	private ArrayList<UUID> ticketIds;
 	
 	public User(String loginId, String password, int age, String hkID) {
 		this.id = UUID.randomUUID();
 		this.loginId = loginId;
 		this.password = password;
 		this.age = age;
-		this.tickets = new ArrayList<Ticket>();
+		this.ticketIds = new ArrayList<UUID>();
 		this.hkID = hkID;
 	}
 	
@@ -42,15 +42,24 @@ public abstract class User {
 	}
 	
 	public ArrayList<Ticket> getTickets() {
-		return this.tickets;
+		BackEnd backEnd = BackEnd.getInstance();
+		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+		for(UUID ticketId: this.ticketIds) {
+			for(Ticket ticket: backEnd.getTickets()) {
+				if(ticket.getId() == ticketId) {
+					tickets.add(ticket);
+				}
+			}
+		}
+		return tickets;
 	}
 	
 	public void addTicket(Ticket ticket) {
-		this.tickets.add(ticket);
+		this.ticketIds.add(ticket.getId());
 	}
 	
 	public Ticket removeTicket(Ticket ticket) {
-		boolean result = this.tickets.remove(ticket);
+		boolean result = this.ticketIds.remove(ticket.getId());
 		if(result == true) {
 			return ticket;
 		}

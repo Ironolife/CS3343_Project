@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "id": "b9fa1a27-8a0d-41ce-a5ec-818a74a61816",
+    "name": "L1",
+    "capacity": 30,
+    "eventIds": [
+      "3c42bf5e-b7c7-41c9-bb7c-711db2b5c001",
+      "882b5264-1374-4910-b2b5-4ffd3b59e2a5"
+    ]
+  }
+]

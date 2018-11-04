@@ -1,9 +1,12 @@
 [
   {
-    "id": "af94fa6c-e304-469f-a70e-b001b4f18968",
+    "id": "bf18f87c-b62f-4675-9b66-65d24850e91e",
     "loginId": "V1",
     "password": "V1",
     "name": "V1",
-    "events": []
+    "eventIds": [
+      "3c42bf5e-b7c7-41c9-bb7c-711db2b5c001",
+      "882b5264-1374-4910-b2b5-4ffd3b59e2a5"
+    ]
   }
 ]

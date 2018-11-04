@@ -6,25 +6,31 @@ import java.util.UUID;
 public class Review {
 	
 	private UUID id;
-	private Member member;
+	private UUID memberId;
 	private double rating;
 	private String comment;
 	private Date date;
 	
 	public Review(Member member, double rating, String comment) {
 		this.id = UUID.randomUUID();
-		this.member = member;
+		this.memberId = member.getId();
 		this.rating = rating;
 		this.comment = comment;
 		this.date = new Date();
 	}
 	
-	public UUID getID() {
+	public UUID getId() {
 		return this.id;
 	}
 	
 	public Member getMember() {
-		return this.member;
+		BackEnd backEnd = BackEnd.getInstance();
+		for(User user: backEnd.getUsers()) {
+			if(user.getId() == this.memberId) {
+				return (Member) user;
+			}
+		}
+		return null;
 	}
 	
 	public double getRating() {

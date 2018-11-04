@@ -1,10 +1,19 @@
 package ems;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public abstract class FrontEnd {
 	
 	public FrontEnd() {
+		
+	}
+	
+	protected void baseOperations() {
+		
+		System.out.println("Choose operations: ");
+		System.out.println("1: Display Events");
+		System.out.println("2: Search Events");
 		
 	}
 	
@@ -22,7 +31,7 @@ public abstract class FrontEnd {
 		
 	}
 	
-	public void displayEvents(String input) {
+	public void searchEvents() {
 		
 		//TODO search events with user input
 		
@@ -93,6 +102,12 @@ public abstract class FrontEnd {
 			System.out.println("Normal Tickets: " + availableNormalTicket + " Available " + purchasedNormalTicket + " Purchased, " + "Price: " + price);
 		}
 		
+	}
+	
+	public String readInput() {
+		Scanner scanner = new Scanner(System.in);
+		String input = scanner.nextLine();
+		return input;
 	}
 
 }

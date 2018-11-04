@@ -1,18 +1,19 @@
 package ems;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Member extends User {
 
 	private String name;
 	private double balance;
-	private ArrayList<Coupon> coupons;
+	private ArrayList<UUID> couponIds;
 	
 	public Member(String loginId, String password, String name, int age, String hkID) {
 		
 		super(loginId, password, age, hkID);
 		this.name = name;
-		this.coupons = new ArrayList<Coupon>();
+		this.couponIds = new ArrayList<UUID>();
 		this.balance = 0;
 		
 	}
@@ -40,16 +41,25 @@ public class Member extends User {
 		}
 	}
 
-	public ArrayList<Coupon> getCoupon() {
-		return this.coupons;
+	public ArrayList<Coupon> getCoupons() {
+		BackEnd backEnd = BackEnd.getInstance();
+		ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+		for(UUID couponId: this.couponIds) {
+			for(Coupon coupon: backEnd.getCoupons()) {
+				if(coupon.getId() == couponId) {
+					coupons.add(coupon);
+				}
+			}
+		}
+		return coupons;
 	}
 	
 	public void addCoupon(Coupon coupon) {
-		this.coupons.add(coupon);
+		this.couponIds.add(coupon.getId());
 	}
 	
 	public Coupon removeCoupon(Coupon coupon) {
-		boolean result = this.coupons.remove(coupon);
+		boolean result = this.couponIds.remove(coupon.getId());
 		if(result == true) {
 			return coupon;
 		}

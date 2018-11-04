@@ -9,17 +9,13 @@ public class Location {
 	private UUID id;
 	private String name;
 	private int capacity;
-	private ArrayList<Event> eventList = new ArrayList<>(); //  a list of events taken place there
-	
-	
-	public Location() {
-		
-	}
+	private ArrayList<UUID> eventIds;
 	
 	public Location(String name, int capacity) {
 		this.id = UUID.randomUUID();
 		this.name = name;
 		this.capacity = capacity;
+		this.eventIds = new ArrayList<UUID>();
 	}
 	
 	public UUID getId() {
@@ -34,16 +30,29 @@ public class Location {
 		return this.capacity;
 	}
 	
-	public List<Event> getEventList() {
-		return this.eventList;
+	public ArrayList<Event> getEvents() {
+		BackEnd backEnd = BackEnd.getInstance();
+		ArrayList<Event> events = new ArrayList<Event>();
+		for(UUID eventId: this.eventIds) {
+			for(Event event: backEnd.getEvents()) {
+				if(event.getId() == eventId) {
+					events.add(event);
+				}
+			}
+		}
+		return events;
 	}
 	
-	public void addEventToTheEventList(Event event) {
-		this.eventList.add(event);
+	public void addEvent(Event event) {
+		this.eventIds.add(event.getId());
 	}
 
-	public void setEventList(ArrayList<Event> eventList) {
-		this.eventList = eventList;
+	public Event removeEvent(Event event) {
+		boolean result = this.eventIds.remove(event.getId());
+		if(result == true) {
+			return event;
+		}
+		return null;
 	}
 
 }

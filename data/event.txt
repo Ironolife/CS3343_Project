@@ -1,0 +1,22 @@
+[
+  {
+    "id": "3c42bf5e-b7c7-41c9-bb7c-711db2b5c001",
+    "name": "E1",
+    "startTime": "Nov 4, 2018 5:00:00 PM",
+    "endTime": "Nov 5, 2018 6:00:00 PM",
+    "locationId": "b9fa1a27-8a0d-41ce-a5ec-818a74a61816",
+    "ticketIds": [],
+    "isMature": false,
+    "reviewIds": []
+  },
+  {
+    "id": "882b5264-1374-4910-b2b5-4ffd3b59e2a5",
+    "name": "E2",
+    "startTime": "Nov 5, 2018 6:00:00 PM",
+    "endTime": "Nov 5, 2018 7:00:00 PM",
+    "locationId": "b9fa1a27-8a0d-41ce-a5ec-818a74a61816",
+    "ticketIds": [],
+    "isMature": true,
+    "reviewIds": []
+  }
+]

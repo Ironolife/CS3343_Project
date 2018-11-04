@@ -6,18 +6,18 @@ import java.util.UUID;
 public class Ticket {
 	
 	private UUID id;
-	private Event event;
+	private UUID eventId;
 	private int seat;
 	private Date entryTime;
 	private Date exitTime;
 	
 	private double price;
-	private User purchaser;
+	private UUID purchaserId;
 	private Date purchaseTime;
 	
 	public Ticket(Event event, double price, int seat) {
 		this.id = UUID.randomUUID();
-		this.event = event;
+		this.eventId = event.getId();
 		this.price = price;
 		this.seat = seat;
 	}
@@ -27,7 +27,13 @@ public class Ticket {
 	}
 	
 	public Event getEvent() {
-		return this.event;
+		BackEnd backEnd = BackEnd.getInstance();
+		for(Event event: backEnd.getEvents()) {
+			if(event.getId() == this.eventId) {
+				return event;
+			}
+		}
+		return null;
 	}
 	
 	public int getSeat() {
@@ -60,8 +66,8 @@ public class Ticket {
 	
 	public boolean Purchase(User purchaser) {
 		
-		if(this.purchaser == null) {
-			this.purchaser = purchaser;
+		if(this.purchaserId == null) {
+			this.purchaserId = purchaser.getId();
 			this.purchaseTime = new Date();
 			return true;
 		}
@@ -70,7 +76,13 @@ public class Ticket {
 	}
 	
 	public User getPurchaser() {
-		return this.purchaser;
+		BackEnd backEnd = BackEnd.getInstance();
+		for(User user: backEnd.getUsers()) {
+			if(user.getId() == this.purchaserId) {
+				return user;
+			}
+		}
+		return null;
 	}
 	
 	public Date getPurchaseTime() {
@@ -79,7 +91,7 @@ public class Ticket {
 	
 	public int getStatus() {
 		
-		if(this.purchaser == null) {
+		if(this.purchaserId == null) {
 			return 0; //Available Ticket
 		}
 		else if(this.entryTime == null) {

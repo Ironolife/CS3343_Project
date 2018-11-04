@@ -7,7 +7,7 @@ public class EMS {
 
 	public static void main(String[] args) {
 
-		EMS ems = new EMS();
+		new EMS();
 
 	}
 	
@@ -38,8 +38,7 @@ public class EMS {
 			for (Vendor vendor : backEnd.getVendors()) {
 				if (vendor.getLoginId().equals(loginId)) {
 					if (vendor.validatePassword(password) == true) {
-						VendorFrontEnd vendorFrontEnd = new VendorFrontEnd(vendor);
-						// TODO initialize vendorFrontEnd
+						new VendorFrontEnd(vendor);
 						isValid = true;
 					} else {
 						EMS.PrintHeader("Invalid Password!");
@@ -51,8 +50,7 @@ public class EMS {
 			for (User user : backEnd.getUsers()) {
 				if (user.getLoginId().equals(loginId)) {
 					if (user.validatePassword(password) == true) {
-						UserFrontEnd userFrontEnd = new UserFrontEnd(user);
-						// TODO initialize userFrontEnd
+						new UserFrontEnd(user);
 						isValid = true;
 					} else {
 						EMS.PrintHeader("Invalid Password!");
@@ -168,7 +166,8 @@ public class EMS {
 			} else if (accountType.equals("2")) {
 				System.out.println("Vendor Name: ");
 				String name = this.readInput();
-				backEnd.createNewVendor(loginId, password, name);
+				Vendor vendor = new Vendor(loginId, password, name);
+				backEnd.createNewVendor(vendor);
 				EMS.PrintHeader("Vendor Created!");
 				this.accountManagement();
 			}

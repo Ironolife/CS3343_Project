@@ -19,7 +19,7 @@ public class Coupon {
         this.expiryDate = expiryDate;
     }
     
-    public UUID getID() {
+    public UUID getId() {
     	return this.id;
     }
     

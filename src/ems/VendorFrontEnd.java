@@ -2,114 +2,176 @@ package ems;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
 
 public class VendorFrontEnd extends FrontEnd{
 	
-	private List<Integer> operationList = new ArrayList<Integer>();
-	
 	private Vendor vendor;
-	
 	
 	public VendorFrontEnd(Vendor vendor) {
 		
 		this.vendor = vendor;
 		
+		EMS.PrintHeader("- Welcome " + vendor.getName() + " -");
+		
+		this.vendorOperations();
+		
 	}
 	
-	
-	// considering whether we shall use EMS.readInput() by putting EMS as parameter
-	public void createEvent() {
-		System.out.println("Please input the name of the event:");
-		Scanner input = new Scanner(System.in);
-		String name = input.nextLine();
-		name = name.trim();
-		boolean isStartTimeAndEndTimePairValid = false;
-		Date startTime = new Date();
-		Date endTime = new Date();
-		Location eventLocation = new Location();
+	private void vendorOperations() {
 		
-		while (!isStartTimeAndEndTimePairValid) {
-			boolean startDateTimeAndEndDateTimePairCorrect = false;
-			while (!startDateTimeAndEndDateTimePairCorrect) {
-				/*
-				 * Start Time
-				 */
-				System.out.println("Please input the start time of the event (in yyyyMMdd HH:mm format):");
-				String startTimeDateString = input.nextLine();
-				startTimeDateString = startTimeDateString.trim();
-				while (!DateUtils.isDateStringValid(startTimeDateString)) {
-					System.out.println("Invalid date!!!");
-					System.out.println("Please input the start time of the event (in yyyyMMdd HH:mm format):");
-					startTimeDateString = input.nextLine();
-					startTimeDateString = startTimeDateString.trim();
+		super.baseOperations();
+		System.out.println("3: Create Location");
+		System.out.println("4: Create Event");
+		String operation = this.readInput();
+		
+		if(operation.equals("1")) {
+			super.displayEvents();
+		}
+		else if(operation.equals("2")) {
+			super.searchEvents();
+		}
+		else if(operation.equals("3")) {
+			this.createLocation();
+		}
+		else if(operation.equals("4")) {
+			this.createEvent();
+		}
+		
+	}
+	
+	private void createLocation() {
+		
+		EMS.PrintHeader("- Create Location -");
+		System.out.println("Name: ");
+		String name = this.readInput();
+		
+		BackEnd backEnd = BackEnd.getInstance();
+		ArrayList<String> names = new ArrayList<String>();
+		for(Location location: backEnd.getLocations()) {
+			names.add(location.getName());
+		}
+		
+		boolean isDuplicateName = names.contains(name);
+		while (isDuplicateName == true) {
+			EMS.PrintHeader("Location already exists! Please try another one.");
+			System.out.println("Name: ");
+			name = this.readInput();
+			isDuplicateName = names.contains(name);
+		}
+		
+		int capacity = -1;
+		while (capacity == -1) {
+			try {
+				System.out.println("Capacity: ");
+				capacity = Integer.parseInt(this.readInput());
+				while (capacity < 0) {
+					EMS.PrintHeader("Invalid Capacity!");
+					System.out.println("Capacity: ");
+					capacity = Integer.parseInt(this.readInput());
 				}
-				startTime = DateUtils.convertDateStringToDateObject(startTimeDateString);
-				/*
-				 * End Time
-				 */
-				System.out.println("Please input the end time of the event (in yyyyMMdd HH:mm format):");
-				String endTimeDateString = input.nextLine();
-				endTimeDateString = endTimeDateString.trim();
-				while (!DateUtils.isDateStringValid(endTimeDateString)) {
-					System.out.println("Invalid date!!!");
-					System.out.println("Please input the start time of the event (in yyyyMMdd HH:mm format):");
-					endTimeDateString = input.nextLine();
-					endTimeDateString = endTimeDateString.trim();
-				}
-				endTime = DateUtils.convertDateStringToDateObject(endTimeDateString);
-
-				if (DateUtils.isStartTimeAndEndTimePairValid(startTime, endTime)) {
-					startDateTimeAndEndDateTimePairCorrect = true;
-				}
-
-			}
-			BackEnd backEndInstance = BackEnd.getInstance();
-			System.out.println("Location:");
-			int indexOfLocationList = 1;
-			for (Location location : backEndInstance.getLocations()) {
-				System.out.println(indexOfLocationList + ". " + location.getName());
-			}
-			System.out.println("Please choose a location:");
-			String eventLocationName = input.nextLine();
-			eventLocationName = eventLocationName.trim();
-			eventLocation = backEndInstance.getRequiredLocation(eventLocationName);
-			while (eventLocation.getName() == null) {
-				System.out.println("Invalid location name");
-				indexOfLocationList = 1;
-				for (Location location : backEndInstance.getLocations()) {
-					System.out.println(indexOfLocationList + ". " + location.getName());
-				}
-				eventLocationName = input.nextLine();
-				eventLocationName = eventLocationName.trim();
-				eventLocation = backEndInstance.getRequiredLocation(eventLocationName);
-			}
-			if(!backEndInstance.isEventBeingCreatedHasConflictWithOtherEvents(eventLocation, startTime, endTime)) {
-				isStartTimeAndEndTimePairValid = true;
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Capacity!");
+				capacity = -1;
 			}
 		}
 		
-		Event newEvent = new Event(name,startTime, endTime, eventLocation, true);
-		eventLocation.addEventToTheEventList(newEvent);
-		vendor.addEvent(newEvent);
-		System.out.println("The Event Has Been Added.");
-		
-		
-		input.close();
-		
+		Location location = new Location(name, capacity);
+		backEnd.createNewLocation(location);
+		EMS.PrintHeader("Location Created!");
+		this.vendorOperations();
 		
 	}
 	
-	public void vendorFrontEndInitialization() {
-		System.out.printf("Welcome! %s", vendor.getName());
-	}
-	
-	public void vendorFrontEndOperation() {
-		System.out.println("Choose Operation:");
-		//TODO : Display Vendor allowed operation and the handling of operation
-		System.out.println("1: Create Event");
+	private void createEvent() {
+		
+		EMS.PrintHeader("- Create Event -");
+		System.out.println("Name: ");
+		String name = this.readInput();
+		
+		BackEnd backEnd = BackEnd.getInstance();
+		ArrayList<Location> locations = backEnd.getLocations();
+		
+		int locationIndex = -1;
+		while (locationIndex == -1) {
+			try {
+				System.out.println("Please Select a Location: ");
+				for(int i=0; i<locations.size(); i++) {
+					System.out.println((i+1) + ": " + locations.get(i).getName());
+				}
+				locationIndex = Integer.parseInt(this.readInput());
+				while (locationIndex < 1 || locationIndex > locations.size()) {
+					EMS.PrintHeader("Invalid Location!");
+					System.out.println("Please Select a Location: ");
+					for(int i=0; i<locations.size(); i++) {
+						System.out.println((i+1) + ": " + locations.get(i).getName());
+					}
+					locationIndex = Integer.parseInt(this.readInput());
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Location!");
+				locationIndex = -1;
+			}
+		}
+		Location location = locations.get(locationIndex - 1);
+		
+		boolean isValidPeriod = false;
+		Date startTime = null;
+		Date endTime = null;
+		while(isValidPeriod != true) {
+			
+			System.out.println("Start Time (YYYY-MM-DD HH:MM): ");
+			startTime = DateUtils.parseDate(this.readInput());
+			while(startTime == null) {
+				System.out.println("Start Time (YYYY-MM-DD HH:MM): ");
+				startTime = DateUtils.parseDate(this.readInput());
+			}
+			
+			System.out.println("End Time (YYYY-MM-DD HH:MM): ");
+			endTime = DateUtils.parseDate(this.readInput());
+			while(endTime == null) {
+				System.out.println("End Time (YYYY-MM-DD HH:MM): ");
+				endTime = DateUtils.parseDate(this.readInput());
+			}
+			
+			isValidPeriod = DateUtils.validatePeriod(startTime, endTime);
+			if(isValidPeriod == false) {
+				EMS.PrintHeader("Invalid Time Period!");
+			}
+			else {
+				for(Event event: location.getEvents()) {
+					if(DateUtils.isOverlappedPeriod(startTime, endTime, event.getStartTime(), event.getEndTime()) == true) {
+						isValidPeriod = false;
+						EMS.PrintHeader("Location Time Slot Already Taken!");
+						break;
+					}
+				}
+			}
+			
+		}
+		
+		System.out.println("Is Event age-restricted? (Y/N): ");
+		String isMatureString = this.readInput();
+		boolean isMature;
+		while(!isMatureString.equals("Y") && !isMatureString.equals("N")) {
+			EMS.PrintHeader("Invalid Input");
+			System.out.println("Is Event age-restricted? (Y/N): ");
+			isMatureString = this.readInput();
+		}
+		if(isMatureString.equals("Y")) {
+			isMature = true;
+		}
+		else {
+			isMature = false;
+		}
+		
+		Event event = new Event(name, startTime, endTime, location, isMature);
+		this.vendor.addEvent(event);
+		location.addEvent(event);
+		backEnd.createNewEvent(event);
+		
+		this.vendorOperations();
 		
 	}
-
+	
 }
