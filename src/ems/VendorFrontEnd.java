@@ -18,9 +18,9 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void vendorOperations() {
+	protected void vendorOperations() {
 		
-		super.baseOperations();
+		this.baseOperations();
 		System.out.println("3: My Events");
 		System.out.println("4: Create Location");
 		System.out.println("5: Create Event");
@@ -30,11 +30,11 @@ public class VendorFrontEnd extends FrontEnd{
 		String operation = this.readInput();
 		
 		if(operation.equals("1")) {
-			super.displayEvents();
+			this.displayEvents();
 			this.vendorOperations();
 		}
 		else if(operation.equals("2")) {
-			super.searchEvents();
+			this.searchEvents();
 			this.vendorOperations();
 		}
 		else if(operation.equals("3")) {
@@ -110,17 +110,11 @@ public class VendorFrontEnd extends FrontEnd{
 		String name = this.readInput();
 		
 		BackEnd backEnd = BackEnd.getInstance();
-		ArrayList<String> names = new ArrayList<String>();
-		for(Location location: backEnd.getLocations()) {
-			names.add(location.getName());
-		}
 		
-		boolean isDuplicateName = names.contains(name);
-		while (isDuplicateName == true) {
+		while (backEnd.isDuplicateLocation(name) == true) {
 			EMS.PrintHeader("Location already exists! Please try another one.");
 			System.out.println("Name: ");
 			name = this.readInput();
-			isDuplicateName = names.contains(name);
 		}
 		
 		int capacity = -1;

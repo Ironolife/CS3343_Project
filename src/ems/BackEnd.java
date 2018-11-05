@@ -272,6 +272,14 @@ public class BackEnd {
 		return null;
 	}
 	
+	public boolean isDuplicateLocation(String name) {
+		ArrayList<String> names = new ArrayList<String>();
+		for(Location location: this.locations) {
+			names.add(location.getName());
+		}
+		return names.contains(name);
+	}
+	
 	public void createNewEvent(Event event) {
 		this.events.add(event);
 		this.serialize();

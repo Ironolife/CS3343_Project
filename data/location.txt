@@ -13,5 +13,11 @@
     "name": "L2",
     "capacity": 40,
     "eventIds": []
+  },
+  {
+    "id": "5e145360-135c-4363-a83f-936c0e153cf1",
+    "name": "L3",
+    "capacity": 40,
+    "eventIds": []
   }
 ]
