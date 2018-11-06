@@ -1,41 +1,18 @@
 [
   {
-    "type": "Guest",
+    "type": "Member",
     "properties": {
-      "id": "2bcfb98c-d0eb-4c53-b1a0-b4ceb3423505",
+      "name": "U1",
+      "balance": 0.0,
+      "couponIds": [],
+      "id": "597a695c-3169-4670-8735-e7cbd864bd0b",
       "loginId": "U1",
       "password": "U1",
       "age": 20,
       "hkID": "A123456(3)",
-      "ticketIds": []
-    }
-  },
-  {
-    "type": "Member",
-    "properties": {
-      "name": "U2",
-      "balance": 0.0,
-      "couponIds": [],
-      "id": "e717bb9b-2647-4d0e-a756-696a6356d1d3",
-      "loginId": "U2",
-      "password": "U2",
-      "age": 20,
-      "hkID": "Y666283(6)",
-      "ticketIds": []
-    }
-  },
-  {
-    "type": "Member",
-    "properties": {
-      "name": "U3",
-      "balance": 0.0,
-      "couponIds": [],
-      "id": "bcd30a59-b12e-4fbe-aa12-ba6bf6923111",
-      "loginId": "U3",
-      "password": "U3",
-      "age": 20,
-      "hkID": "AB987654(2)",
-      "ticketIds": []
+      "ticketIds": [],
+      "creditCards": [],
+      "transactionIds": []
     }
   }
 ]

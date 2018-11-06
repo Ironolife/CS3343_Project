@@ -10,6 +10,7 @@ public class Vendor {
 	private String password;
 	private String name;
 	private ArrayList<UUID> eventIds;
+	private ArrayList<UUID> transactionIds;
 	
 	public Vendor(String loginId, String password, String name){
 		this.id = UUID.randomUUID();
@@ -17,6 +18,7 @@ public class Vendor {
 		this.password = password;
 		this.name = name;
 		this.eventIds = new ArrayList<UUID>();
+		this.transactionIds = new ArrayList<UUID>();
 	}
 	
 	public UUID getId() {
@@ -64,11 +66,45 @@ public class Vendor {
 		return null;
 	}
 	
-	public double getAccumulateSales()  {
+	public ArrayList<Transaction> getTransactions() {
+		BackEnd backEnd = BackEnd.getInstance();
+		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+		for(UUID transactionId: this.transactionIds) {
+			for(Transaction transaction: backEnd.getTransactions()) {
+				if(transaction.getId().equals(transactionId)) {
+					transactions.add(transaction);
+				}
+			}
+		}
+		return transactions;
+	}
+	
+	public void addTransaction(Transaction transaction) {
+		this.transactionIds.add(transaction.getId());
+	}
+	
+	public Transaction removeTransaction(Transaction transaction) {
+		boolean result = this.transactionIds.remove(transaction.getId());
+		if(result == true) {
+			return transaction;
+		}
+		return null;
+	}
+	
+	public double getAccumulatedSales()  {
 		double total = 0;
 		
-		for(Event event: this.getEvents()) {
-			total += event.getSales();
+		for(Transaction transaction: this.getTransactions()) {
+			total += transaction.getInitialAmount();
+		}
+		return total;
+	}
+	
+	public double getAccumulatedProfit()  {
+		double total = 0;
+		
+		for(Transaction transaction: this.getTransactions()) {
+			total += transaction.getDiscountedAmount();
 		}
 		return total;
 	}

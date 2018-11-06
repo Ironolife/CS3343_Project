@@ -25,8 +25,9 @@ public class VendorFrontEnd extends FrontEnd{
 		System.out.println("4: Create Location");
 		System.out.println("5: Create Event");
 		System.out.println("6: Generate Tickets");
-		System.out.println("7: My Total Sales");
-		System.out.println("8: Logout");
+		System.out.println("7: Generate Coupon");
+		System.out.println("8: My Total Sales");
+		System.out.println("9: Logout");
 		String operation = this.readInput();
 		
 		if(operation.equals("1")) {
@@ -54,10 +55,14 @@ public class VendorFrontEnd extends FrontEnd{
 			this.vendorOperations();
 		}
 		else if(operation.equals("7")) {
-			this.displayTotalSales();
+			this.generateCoupon();;
 			this.vendorOperations();
 		}
 		else if(operation.equals("8")) {
+			this.displayTotalSales();
+			this.vendorOperations();
+		}
+		else if(operation.equals("9")) {
 			
 		}
 		else {
@@ -111,8 +116,8 @@ public class VendorFrontEnd extends FrontEnd{
 		
 		BackEnd backEnd = BackEnd.getInstance();
 		
-		while (backEnd.isDuplicateLocation(name) == true) {
-			EMS.PrintHeader("Location already exists! Please try another one.");
+		while (backEnd.isDuplicateLocationName(name) == true) {
+			EMS.PrintHeader("Name already exists! Please try another one.");
 			System.out.println("Name: ");
 			name = this.readInput();
 		}
@@ -232,6 +237,8 @@ public class VendorFrontEnd extends FrontEnd{
 	
 	private void generateTickets() {
 		
+		EMS.PrintHeader("- Generate Tickets -");
+		
 		ArrayList<Event> events = this.vendor.getEvents();
 		
 		int eventIndex = -1;
@@ -340,9 +347,102 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
+	private void generateCoupon() {
+		
+		EMS.PrintHeader("- Generate Coupon -");
+		System.out.println("Code: ");
+		String code = this.readInput();
+		
+		BackEnd backEnd = BackEnd.getInstance();
+		
+		while (backEnd.isDuplicateCouponCode(code) == true) {
+			EMS.PrintHeader("Code already exists! Please try another one.");
+			System.out.println("Code: ");
+			code = this.readInput();
+		}
+		
+		ArrayList<Event> events = this.vendor.getEvents();
+		
+		int eventIndex = -1;
+		while (eventIndex == -1) {
+			try {
+				System.out.println("Please Select an Event: ");
+				for(int i=0; i<events.size(); i++) {
+					System.out.println((i+1) + ": " + events.get(i).getName());
+				}
+				eventIndex = Integer.parseInt(this.readInput());
+				while (eventIndex < 1 || eventIndex > events.size()) {
+					EMS.PrintHeader("Invalid Event!");
+					System.out.println("Please Select an Event: ");
+					for(int i=0; i<events.size(); i++) {
+						System.out.println((i+1) + ": " + events.get(i).getName());
+					}
+					eventIndex = Integer.parseInt(this.readInput());
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Location!");
+				eventIndex = -1;
+			}
+		}
+		Event event = events.get(eventIndex - 1);
+		
+		int discountType = -1;
+		while (discountType == -1) {
+			try {
+				System.out.println("Please select discount type: ");
+				System.out.println("1: Flat");
+				System.out.println("2: Percentage off");
+				System.out.println("3: Free Purchase");
+				discountType = Integer.parseInt(this.readInput());
+				while (discountType < 1 || discountType > 3) {
+					EMS.PrintHeader("Invalid Number!");
+					System.out.println("Please select discount type: ");
+					System.out.println("1: Flat");
+					System.out.println("2: Percentage off");
+					System.out.println("3: Free Purchase");
+					discountType = Integer.parseInt(this.readInput());
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Number!");
+				discountType = -1;
+			}
+		}
+		discountType -= 1;
+		
+		double discount = -1;
+		while (discount == -1) {
+			try {
+				System.out.println("Discount value: ");
+				discount = Double.parseDouble(this.readInput());
+				while (discount < 0) {
+					EMS.PrintHeader("Invalid value!");
+					System.out.println("Discount value: ");
+					discount = Double.parseDouble(this.readInput());
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid value!");
+				discount = -1;
+			}
+		}
+		
+		System.out.println("Expiry Date (YYYY-MM-DD HH:MM): ");
+		Date expiryDate = DateUtils.parseDate(this.readInput());
+		while(expiryDate == null) {
+			System.out.println("End Time (YYYY-MM-DD HH:MM): ");
+			expiryDate = DateUtils.parseDate(this.readInput());
+		}
+		
+		Coupon coupon = new Coupon(code, event, discountType, discount, expiryDate);
+		backEnd.createNewCoupon(coupon);
+		
+		EMS.PrintHeader("Coupon Generated!");
+		
+	}
+	
 	private void displayTotalSales() {
 		
-		System.out.println("Total Sales: " + this.vendor.getAccumulateSales());
+		System.out.println("Total Sales: " + this.vendor.getAccumulatedSales());
+		System.out.println("Total Profit: " + this.vendor.getAccumulatedProfit());
 		System.out.println();
 		
 	}

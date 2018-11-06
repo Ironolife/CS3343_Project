@@ -1,23 +1,18 @@
 [
   {
-    "id": "b9fa1a27-8a0d-41ce-a5ec-818a74a61816",
+    "id": "8795490d-ffbf-4474-805d-2c7ed77e6762",
     "name": "L1",
     "capacity": 30,
     "eventIds": [
-      "3c42bf5e-b7c7-41c9-bb7c-711db2b5c001",
-      "882b5264-1374-4910-b2b5-4ffd3b59e2a5"
+      "5f73c7eb-7277-460d-b37e-3c4088ed6a04"
     ]
   },
   {
-    "id": "ad9d6c4d-e059-4dce-8be2-a3e3a3007ff7",
+    "id": "5ef108bc-b64f-4686-a3ec-a48c35cba05b",
     "name": "L2",
     "capacity": 40,
-    "eventIds": []
-  },
-  {
-    "id": "5e145360-135c-4363-a83f-936c0e153cf1",
-    "name": "L3",
-    "capacity": 40,
-    "eventIds": []
+    "eventIds": [
+      "e87c899e-acb0-4bf7-b53c-6fc2314aeb9d"
+    ]
   }
 ]

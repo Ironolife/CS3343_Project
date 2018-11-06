@@ -20,6 +20,7 @@ public class BackEnd {
 	private ArrayList<Ticket> tickets;
 	private ArrayList<Coupon> counpons;
 	private ArrayList<Review> reviews;
+	private ArrayList<Transaction> transactions;
 	
 	private File vendorFile;
 	private File userFile;
@@ -28,6 +29,7 @@ public class BackEnd {
 	private File ticketFile;
 	private File couponFile;
 	private File reviewFile;
+	private File transactionFile;
 	
 	private BackEnd() {
 		this.vendors = new ArrayList<Vendor>();
@@ -37,6 +39,7 @@ public class BackEnd {
 		this.tickets = new ArrayList<Ticket>();
 		this.counpons = new ArrayList<Coupon>();
 		this.reviews = new ArrayList<Review>();
+		this.transactions = new ArrayList<Transaction>();
 		
 		BackEnd.instance = this;
 		
@@ -51,6 +54,7 @@ public class BackEnd {
 		this.ticketFile = new File("data/" + "ticket.txt");
 		this.couponFile = new File("data/" + "coupon.txt");
 		this.reviewFile = new File("data/" + "review.txt");
+		this.transactionFile = new File("data/" + "transaction.txt");
 		try {
 			if(!vendorFile.exists()) {
 				vendorFile.createNewFile();
@@ -72,6 +76,9 @@ public class BackEnd {
 			}
 			if(!reviewFile.exists()) {
 				reviewFile.createNewFile();
+			}
+			if(!transactionFile.exists()) {
+				transactionFile.createNewFile();
 			}
 		} catch (IOException e) {
 			System.out.println("Failed to create file.");
@@ -99,6 +106,7 @@ public class BackEnd {
 			FileWriter ticketFileWriter = new FileWriter(this.ticketFile);
 			FileWriter couponFileWriter = new FileWriter(this.couponFile);
 			FileWriter reviewFileWriter = new FileWriter(this.reviewFile);
+			FileWriter transactionFileWriter = new FileWriter(this.transactionFile);
 			
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			Gson userGson = new GsonBuilder()
@@ -115,6 +123,7 @@ public class BackEnd {
 			String ticketJson = ticketGson.toJson(this.tickets);
 			String couponJson = gson.toJson(this.counpons);
 			String reviewJson = gson.toJson(this.reviews);
+			String transactionJson = gson.toJson(this.transactions);
 			
 			vendorFileWriter.write(vendorJson);
 			userFileWriter.write(userJson);
@@ -123,6 +132,7 @@ public class BackEnd {
 			ticketFileWriter.write(ticketJson);
 			couponFileWriter.write(couponJson);
 			reviewFileWriter.write(reviewJson);
+			transactionFileWriter.write(transactionJson);
 			
 			vendorFileWriter.close();
 			userFileWriter.close();
@@ -131,6 +141,7 @@ public class BackEnd {
 			ticketFileWriter.close();
 			couponFileWriter.close();
 			reviewFileWriter.close();
+			transactionFileWriter.close();
 		}
 		catch (IOException e) {
 			System.out.println("Failed to write to file.");
@@ -147,6 +158,7 @@ public class BackEnd {
 			FileReader ticketFileReader = new FileReader(this.ticketFile);
 			FileReader couponFileReader = new FileReader(this.couponFile);
 			FileReader reviewFileReader = new FileReader(this.reviewFile);
+			FileReader transactionFileReader = new FileReader(this.transactionFile);
 			
 			Gson gson = new Gson();
 			Gson userGson = new GsonBuilder().registerTypeAdapter(this.users.getClass(), new UserListAdapter()).create();
@@ -159,6 +171,7 @@ public class BackEnd {
 			JsonReader ticketJsonReader = new JsonReader(ticketFileReader);
 			JsonReader couponJsonReader = new JsonReader(couponFileReader);
 			JsonReader reviewJsonReader = new JsonReader(reviewFileReader);
+			JsonReader transactionJsonReader = new JsonReader(transactionFileReader);
 			
 			this.vendors = gson.fromJson(vendorJsonReader, new TypeToken<ArrayList<Vendor>>(){}.getType());
 			this.users = userGson.fromJson(userJsonReader, new TypeToken<ArrayList<User>>(){}.getType());
@@ -167,6 +180,7 @@ public class BackEnd {
 			this.tickets = ticketGson.fromJson(ticketJsonReader, new TypeToken<ArrayList<Ticket>>(){}.getType());
 			this.counpons = gson.fromJson(couponJsonReader, new TypeToken<ArrayList<Coupon>>(){}.getType());
 			this.reviews = gson.fromJson(reviewJsonReader, new TypeToken<ArrayList<Review>>(){}.getType());
+			this.transactions = gson.fromJson(transactionJsonReader, new TypeToken<ArrayList<Transaction>>(){}.getType());
 			
 			if(this.vendors == null) {
 				this.vendors = new ArrayList<Vendor>();
@@ -189,6 +203,9 @@ public class BackEnd {
 			if(this.reviews == null) {
 				this.reviews = new ArrayList<Review>();
 			}
+			if(this.transactions == null) {
+				this.transactions = new ArrayList<Transaction>();
+			}
 			
 			vendorJsonReader.close();
 			userJsonReader.close();
@@ -197,6 +214,7 @@ public class BackEnd {
 			ticketJsonReader.close();
 			couponJsonReader.close();
 			reviewJsonReader.close();
+			transactionJsonReader.close();
 			
 			vendorFileReader.close();
 			userFileReader.close();
@@ -205,6 +223,7 @@ public class BackEnd {
 			ticketFileReader.close();
 			couponFileReader.close();
 			reviewFileReader.close();
+			transactionFileReader.close();
 		}
 		catch (IOException e) {
 			System.out.println("Failed to read from file.");
@@ -272,7 +291,7 @@ public class BackEnd {
 		return null;
 	}
 	
-	public boolean isDuplicateLocation(String name) {
+	public boolean isDuplicateLocationName(String name) {
 		ArrayList<String> names = new ArrayList<String>();
 		for(Location location: this.locations) {
 			names.add(location.getName());
@@ -320,10 +339,10 @@ public class BackEnd {
 		return null;
 	}
 	
-	public void createNewCoupons(ArrayList<Coupon> coupons) {
-		this.counpons.addAll(coupons);
+	public void createNewCoupon(Coupon coupon) {
+		this.counpons.add(coupon);
 		this.serialize();
-		LogsRecorder.getInstance().writeLog(coupons.size() + " Coupons added.");
+		LogsRecorder.getInstance().writeLog("New Coupon " + coupon.getCode() + " created.");
 	}
 	
 	public ArrayList<Coupon> getCoupons() {
@@ -338,6 +357,14 @@ public class BackEnd {
 			return coupon;
 		}
 		return null;
+	}
+	
+	public boolean isDuplicateCouponCode(String code) {
+		ArrayList<String> codes = new ArrayList<String>();
+		for(Coupon coupon: this.counpons) {
+			codes.add(coupon.getCode());
+		}
+		return codes.contains(code);
 	}
 	
 	public void createNewReview(Review review) {
@@ -356,6 +383,26 @@ public class BackEnd {
 			this.serialize();
 			LogsRecorder.getInstance().writeLog("Review " + review.getId() + " removed.");
 			return review;
+		}
+		return null;
+	}
+	
+	public void createNewTransaction(Transaction transaction) {
+		this.transactions.add(transaction);
+		this.serialize();
+		LogsRecorder.getInstance().writeLog("New Transaction " + transaction.getId() + " created.");
+	}
+	
+	public ArrayList<Transaction> getTransactions() {
+		return this.transactions;
+	}
+	
+	public Transaction removeTransaction(Transaction transaction) {
+		boolean result = this.transactions.remove(transaction);
+		if(result == true) {
+			this.serialize();
+			LogsRecorder.getInstance().writeLog("Transaction " + transaction.getId() + " removed.");
+			return transaction;
 		}
 		return null;
 	}

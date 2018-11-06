@@ -11,14 +11,18 @@ public abstract class User {
 	private int age;
 	private String hkID;
 	private ArrayList<UUID> ticketIds;
+	private ArrayList<CreditCard> creditCards;
+	private ArrayList<UUID> transactionIds;
 	
 	public User(String loginId, String password, int age, String hkID) {
 		this.id = UUID.randomUUID();
 		this.loginId = loginId;
 		this.password = password;
 		this.age = age;
-		this.ticketIds = new ArrayList<UUID>();
 		this.hkID = hkID;
+		this.ticketIds = new ArrayList<UUID>();
+		this.creditCards = new ArrayList<CreditCard>();
+		this.transactionIds = new ArrayList<UUID>();
 	}
 	
 	public UUID getId() {
@@ -151,6 +155,56 @@ public abstract class User {
 		}
 		return false;
 		
+	}
+	
+	public ArrayList<String> getCreditCard() {
+		ArrayList<String> cardNumbers = new ArrayList<String>();
+		for(CreditCard creditCard: this.creditCards) {
+			cardNumbers.add(creditCard.getCardNumber());
+		}
+		return cardNumbers;
+	}
+	
+	public void addCreditCard(CreditCard creditCard) {
+		this.creditCards.add(creditCard);
+	}
+	
+	public CreditCard removeCreditCard(String cardNumber) {
+		CreditCard cardToBeRemoved = null;
+		for(CreditCard creditCard: this.creditCards) {
+			if(creditCard.getCardNumber() == cardNumber) {
+				cardToBeRemoved = creditCard;
+			}
+		}
+		if(cardToBeRemoved != null) {
+			this.creditCards.remove(cardToBeRemoved);
+		}
+		return cardToBeRemoved;
+	}
+	
+	public ArrayList<Transaction> getTransactions() {
+		BackEnd backEnd = BackEnd.getInstance();
+		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+		for(UUID transactionId: this.transactionIds) {
+			for(Transaction transaction: backEnd.getTransactions()) {
+				if(transaction.getId().equals(transactionId)) {
+					transactions.add(transaction);
+				}
+			}
+		}
+		return transactions;
+	}
+	
+	public void addTransaction(Transaction transaction) {
+		this.transactionIds.add(transaction.getId());
+	}
+	
+	public Transaction removeTransaction(Transaction transaction) {
+		boolean result = this.transactionIds.remove(transaction.getId());
+		if(result == true) {
+			return transaction;
+		}
+		return null;
 	}
 	
 	public abstract double getDiscount();
