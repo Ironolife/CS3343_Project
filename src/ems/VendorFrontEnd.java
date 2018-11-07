@@ -2,7 +2,6 @@ package ems;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
 public class VendorFrontEnd extends FrontEnd{
 	
@@ -181,15 +180,11 @@ public class VendorFrontEnd extends FrontEnd{
 		Date endTime = null;
 		while(isValidPeriod != true) {
 			
-			System.out.println("Start Time (YYYY-MM-DD HH:MM): ");
-			startTime = DateUtils.parseDate(this.readInput());
 			while(startTime == null) {
 				System.out.println("Start Time (YYYY-MM-DD HH:MM): ");
 				startTime = DateUtils.parseDate(this.readInput());
 			}
 			
-			System.out.println("End Time (YYYY-MM-DD HH:MM): ");
-			endTime = DateUtils.parseDate(this.readInput());
 			while(endTime == null) {
 				System.out.println("End Time (YYYY-MM-DD HH:MM): ");
 				endTime = DateUtils.parseDate(this.readInput());
@@ -425,11 +420,14 @@ public class VendorFrontEnd extends FrontEnd{
 			}
 		}
 		
-		System.out.println("Expiry Date (YYYY-MM-DD HH:MM): ");
-		Date expiryDate = DateUtils.parseDate(this.readInput());
+		Date expiryDate = null;
 		while(expiryDate == null) {
 			System.out.println("End Time (YYYY-MM-DD HH:MM): ");
 			expiryDate = DateUtils.parseDate(this.readInput());
+			if(expiryDate.compareTo(event.getEndTime()) > 0) {
+				EMS.PrintHeader("Expiry date cannot be later than event!");
+				expiryDate = null;
+			}
 		}
 		
 		Coupon coupon = new Coupon(code, event, discountType, discount, expiryDate);

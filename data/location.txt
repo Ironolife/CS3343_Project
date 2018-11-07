@@ -1,18 +1,1 @@
-[
-  {
-    "id": "8795490d-ffbf-4474-805d-2c7ed77e6762",
-    "name": "L1",
-    "capacity": 30,
-    "eventIds": [
-      "5f73c7eb-7277-460d-b37e-3c4088ed6a04"
-    ]
-  },
-  {
-    "id": "5ef108bc-b64f-4686-a3ec-a48c35cba05b",
-    "name": "L2",
-    "capacity": 40,
-    "eventIds": [
-      "e87c899e-acb0-4bf7-b53c-6fc2314aeb9d"
-    ]
-  }
-]
+[]

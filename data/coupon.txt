@@ -1,10 +1,1 @@
-[
-  {
-    "id": "34d3cbd3-9430-46ad-8058-4747b08abcbb",
-    "code": "C0",
-    "eventId": "5f73c7eb-7277-460d-b37e-3c4088ed6a04",
-    "discountType": 1,
-    "discount": 0.2,
-    "expiryDate": "Dec 3, 2018 12:50:00 PM"
-  }
-]
+[]

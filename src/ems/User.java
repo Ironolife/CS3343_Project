@@ -29,8 +29,16 @@ public abstract class User {
 		return this.id;
 	}
 	
+	protected void setId(UUID id) {
+		this.id = id;
+	}
+	
 	public String getLoginId() {
 		return this.loginId;
+	}
+	
+	protected String getPassword() {
+		return this.password;
 	}
 	
 	public boolean validatePassword(String inputPassword) {
@@ -157,16 +165,13 @@ public abstract class User {
 		
 	}
 	
-	public ArrayList<String> getCreditCard() {
-		ArrayList<String> cardNumbers = new ArrayList<String>();
-		for(CreditCard creditCard: this.creditCards) {
-			cardNumbers.add(creditCard.getCardNumber());
-		}
-		return cardNumbers;
+	public ArrayList<CreditCard> getCreditCard() {
+		return this.creditCards;
 	}
 	
 	public void addCreditCard(CreditCard creditCard) {
 		this.creditCards.add(creditCard);
+		BackEnd.getInstance().serialize();
 	}
 	
 	public CreditCard removeCreditCard(String cardNumber) {
@@ -179,6 +184,7 @@ public abstract class User {
 		if(cardToBeRemoved != null) {
 			this.creditCards.remove(cardToBeRemoved);
 		}
+		BackEnd.getInstance().serialize();
 		return cardToBeRemoved;
 	}
 	
@@ -205,6 +211,27 @@ public abstract class User {
 			return transaction;
 		}
 		return null;
+	}
+	
+	public static Member upgradeAccount(Guest guest, String name) {
+		Member member = new Member(guest.getLoginId(), guest.getPassword(), name, guest.getAge(), guest.getHKID());
+		member.setId(guest.getId());
+		for(Ticket ticket: guest.getTickets()) {
+			member.addTicket(ticket);
+		}
+		for(CreditCard creditCard: guest.getCreditCard()) {
+			member.addCreditCard(creditCard);
+		}
+		for(Transaction transaction: guest.getTransactions()) {
+			member.addTransaction(transaction);
+		}
+		
+		BackEnd backEnd = BackEnd.getInstance();
+		backEnd.removeUser(guest);
+		backEnd.addUser(member);
+		EMS.PrintHeader("Account Upgraded!");
+		
+		return member;
 	}
 	
 	public abstract double getDiscount();

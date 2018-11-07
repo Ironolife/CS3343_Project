@@ -110,20 +110,20 @@ public class BackEnd {
 			
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			Gson userGson = new GsonBuilder()
-					.registerTypeAdapter(this.users.getClass(), new UserListAdapter())
+					.registerTypeAdapter(User.class, new UserAdapter())
 					.setPrettyPrinting().create();
 			Gson ticketGson = new GsonBuilder()
-					.registerTypeAdapter(this.tickets.getClass(), new TicketListAdapter())
+					.registerTypeAdapter(Ticket.class, new TicketAdapter())
 					.setPrettyPrinting().create();
 			
-			String vendorJson = gson.toJson(this.vendors);
-			String userJson = userGson.toJson(this.users);
-			String locationJson = gson.toJson(this.locations);
-			String eventJson = gson.toJson(this.events);
-			String ticketJson = ticketGson.toJson(this.tickets);
-			String couponJson = gson.toJson(this.counpons);
-			String reviewJson = gson.toJson(this.reviews);
-			String transactionJson = gson.toJson(this.transactions);
+			String vendorJson = gson.toJson(this.vendors, new TypeToken<ArrayList<Vendor>>(){}.getType());
+			String userJson = userGson.toJson(this.users, new TypeToken<ArrayList<User>>(){}.getType());
+			String locationJson = gson.toJson(this.locations, new TypeToken<ArrayList<Location>>(){}.getType());
+			String eventJson = gson.toJson(this.events, new TypeToken<ArrayList<Event>>(){}.getType());
+			String ticketJson = ticketGson.toJson(this.tickets, new TypeToken<ArrayList<Ticket>>(){}.getType());
+			String couponJson = gson.toJson(this.counpons, new TypeToken<ArrayList<Coupon>>(){}.getType());
+			String reviewJson = gson.toJson(this.reviews, new TypeToken<ArrayList<Review>>(){}.getType());
+			String transactionJson = gson.toJson(this.transactions, new TypeToken<ArrayList<Transaction>>(){}.getType());
 			
 			vendorFileWriter.write(vendorJson);
 			userFileWriter.write(userJson);
@@ -161,8 +161,8 @@ public class BackEnd {
 			FileReader transactionFileReader = new FileReader(this.transactionFile);
 			
 			Gson gson = new Gson();
-			Gson userGson = new GsonBuilder().registerTypeAdapter(this.users.getClass(), new UserListAdapter()).create();
-			Gson ticketGson = new GsonBuilder().registerTypeAdapter(this.tickets.getClass(), new TicketListAdapter()).create();
+			Gson userGson = new GsonBuilder().registerTypeAdapter(User.class, new UserAdapter()).create();
+			Gson ticketGson = new GsonBuilder().registerTypeAdapter(Ticket.class, new TicketAdapter()).create();
 			
 			JsonReader vendorJsonReader = new JsonReader(vendorFileReader);
 			JsonReader userJsonReader = new JsonReader(userFileReader);

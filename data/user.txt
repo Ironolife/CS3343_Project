@@ -1,17 +1,35 @@
 [
   {
-    "type": "Member",
+    "type": "Guest",
     "properties": {
-      "name": "U1",
-      "balance": 0.0,
-      "couponIds": [],
-      "id": "597a695c-3169-4670-8735-e7cbd864bd0b",
+      "id": "0981d26c-570b-44b8-a22f-7bed6bb602df",
       "loginId": "U1",
       "password": "U1",
       "age": 20,
       "hkID": "A123456(3)",
       "ticketIds": [],
       "creditCards": [],
+      "transactionIds": []
+    }
+  },
+  {
+    "type": "Member",
+    "properties": {
+      "name": "U2",
+      "balance": 20.0,
+      "id": "2bab378b-6454-48fd-92ec-fe4dc1e1bc35",
+      "loginId": "U2",
+      "password": "U2",
+      "age": 20,
+      "hkID": "Y666283(6)",
+      "ticketIds": [],
+      "creditCards": [
+        {
+          "cardNumber": "4000000000000000",
+          "securityCode": 400,
+          "expiryDate": "Sep 1, 2021 12:00:00 AM"
+        }
+      ],
       "transactionIds": []
     }
   }
