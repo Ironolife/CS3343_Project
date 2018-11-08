@@ -1,1 +1,290 @@
-[]
+[
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "330af81f-f720-4218-902a-c9d80d64e5bc",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 0,
+      "price": 20.0,
+      "purchaserId": "5e321c85-b4b4-4d56-abf1-f42ef4bb225e",
+      "purchaseTime": "Nov 9, 2018 12:14:11 AM"
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "04a91e18-5f6d-4fd4-83d5-a649d7cc6a73",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 1,
+      "price": 20.0,
+      "purchaserId": "5e321c85-b4b4-4d56-abf1-f42ef4bb225e",
+      "purchaseTime": "Nov 9, 2018 12:42:26 AM"
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "f283ff8c-7876-4d77-a8e5-9334a0ce290c",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 2,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "abc6a962-ec09-4efe-8277-7e1de42c13af",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 3,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "cdfac31b-8776-4548-99f7-d99732e5cb4c",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 4,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "1be48329-2d4e-49dd-b104-94dee713e2ae",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 5,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "b73b4f85-6181-4a15-9614-b00b2590bb54",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 6,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "88e7ae8f-788d-4591-8128-bff67ae8ca7c",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 7,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "a3cb7767-80d9-4c9b-8e5f-66914ed3e22f",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 8,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "9705318d-2ae2-4be7-981e-88e2f86b4a7a",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 9,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "450be055-7986-41b7-b379-410411966197",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 10,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "3fc19ea1-c614-48a2-9828-780dd494ca15",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 11,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "1c6ce38a-ca02-4cb7-ad60-8f06bb60afa2",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 12,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "778bda4f-b991-48ac-b0d1-9d7e340342ba",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 13,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "8b6e7ca9-ccdb-4f2d-883d-89bcdfb80191",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 14,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "7f218099-3071-45ff-9552-7bf41d03043e",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 15,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "a676ce20-d5d7-4638-a598-b7e3b72236d0",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 16,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "8fbf04af-f670-419b-a8fb-943a9e2d243c",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 17,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "1f948021-5085-4abd-92fa-58045ee5a247",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 18,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "Ticket",
+    "properties": {
+      "id": "c39a872f-96f4-4a29-b95d-9fcdac104258",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 19,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "15c6338a-9fe4-40be-8fb5-ca4079ec5dc0",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 20,
+      "price": 20.0,
+      "purchaserId": "5e321c85-b4b4-4d56-abf1-f42ef4bb225e",
+      "purchaseTime": "Nov 9, 2018 12:25:59 AM"
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "25bd696e-0429-4257-9ca0-f503d82c7e06",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 21,
+      "price": 20.0,
+      "purchaserId": "5e321c85-b4b4-4d56-abf1-f42ef4bb225e",
+      "purchaseTime": "Nov 9, 2018 12:43:30 AM"
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "c16c620f-6acd-4f9b-92dc-3d74e869da65",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 22,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "6594da02-2b6e-4901-8695-34db498e8c29",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 23,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "2e6f8f3a-cc19-4b84-8ba0-943a4f04bb73",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 24,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "3f0c0319-a5fc-495b-8481-0855797c18e0",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 25,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "1ede3c3d-a113-46bd-8c44-118bfc97e224",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 26,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "739b7917-ce4d-47a5-a5bc-9a7cbbe72681",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 27,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "81cba9d1-0658-43b9-8835-9890c8bcf332",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 28,
+      "price": 20.0
+    }
+  },
+  {
+    "type": "VIPTicket",
+    "properties": {
+      "priceMultiplier": 1.5,
+      "id": "9075d2b0-7ac8-4e7e-975b-6b65de90af11",
+      "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
+      "seat": 29,
+      "price": 20.0
+    }
+  }
+]

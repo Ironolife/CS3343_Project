@@ -81,6 +81,7 @@ public class Transaction {
 		
 		this.getTicket().Purchase(this.getPurchaser());
 		this.getPurchaser().addTransaction(this);
+		this.getPurchaser().addTicket(this.getTicket());
 		this.getVendor().addTransaction(this);
 		
 		return this.discountedAmount;

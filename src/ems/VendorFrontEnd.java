@@ -221,7 +221,7 @@ public class VendorFrontEnd extends FrontEnd{
 			isMature = false;
 		}
 		
-		Event event = new Event(name, startTime, endTime, location, isMature);
+		Event event = new Event(name, startTime, endTime, this.vendor, location, isMature);
 		this.vendor.addEvent(event);
 		location.addEvent(event);
 		backEnd.createNewEvent(event);
@@ -253,7 +253,7 @@ public class VendorFrontEnd extends FrontEnd{
 					eventIndex = Integer.parseInt(this.readInput());
 				}
 			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Location!");
+				EMS.PrintHeader("Invalid Event!");
 				eventIndex = -1;
 			}
 		}
@@ -424,8 +424,8 @@ public class VendorFrontEnd extends FrontEnd{
 		while(expiryDate == null) {
 			System.out.println("End Time (YYYY-MM-DD HH:MM): ");
 			expiryDate = DateUtils.parseDate(this.readInput());
-			if(expiryDate.compareTo(event.getEndTime()) > 0) {
-				EMS.PrintHeader("Expiry date cannot be later than event!");
+			if(expiryDate != null && expiryDate.compareTo(event.getEndTime()) < 0) {
+				EMS.PrintHeader("Expiry date cannot be earlier than event!");
 				expiryDate = null;
 			}
 		}

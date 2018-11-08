@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": "a7397134-3d1b-4857-aabf-19128ffe9d41",
+    "date": "Nov 9, 2018 12:14:01 AM",
+    "ticketId": "330af81f-f720-4218-902a-c9d80d64e5bc",
+    "purchaserId": "5e321c85-b4b4-4d56-abf1-f42ef4bb225e",
+    "vendorId": "ddf92365-3664-4ea4-a210-333f36ae501d",
+    "initialAmount": 20.0,
+    "discountedAmount": 14.0
+  },
+  {
+    "id": "4aa3853d-38b3-4d75-887c-3a60f44f6b82",
+    "date": "Nov 9, 2018 12:25:37 AM",
+    "ticketId": "15c6338a-9fe4-40be-8fb5-ca4079ec5dc0",
+    "purchaserId": "5e321c85-b4b4-4d56-abf1-f42ef4bb225e",
+    "vendorId": "ddf92365-3664-4ea4-a210-333f36ae501d",
+    "initialAmount": 30.0,
+    "discountedAmount": 28.5
+  },
+  {
+    "id": "abf5894a-c228-43e7-91ee-15e395021fc4",
+    "date": "Nov 9, 2018 12:42:02 AM",
+    "ticketId": "04a91e18-5f6d-4fd4-83d5-a649d7cc6a73",
+    "purchaserId": "5e321c85-b4b4-4d56-abf1-f42ef4bb225e",
+    "vendorId": "ddf92365-3664-4ea4-a210-333f36ae501d",
+    "initialAmount": 20.0,
+    "discountedAmount": 19.0
+  },
+  {
+    "id": "9a09262d-e606-4dda-8e0e-397ec6342553",
+    "date": "Nov 9, 2018 12:43:27 AM",
+    "ticketId": "25bd696e-0429-4257-9ca0-f503d82c7e06",
+    "purchaserId": "5e321c85-b4b4-4d56-abf1-f42ef4bb225e",
+    "vendorId": "ddf92365-3664-4ea4-a210-333f36ae501d",
+    "initialAmount": 30.0,
+    "discountedAmount": 23.5
+  }
+]

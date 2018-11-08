@@ -113,7 +113,7 @@ public class BackEnd {
 					.registerTypeAdapter(User.class, new UserAdapter())
 					.setPrettyPrinting().create();
 			Gson ticketGson = new GsonBuilder()
-					.registerTypeAdapter(Ticket.class, new TicketAdapter())
+					.registerTypeAdapter(this.tickets.getClass(), new TicketListAdapter())
 					.setPrettyPrinting().create();
 			
 			String vendorJson = gson.toJson(this.vendors, new TypeToken<ArrayList<Vendor>>(){}.getType());
@@ -162,7 +162,7 @@ public class BackEnd {
 			
 			Gson gson = new Gson();
 			Gson userGson = new GsonBuilder().registerTypeAdapter(User.class, new UserAdapter()).create();
-			Gson ticketGson = new GsonBuilder().registerTypeAdapter(Ticket.class, new TicketAdapter()).create();
+			Gson ticketGson = new GsonBuilder().registerTypeAdapter(this.tickets.getClass(), new TicketListAdapter()).create();
 			
 			JsonReader vendorJsonReader = new JsonReader(vendorFileReader);
 			JsonReader userJsonReader = new JsonReader(userFileReader);

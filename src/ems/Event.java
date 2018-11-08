@@ -1,6 +1,7 @@
 package ems;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,15 +12,17 @@ public class Event {
 	private Date startTime;
 	private Date endTime;
 	private UUID locationId;
+	private UUID vendorId;
 	private ArrayList<UUID> ticketIds;
 	private boolean isMature;
 	private ArrayList<UUID> reviewIds;
 	
-	public Event(String name, Date startTime, Date endTime, Location location, boolean isMature) {
+	public Event(String name, Date startTime, Date endTime, Vendor vendor, Location location, boolean isMature) {
 		this.id = UUID.randomUUID();
 		this.name = name;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.vendorId = vendor.getId();
 		this.locationId = location.getId();
 		this.ticketIds = new ArrayList<UUID>();
 		this.isMature = isMature;
@@ -55,6 +58,16 @@ public class Event {
 		for(Location location: backEnd.getLocations()) {
 			if(location.getId().equals(this.locationId)) {
 				return location;
+			}
+		}
+		return null;
+	}
+	
+	public Vendor getVendor() {
+		BackEnd backEnd = BackEnd.getInstance();
+		for(Vendor vendor: backEnd.getVendors()) {
+			if(vendor.getId().equals(this.vendorId)) {
+				return vendor;
 			}
 		}
 		return null;
@@ -108,6 +121,15 @@ public class Event {
 			return ticket;
 		}
 		return null;
+	}
+	
+	public boolean isSoldOut() {
+		for(Ticket ticket: this.getTickets()) {
+			if(ticket.getStatus() == 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public double getSales() {
