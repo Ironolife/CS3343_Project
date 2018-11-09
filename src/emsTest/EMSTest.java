@@ -22,7 +22,7 @@ public class EMSTest {
 				return result;
 			}
 		}
-		//EMSStub emsStub = new EMSStub();
+		EMSStub emsStub = new EMSStub();
 	}
 	@Test
 	public void testReadInput()
