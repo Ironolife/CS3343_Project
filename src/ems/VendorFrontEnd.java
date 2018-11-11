@@ -193,11 +193,15 @@ public class VendorFrontEnd extends FrontEnd{
 			isValidPeriod = DateUtils.validatePeriod(startTime, endTime);
 			if(isValidPeriod == false) {
 				EMS.PrintHeader("Invalid Time Period!");
+				startTime = null;
+				endTime = null;
 			}
 			else {
 				for(Event event: location.getEvents()) {
 					if(DateUtils.isOverlappedPeriod(startTime, endTime, event.getStartTime(), event.getEndTime()) == true) {
 						isValidPeriod = false;
+						startTime = null;
+						endTime = null;
 						EMS.PrintHeader("Location Time Slot Already Taken!");
 						break;
 					}
@@ -221,7 +225,17 @@ public class VendorFrontEnd extends FrontEnd{
 			isMature = false;
 		}
 		
+		System.out.println("Add Event tags (separate with ,): ");
+		String tagsString = this.readInput();
+		ArrayList<String> tags = new ArrayList<String>();
+		if(!tagsString.equals("")) {
+			for(String tag: tagsString.split(",")) {
+				tags.add(tag);
+			}
+		}
+		
 		Event event = new Event(name, startTime, endTime, this.vendor, location, isMature);
+		event.setTags(tags);
 		this.vendor.addEvent(event);
 		location.addEvent(event);
 		backEnd.createNewEvent(event);

@@ -39,6 +39,60 @@
       "9075d2b0-7ac8-4e7e-975b-6b65de90af11"
     ],
     "isMature": false,
-    "reviewIds": []
+    "reviewIds": [],
+    "tags": [
+      "Movie"
+    ]
+  },
+  {
+    "id": "b3be1842-6f0d-4281-90b8-2e12290cf096",
+    "name": "E2",
+    "startTime": "Nov 20, 2018 6:00:00 PM",
+    "endTime": "Nov 21, 2018 12:00:00 PM",
+    "locationId": "7deb7b10-85a4-40cf-bd5e-191133a9f206",
+    "vendorId": "ddf92365-3664-4ea4-a210-333f36ae501d",
+    "ticketIds": [],
+    "isMature": false,
+    "reviewIds": [],
+    "tags": [
+      "Concert",
+      "Tune"
+    ]
+  },
+  {
+    "id": "9e9d2525-dbcd-4990-b5e5-213c76564c90",
+    "name": "E3",
+    "startTime": "Nov 21, 2018 12:00:00 PM",
+    "endTime": "Nov 22, 2018 1:00:00 PM",
+    "locationId": "7deb7b10-85a4-40cf-bd5e-191133a9f206",
+    "vendorId": "ddf92365-3664-4ea4-a210-333f36ae501d",
+    "ticketIds": [],
+    "isMature": true,
+    "reviewIds": [],
+    "tags": []
+  },
+  {
+    "id": "8219d0b7-b792-41f4-a1ff-214e685e5e7a",
+    "name": "E4",
+    "startTime": "Nov 25, 2018 12:00:00 PM",
+    "endTime": "Nov 26, 2018 1:00:00 PM",
+    "locationId": "7deb7b10-85a4-40cf-bd5e-191133a9f206",
+    "vendorId": "ddf92365-3664-4ea4-a210-333f36ae501d",
+    "ticketIds": [],
+    "isMature": true,
+    "reviewIds": [],
+    "tags": []
+  },
+  {
+    "id": "6d543871-66da-4d3d-a474-a99e4d48ff3e",
+    "name": "E5",
+    "startTime": "Dec 10, 2018 12:00:00 PM",
+    "endTime": "Dec 11, 2018 12:00:00 PM",
+    "locationId": "7deb7b10-85a4-40cf-bd5e-191133a9f206",
+    "vendorId": "ddf92365-3664-4ea4-a210-333f36ae501d",
+    "ticketIds": [],
+    "isMature": true,
+    "reviewIds": [],
+    "tags": []
   }
 ]

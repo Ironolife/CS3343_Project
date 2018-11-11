@@ -19,9 +19,10 @@ public abstract class FrontEnd {
 	
 	public void displayEvents() {
 		
+		EMS.PrintHeader("- All Events -");
+		
 		BackEnd backEnd = BackEnd.getInstance();
 		
-		EMS.PrintHeader("- All Events -");
 		int count = 1;
 		ArrayList<Event> events = backEnd.getEvents();
 		for(Event event: events) {
@@ -54,7 +55,53 @@ public abstract class FrontEnd {
 	
 	public void searchEvents() {
 		
-		//TODO search events with user input
+		EMS.PrintHeader("- Search Events -");
+		System.out.println("Search: ");
+		String searchPhrase = this.readInput();
+		
+		BackEnd backEnd = BackEnd.getInstance();
+		ArrayList<Event> searchResult = new ArrayList<Event>();
+		for(Event event: backEnd.getEvents()) {
+			if(event.getName().equals(searchPhrase)) {
+				searchResult.add(event);
+			}
+			else if(event.getLocation().getName().equals(searchPhrase)) {
+				searchResult.add(event);
+			}
+			else if(event.getVendor().getName().equals(searchPhrase)) {
+				searchResult.add(event);
+			}
+			else if(event.getTags().contains(searchPhrase)) {
+				searchResult.add(event);
+			}
+		}
+		
+		int count = 1;
+		for(Event event: searchResult) {
+			System.out.println(count + ": " + event.getName());
+			count++;
+		}
+		
+		int eventIndex = -1;
+		while(eventIndex == -1) {
+			try {
+				System.out.println("Select an event to view details (0 to exit): ");
+				eventIndex = Integer.parseInt(this.readInput());
+				while(eventIndex < 0 || eventIndex > searchResult.size()) {
+					EMS.PrintHeader("Invalid Input");
+					System.out.println("Select an event to view details (0 to exit): ");
+					eventIndex = Integer.parseInt(this.readInput());
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Input!");
+				eventIndex = -1;
+			}
+		}
+		System.out.println();
+		if(eventIndex > 0) {
+			Event event = searchResult.get(eventIndex - 1);
+			this.displayEventInfo(event);
+		}
 		
 	}
 	

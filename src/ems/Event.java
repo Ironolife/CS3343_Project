@@ -16,6 +16,7 @@ public class Event {
 	private ArrayList<UUID> ticketIds;
 	private boolean isMature;
 	private ArrayList<UUID> reviewIds;
+	private ArrayList<String> tags;
 	
 	public Event(String name, Date startTime, Date endTime, Vendor vendor, Location location, boolean isMature) {
 		this.id = UUID.randomUUID();
@@ -174,6 +175,14 @@ public class Event {
 			ratingSum += r.getRating();
 		}
 		return ratingSum / this.reviewIds.size();
+	}
+	
+	public void setTags(ArrayList<String> tags) {
+		this.tags = tags;
+	}
+	
+	public ArrayList<String> getTags() {
+		return this.tags;
 	}
 
 }
