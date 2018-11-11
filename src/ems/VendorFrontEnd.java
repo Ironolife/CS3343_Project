@@ -73,7 +73,7 @@ public class VendorFrontEnd extends FrontEnd{
 			this.vendorOperations();
 		}
 		else if(operation.equals("11")) {
-			
+			//return to accountManagement() in EMS
 		}
 		else {
 			EMS.PrintHeader("Invalid Operation");
@@ -85,29 +85,18 @@ public class VendorFrontEnd extends FrontEnd{
 	private void displayVendorEvents() {
 		
 		EMS.PrintHeader("- My Events -");
-		int count = 1;
-		ArrayList<Event> events = this.vendor.getEvents();
-		for(Event event: events) {
-			System.out.println(count + ": " + event.getName());
-			count++;
-		}
 		
-		int eventIndex = -1;
-		while(eventIndex == -1) {
-			try {
-				System.out.println("Select an event to view details (0 to exit): ");
-				eventIndex = Integer.parseInt(this.readInput());
-				while(eventIndex < 0 || eventIndex > events.size()) {
-					EMS.PrintHeader("Invalid Input");
-					System.out.println("Select an event to view details (0 to exit): ");
-					eventIndex = Integer.parseInt(this.readInput());
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Input!");
-				eventIndex = -1;
-			}
-		}
+		//Get vendor event list
+		ArrayList<Event> events = this.vendor.getEvents();
+		
+		//Print event list
+		this.printEventList(events);
+		
+		//Event selection
+		int eventIndex = this.eventDetailsSelection(events.size());
 		System.out.println();
+		
+		//Display details for selected event
 		if(eventIndex > 0) {
 			Event event = events.get(eventIndex - 1);
 			this.displayEventInfo(event);
@@ -121,35 +110,25 @@ public class VendorFrontEnd extends FrontEnd{
 	private void createLocation() {
 		
 		EMS.PrintHeader("- Create Location -");
-		System.out.println("Name: ");
-		String name = this.readInput();
 		
-		BackEnd backEnd = BackEnd.getInstance();
-		
-		while (backEnd.isDuplicateLocationName(name) == true) {
-			EMS.PrintHeader("Name already exists! Please try another one.");
+		//Read name and check for duplication
+		String name = null;
+		while (name == null) {
 			System.out.println("Name: ");
 			name = this.readInput();
-		}
-		
-		int capacity = -1;
-		while (capacity == -1) {
-			try {
-				System.out.println("Capacity: ");
-				capacity = Integer.parseInt(this.readInput());
-				while (capacity < 0) {
-					EMS.PrintHeader("Invalid Capacity!");
-					System.out.println("Capacity: ");
-					capacity = Integer.parseInt(this.readInput());
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Capacity!");
-				capacity = -1;
+			if(backEnd.isDuplicateLocationName(name) == true) {
+				EMS.PrintHeader("Name already exists! Please try another one.");
+				name = null;
 			}
 		}
 		
+		//Read capacity
+		int capacity = this.readIntInput("Capacity");
+		
+		//Create location
 		Location location = new Location(name, capacity);
 		backEnd.createNewLocation(location);
+		
 		EMS.PrintHeader("Location Created!");
 		
 	}
@@ -157,42 +136,28 @@ public class VendorFrontEnd extends FrontEnd{
 	private void createEvent() {
 		
 		EMS.PrintHeader("- Create Event -");
+		
+		//Read name
 		System.out.println("Name: ");
 		String name = this.readInput();
 		
-		BackEnd backEnd = BackEnd.getInstance();
+		//Get location list
 		ArrayList<Location> locations = backEnd.getLocations();
 		
-		int locationIndex = -1;
-		while (locationIndex == -1) {
-			try {
-				System.out.println("Please Select a Location (0 to exit): ");
-				for(int i=0; i<locations.size(); i++) {
-					System.out.println((i+1) + ": " + locations.get(i).getName());
-				}
-				locationIndex = Integer.parseInt(this.readInput());
-				while (locationIndex < 0 || locationIndex > locations.size()) {
-					EMS.PrintHeader("Invalid Location!");
-					System.out.println("Please Select a Location (0 to exit): ");
-					for(int i=0; i<locations.size(); i++) {
-						System.out.println((i+1) + ": " + locations.get(i).getName());
-					}
-					locationIndex = Integer.parseInt(this.readInput());
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Location!");
-				locationIndex = -1;
-			}
-		}
+		//Print location list
+		this.printLocationList(locations);
+		
+		//Location selection
+		int locationIndex = this.locationSelection(locations.size());
 		
 		if(locationIndex > 0) {
 			
 			Location location = locations.get(locationIndex - 1);
 			
-			boolean isValidPeriod = false;
+			//Get event period and validation
 			Date startTime = null;
 			Date endTime = null;
-			while(isValidPeriod != true) {
+			while(startTime == null || endTime == null) {
 				
 				while(startTime == null) {
 					System.out.println("Start Time (YYYY-MM-DD HH:MM): ");
@@ -204,41 +169,40 @@ public class VendorFrontEnd extends FrontEnd{
 					endTime = DateUtils.parseDate(this.readInput());
 				}
 				
-				isValidPeriod = DateUtils.validatePeriod(startTime, endTime);
-				if(isValidPeriod == false) {
+				//Validate startTime earlier than endTime
+				if(DateUtils.validatePeriod(startTime, endTime) == false) {
 					EMS.PrintHeader("Invalid Time Period!");
 					startTime = null;
 					endTime = null;
+					continue;
 				}
-				else {
-					for(Event event: location.getEvents()) {
-						if(DateUtils.isOverlappedPeriod(startTime, endTime, event.getStartTime(), event.getEndTime()) == true) {
-							isValidPeriod = false;
-							startTime = null;
-							endTime = null;
-							EMS.PrintHeader("Location Time Slot Already Taken!");
-							break;
-						}
+				
+				//Validate event period overlapped with other events
+				for(Event event: location.getEvents()) {
+					if(DateUtils.isOverlappedPeriod(startTime, endTime, event.getStartTime(), event.getEndTime()) == true) {
+						EMS.PrintHeader("Location Time Slot Already Taken!");
+						startTime = null;
+						endTime = null;
+						break;
 					}
 				}
 				
 			}
 			
+			//Get event age restriction
 			System.out.println("Is Event age-restricted? (Y/N): ");
-			String isMatureString = this.readInput();
-			boolean isMature;
-			while(!isMatureString.equals("Y") && !isMatureString.equals("N")) {
-				EMS.PrintHeader("Invalid Input");
+			String isMatureString = null;
+			while(isMatureString == null) {
 				System.out.println("Is Event age-restricted? (Y/N): ");
 				isMatureString = this.readInput();
+				if(!isMatureString.equals("Y") && !isMatureString.equals("N")) {
+					EMS.PrintHeader("Invalid Input");
+					isMatureString = null;
+				}
 			}
-			if(isMatureString.equals("Y")) {
-				isMature = true;
-			}
-			else {
-				isMature = false;
-			}
+			boolean isMature = isMatureString.equals("Y");
 			
+			//Get event tags
 			System.out.println("Add Event tags (separate with ,): ");
 			String tagsString = this.readInput();
 			ArrayList<String> tags = new ArrayList<String>();
@@ -248,6 +212,7 @@ public class VendorFrontEnd extends FrontEnd{
 				}
 			}
 			
+			//Create event
 			Event event = new Event(name, startTime, endTime, this.vendor, location, isMature);
 			event.setTags(tags);
 			this.vendor.addEvent(event);
@@ -264,114 +229,45 @@ public class VendorFrontEnd extends FrontEnd{
 		
 		EMS.PrintHeader("- Generate Tickets -");
 		
+		//Get vendor event list
 		ArrayList<Event> events = this.vendor.getEvents();
 		
-		int eventIndex = -1;
-		while (eventIndex == -1) {
-			try {
-				System.out.println("Please Select an Event (0 to exit): ");
-				for(int i=0; i<events.size(); i++) {
-					System.out.println((i+1) + ": " + events.get(i).getName());
-				}
-				eventIndex = Integer.parseInt(this.readInput());
-				while (eventIndex < 0 || eventIndex > events.size()) {
-					EMS.PrintHeader("Invalid Event!");
-					System.out.println("Please Select an Event (0 to exit): ");
-					for(int i=0; i<events.size(); i++) {
-						System.out.println((i+1) + ": " + events.get(i).getName());
-					}
-					eventIndex = Integer.parseInt(this.readInput());
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Event!");
-				eventIndex = -1;
-			}
-		}
+		//Print event list
+		this.printEventList(events);
+		
+		//Event selection
+		int eventIndex = this.eventSelection(events.size());
 		
 		if(eventIndex > 0) {
 			
 			Event event = events.get(eventIndex - 1);
 			
-			double price = -1;
-			while (price == -1) {
-				try {
-					System.out.println("Normal Price: ");
-					price = Double.parseDouble(this.readInput());
-					while (price < 0) {
-						EMS.PrintHeader("Invalid Price!");
-						System.out.println("Price: ");
-						price = Double.parseDouble(this.readInput());
-					}
-				} catch (NumberFormatException e) {
-					EMS.PrintHeader("Invalid Price!");
-					price = -1;
-				}
-			}
+			//Read price
+			double price = this.readDoubleInput("Price");
 			
-			double vipPriceMultiplier = -1;
-			while (vipPriceMultiplier == -1) {
-				try {
-					System.out.println("VIP Price Multiplier: ");
-					vipPriceMultiplier = Double.parseDouble(this.readInput());
-					while (vipPriceMultiplier < 0) {
-						EMS.PrintHeader("Invalid VIP Price Multiplier!");
-						System.out.println("VIP Price Multiplier: ");
-						vipPriceMultiplier = Double.parseDouble(this.readInput());
-					}
-				} catch (NumberFormatException e) {
-					EMS.PrintHeader("Invalid VIP Price Multiplier!");
-					vipPriceMultiplier = -1;
-				}
-			}
+			//Read VIP price multiplier
+			double vipPriceMultiplier = this.readDoubleInput("VIP Price Multiplier");
 			
-			boolean validSize = false;
-			
-			while(validSize != true) {
+			//Ticket Generation and validation
+			ArrayList<Ticket> tickets = null;
+			while(tickets == null) {
 				
-				int normalSize = -1;
-				while (normalSize == -1) {
-					try {
-						System.out.println("Normal Tickets Count: ");
-						normalSize = Integer.parseInt(this.readInput());
-						while (normalSize < 0) {
-							EMS.PrintHeader("Invalid Number!");
-							System.out.println("Normal Tickets Count: ");
-							normalSize = Integer.parseInt(this.readInput());
-						}
-					} catch (NumberFormatException e) {
-						EMS.PrintHeader("Invalid Number!");
-						normalSize = -1;
-					}
-				}
+				//Read normal ticket size
+				int normalSize = this.readIntInput("Normal Tickets Count");
 				
-				int vipSize = -1;
-				while (vipSize == -1) {
-					try {
-						System.out.println("VIP Tickets Count: ");
-						vipSize = Integer.parseInt(this.readInput());
-						while (vipSize < 0) {
-							EMS.PrintHeader("Invalid Number!");
-							System.out.println("VIP Tickets Count: ");
-							vipSize = Integer.parseInt(this.readInput());
-						}
-					} catch (NumberFormatException e) {
-						EMS.PrintHeader("Invalid Number!");
-						vipSize = -1;
-					}
-				}
+				//Get VIP ticket size
+				int vipSize = this.readIntInput("VIP Tickets Count");
 				
-				ArrayList<Ticket> tickets = event.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
-				if(tickets != null) {
-					validSize = true;
-					BackEnd backEnd = BackEnd.getInstance();
-					backEnd.createNewTickets(tickets);
-					EMS.PrintHeader(tickets.size() + " Tickets Generated!");
-				}
-				else {
+				//generate tickets and validate size
+				tickets = event.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
+				if(tickets == null) {
 					EMS.PrintHeader("Ticket count larger than location capacity!");
 				}
 				
 			}
+			backEnd.createNewTickets(tickets);
+			
+			EMS.PrintHeader(tickets.size() + " Tickets Generated!");
 			
 		}
 		
@@ -380,53 +276,33 @@ public class VendorFrontEnd extends FrontEnd{
 	private void generateCoupon() {
 		
 		EMS.PrintHeader("- Generate Coupon -");
-		System.out.println("Code: ");
-		String code = this.readInput();
 		
-		BackEnd backEnd = BackEnd.getInstance();
-		
-		boolean isValidCode = !backEnd.isDuplicateCouponCode(code) && !code.equals("0");
-		
-		while (!isValidCode) {
+		//Read code and validate
+		String code = null;
+		while (code == null) {
+			System.out.println("Code: ");
+			code = this.readInput();
 			if(backEnd.isDuplicateCouponCode(code)) {
 				EMS.PrintHeader("Code already exists! Please try another one.");
+				code = null;
 			}
 			else if(code.equals("0")) {
 				EMS.PrintHeader("Code 0 is reserved! Please try another one.");
+				code = null;
 			}
-			System.out.println("Code: ");
-			code = this.readInput();
-			isValidCode = !backEnd.isDuplicateCouponCode(code) && !code.equals("0");
 		}
 		
+		//Get vendor event list
 		ArrayList<Event> events = this.vendor.getEvents();
 		
-		int eventIndex = -1;
-		while (eventIndex == -1) {
-			try {
-				System.out.println("Please Select an Event (0 to exit): ");
-				for(int i=0; i<events.size(); i++) {
-					System.out.println((i+1) + ": " + events.get(i).getName());
-				}
-				eventIndex = Integer.parseInt(this.readInput());
-				while (eventIndex < 0 || eventIndex > events.size()) {
-					EMS.PrintHeader("Invalid Event!");
-					System.out.println("Please Select an Event (0 to exit): ");
-					for(int i=0; i<events.size(); i++) {
-						System.out.println((i+1) + ": " + events.get(i).getName());
-					}
-					eventIndex = Integer.parseInt(this.readInput());
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Event!");
-				eventIndex = -1;
-			}
-		}
+		//Event selection
+		int eventIndex = this.eventSelection(events.size());
 		
 		if(eventIndex > 0) {
 			
 			Event event = events.get(eventIndex - 1);
 			
+			//Read discount type
 			int discountType = -1;
 			while (discountType == -1) {
 				try {
@@ -437,11 +313,7 @@ public class VendorFrontEnd extends FrontEnd{
 					discountType = Integer.parseInt(this.readInput());
 					while (discountType < 1 || discountType > 3) {
 						EMS.PrintHeader("Invalid Number!");
-						System.out.println("Please select discount type: ");
-						System.out.println("1: Flat");
-						System.out.println("2: Percentage off");
-						System.out.println("3: Free Purchase");
-						discountType = Integer.parseInt(this.readInput());
+						discountType = -1;
 					}
 				} catch (NumberFormatException e) {
 					EMS.PrintHeader("Invalid Number!");
@@ -450,27 +322,16 @@ public class VendorFrontEnd extends FrontEnd{
 			}
 			discountType -= 1;
 			
+			//Read discount value
 			double discount = -1;
-			if(discountType == 2) {
-				discount = 0;
+			if(discountType != 2) {
+				discount = this.readDoubleInput("Discount value");
 			}
 			else {
-				while (discount == -1) {
-					try {
-						System.out.println("Discount value: ");
-						discount = Double.parseDouble(this.readInput());
-						while (discount < 0) {
-							EMS.PrintHeader("Invalid value!");
-							System.out.println("Discount value: ");
-							discount = Double.parseDouble(this.readInput());
-						}
-					} catch (NumberFormatException e) {
-						EMS.PrintHeader("Invalid value!");
-						discount = -1;
-					}
-				}
+				discount = 0;
 			}
 			
+			//Read expiryDate and validate
 			Date expiryDate = null;
 			while(expiryDate == null) {
 				System.out.println("End Time (YYYY-MM-DD HH:MM): ");
@@ -481,6 +342,7 @@ public class VendorFrontEnd extends FrontEnd{
 				}
 			}
 			
+			//Create Coupon
 			Coupon coupon = new Coupon(code, event, discountType, discount, expiryDate);
 			backEnd.createNewCoupon(coupon);
 			
@@ -502,8 +364,10 @@ public class VendorFrontEnd extends FrontEnd{
 		
 		EMS.PrintHeader("- Check-In -");
 		
+		//Get vendor event list
 		ArrayList<Event> ongoingEvents = this.vendor.getEvents();
 		
+		//Filter for ongoing events
 		Iterator<Event> eventIterator = ongoingEvents.iterator();
 		while(eventIterator.hasNext()) {
 			Event event = eventIterator.next();
@@ -515,64 +379,40 @@ public class VendorFrontEnd extends FrontEnd{
 			}
 		}
 		
-		int eventIndex = -1;
-		while (eventIndex == -1) {
-			try {
-				System.out.println("Please Select an ongoing Event (0 to exit): ");
-				for(int i=0; i<ongoingEvents.size(); i++) {
-					System.out.println((i+1) + ": " + ongoingEvents.get(i).getName());
-				}
-				eventIndex = Integer.parseInt(this.readInput());
-				while (eventIndex < 0 || eventIndex > ongoingEvents.size()) {
-					EMS.PrintHeader("Invalid Event!");
-					System.out.println("Please Select an ongoing Event (0 to exit): ");
-					for(int i=0; i<ongoingEvents.size(); i++) {
-						System.out.println((i+1) + ": " + ongoingEvents.get(i).getName());
-					}
-					eventIndex = Integer.parseInt(this.readInput());
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Event!");
-				eventIndex = -1;
-			}
-		}
+		//Print event list
+		this.printEventList(ongoingEvents);
+		
+		//Event selection
+		int eventIndex = this.eventSelection(ongoingEvents.size());
 		
 		if(eventIndex > 0) {
 			
 			Event event = ongoingEvents.get(eventIndex - 1);
 			
-			ArrayList<Ticket> soldTickets = new ArrayList<Ticket>();
+			//Get purchased ticket list
+			ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 			for(Ticket ticket: event.getTickets()) {
 				if(ticket.getStatus() == 1) {
-					soldTickets.add(ticket);
+					tickets.add(ticket);
 				}
 			}
 			
-			int ticketIndex = -1;
-			while (ticketIndex == -1) {
-				try {
-					System.out.println("Please Select a Participant (0 to exit): ");
-					for(int i=0; i<soldTickets.size(); i++) {
-						System.out.println((i+1) + ": " + soldTickets.get(i).getPurchaser().getHKID());
-					}
-					ticketIndex = Integer.parseInt(this.readInput());
-					while (ticketIndex < 0 || ticketIndex > soldTickets.size()) {
-						EMS.PrintHeader("Invalid Participant!");
-						System.out.println("Please Select a participant (0 to exit): ");
-						for(int i=0; i<soldTickets.size(); i++) {
-							System.out.println((i+1) + ": " + soldTickets.get(i).getPurchaser().getHKID());
-						}
-						ticketIndex = Integer.parseInt(this.readInput());
-					}
-				} catch (NumberFormatException e) {
-					EMS.PrintHeader("Invalid Participant!");
-					ticketIndex = -1;
-				}
+			//Print user list
+			ArrayList<User> users = new ArrayList<User>();
+			for(Ticket ticket: tickets) {
+				users.add(ticket.getPurchaser());
 			}
+			this.printUserList(users);
+			
+			//User selection
+			int ticketIndex = this.userSelection(users.size());
 			
 			if(ticketIndex > 0) {
-				soldTickets.get(ticketIndex - 1).setEntryTime();
+				
+				//Set ticket entry time
+				tickets.get(ticketIndex - 1).setEntryTime();
 				BackEnd.getInstance().serialize();
+				
 				EMS.PrintHeader("Checked-In participant!");
 			}
 			
@@ -584,8 +424,10 @@ public class VendorFrontEnd extends FrontEnd{
 		
 		EMS.PrintHeader("- Check-Out -");
 		
+		//Get vendor event list
 		ArrayList<Event> ongoingEvents = this.vendor.getEvents();
 		
+		//Filter for started events
 		Iterator<Event> eventIterator = ongoingEvents.iterator();
 		while(eventIterator.hasNext()) {
 			Event event = eventIterator.next();
@@ -594,65 +436,41 @@ public class VendorFrontEnd extends FrontEnd{
 			}
 		}
 		
-		int eventIndex = -1;
-		while (eventIndex == -1) {
-			try {
-				System.out.println("Please Select a started Event (0 to exit): ");
-				for(int i=0; i<ongoingEvents.size(); i++) {
-					System.out.println((i+1) + ": " + ongoingEvents.get(i).getName());
-				}
-				eventIndex = Integer.parseInt(this.readInput());
-				while (eventIndex < 0 || eventIndex > ongoingEvents.size()) {
-					EMS.PrintHeader("Invalid Event!");
-					System.out.println("Please Select a started Event (0 to exit): ");
-					for(int i=0; i<ongoingEvents.size(); i++) {
-						System.out.println((i+1) + ": " + ongoingEvents.get(i).getName());
-					}
-					eventIndex = Integer.parseInt(this.readInput());
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Event!");
-				eventIndex = -1;
-			}
-		}
+		//Print event list
+		this.printEventList(ongoingEvents);
+		
+		//Event selection
+		int eventIndex = this.eventSelection(ongoingEvents.size());
 		
 		if(eventIndex > 0) {
 			
 			Event event = ongoingEvents.get(eventIndex - 1);
 			
-			ArrayList<Ticket> enteredTicket = new ArrayList<Ticket>();
+			//Get entered ticket list
+			ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 			for(Ticket ticket: event.getTickets()) {
 				if(ticket.getStatus() == 2) {
-					enteredTicket.add(ticket);
+					tickets.add(ticket);
 				}
 			}
 			
-			int ticketIndex = -1;
-			while (ticketIndex == -1) {
-				try {
-					System.out.println("Please Select a Participant (0 to exit): ");
-					for(int i=0; i<enteredTicket.size(); i++) {
-						System.out.println((i+1) + ": " + enteredTicket.get(i).getPurchaser().getHKID());
-					}
-					ticketIndex = Integer.parseInt(this.readInput());
-					while (ticketIndex < 0 || ticketIndex > enteredTicket.size()) {
-						EMS.PrintHeader("Invalid Participant!");
-						System.out.println("Please Select a participant (0 to exit): ");
-						for(int i=0; i<enteredTicket.size(); i++) {
-							System.out.println((i+1) + ": " + enteredTicket.get(i).getPurchaser().getHKID());
-						}
-						ticketIndex = Integer.parseInt(this.readInput());
-					}
-				} catch (NumberFormatException e) {
-					EMS.PrintHeader("Invalid Participant!");
-					ticketIndex = -1;
-				}
+			//Print user list
+			ArrayList<User> users = new ArrayList<User>();
+			for(Ticket ticket: tickets) {
+				users.add(ticket.getPurchaser());
 			}
+			this.printUserList(users);
+			
+			//User selection
+			int ticketIndex = this.userSelection(users.size());
 			
 			if(ticketIndex > 0) {
-				enteredTicket.get(ticketIndex - 1).setExitTime();
+				
+				//Set ticket exit time
+				tickets.get(ticketIndex - 1).setExitTime();
 				BackEnd.getInstance().serialize();
-				EMS.PrintHeader("Checked-In participant!");
+				
+				EMS.PrintHeader("Checked-Out participant!");
 			}
 			
 		}

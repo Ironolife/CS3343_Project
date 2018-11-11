@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public abstract class FrontEnd {
 	
+	protected final BackEnd backEnd = BackEnd.getInstance();
+	
 	public FrontEnd() {
 		
 	}
@@ -21,31 +23,17 @@ public abstract class FrontEnd {
 		
 		EMS.PrintHeader("- All Events -");
 		
-		BackEnd backEnd = BackEnd.getInstance();
-		
-		int count = 1;
+		//Get event List
 		ArrayList<Event> events = backEnd.getEvents();
-		for(Event event: events) {
-			System.out.println(count + ": " + event.getName());
-			count++;
-		}
 		
-		int eventIndex = -1;
-		while(eventIndex == -1) {
-			try {
-				System.out.println("Select an event to view details (0 to exit): ");
-				eventIndex = Integer.parseInt(this.readInput());
-				while(eventIndex < 0 || eventIndex > events.size()) {
-					EMS.PrintHeader("Invalid Input");
-					System.out.println("Select an event to view details (0 to exit): ");
-					eventIndex = Integer.parseInt(this.readInput());
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Input!");
-				eventIndex = -1;
-			}
-		}
+		//Print event list
+		this.printEventList(events);
+		
+		//Event selection
+		int eventIndex = this.eventDetailsSelection(events.size());
 		System.out.println();
+		
+		//Display details for selected event
 		if(eventIndex > 0) {
 			Event event = events.get(eventIndex - 1);
 			this.displayEventInfo(event);
@@ -56,10 +44,12 @@ public abstract class FrontEnd {
 	public void searchEvents() {
 		
 		EMS.PrintHeader("- Search Events -");
+		
+		//Read search input
 		System.out.println("Search: ");
 		String searchPhrase = this.readInput();
 		
-		BackEnd backEnd = BackEnd.getInstance();
+		//Filter list by input (name, location, vendor or tag)
 		ArrayList<Event> searchResult = new ArrayList<Event>();
 		for(Event event: backEnd.getEvents()) {
 			if(event.getName().equals(searchPhrase)) {
@@ -76,28 +66,14 @@ public abstract class FrontEnd {
 			}
 		}
 		
-		int count = 1;
-		for(Event event: searchResult) {
-			System.out.println(count + ": " + event.getName());
-			count++;
-		}
+		//Print list
+		this.printEventList(searchResult);
 		
-		int eventIndex = -1;
-		while(eventIndex == -1) {
-			try {
-				System.out.println("Select an event to view details (0 to exit): ");
-				eventIndex = Integer.parseInt(this.readInput());
-				while(eventIndex < 0 || eventIndex > searchResult.size()) {
-					EMS.PrintHeader("Invalid Input");
-					System.out.println("Select an event to view details (0 to exit): ");
-					eventIndex = Integer.parseInt(this.readInput());
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Input!");
-				eventIndex = -1;
-			}
-		}
+		//Event selection
+		int eventIndex = this.eventDetailsSelection(searchResult.size());
 		System.out.println();
+		
+		//Display details for selected event
 		if(eventIndex > 0) {
 			Event event = searchResult.get(eventIndex - 1);
 			this.displayEventInfo(event);
@@ -107,6 +83,7 @@ public abstract class FrontEnd {
 	
 	public void displayEventInfo(Event event) {
 		
+		//Basic event information
 		System.out.println("Event Name: " + event.getName());
 		System.out.println("Start Time: " + event.getStartTime().toLocaleString());
 		System.out.println("End Time: " + event.getEndTime().toLocaleString());
@@ -114,14 +91,14 @@ public abstract class FrontEnd {
 		if(event.getIsMature() == true) {
 			System.out.println("* Event is only available for age over 18.");
 		}
-		System.out.println();
 		System.out.println("----------");
 		
+		//Ticket information
 		this.displayEventTickets(event);
 		
-		System.out.println();
 		System.out.println("----------");
 		
+		//Reviews 
 		if(event.getReviews().size() > 0) {
 			System.out.println("Average Rating: " + event.getAverageRating());
 			System.out.println();
@@ -129,13 +106,13 @@ public abstract class FrontEnd {
 		System.out.println("Reviews: ");
 		if(event.getReviews().size() == 0) {
 			System.out.println("No Reviews.");
+			System.out.println();
 		}
 		for(Review r: event.getReviews()) {
 			System.out.println(r.getMember().getName() + " - " + r.getRating());
 			System.out.println(r.getComment() + " - " + r.getDate());
 			System.out.println();
 		}
-		System.out.println();
 		
 	}
 	
@@ -144,7 +121,6 @@ public abstract class FrontEnd {
 		ArrayList<Ticket> tickets = event.getTickets();
 		
 		System.out.println("Total Tickets: " + tickets.size());
-		System.out.println();
 		
 		int availableNormalTicket = 0;
 		int purchasedNormalTicket = 0;
@@ -188,6 +164,156 @@ public abstract class FrontEnd {
 		Scanner scanner = new Scanner(System.in);
 		String input = scanner.nextLine();
 		return input;
+	}
+	
+	protected void printEventList(ArrayList<Event> events) {
+		
+		int count = 1;
+		for(Event event: events) {
+			System.out.println(count + ": " + event.getName());
+			count++;
+		}
+		
+	}
+	
+	protected int eventDetailsSelection(int size) {
+		
+		int eventIndex = -1;
+		while(eventIndex == -1) {
+			try {
+				System.out.println("Select an Event to view details (0 to exit): ");
+				eventIndex = Integer.parseInt(this.readInput());
+				if(eventIndex < 0 || eventIndex > size) {
+					EMS.PrintHeader("Invalid Input!");
+					eventIndex = -1;
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Input!");
+				eventIndex = -1;
+			}
+		}
+		return eventIndex;
+		
+	}
+	
+	protected int eventSelection(int size) {
+		
+		int eventIndex = -1;
+		while(eventIndex == -1) {
+			try {
+				System.out.println("Select an Event (0 to exit): ");
+				eventIndex = Integer.parseInt(this.readInput());
+				if(eventIndex < 0 || eventIndex > size) {
+					EMS.PrintHeader("Invalid Input!");
+					eventIndex = -1;
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Input!");
+				eventIndex = -1;
+			}
+		}
+		return eventIndex;
+		
+	}
+	
+	protected void printLocationList(ArrayList<Location> locations) {
+		
+		int count = 1;
+		for(Location location: locations) {
+			System.out.println(count + ": " + location.getName());
+			count++;
+		}
+		
+	}
+	
+	protected int locationSelection(int size) {
+		
+		int locationIndex = -1;
+		while (locationIndex == -1) {
+			try {
+				System.out.println("Select a Location (0 to exit): ");
+				locationIndex = Integer.parseInt(this.readInput());
+				while (locationIndex < 0 || locationIndex > size) {
+					EMS.PrintHeader("Invalid Input!");
+					locationIndex = -1;
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Input!");
+				locationIndex = -1;
+			}
+		}
+		return locationIndex;
+		
+	}
+	
+	protected void printUserList(ArrayList<User> users) {
+		
+		int count = 1;
+		for(User user: users) {
+			System.out.println(count + ": " + user.getHKID());
+			count++;
+		}
+		
+	}
+	
+	protected int userSelection(int size) {
+		
+		int userIndex = -1;
+		while (userIndex == -1) {
+			try {
+				System.out.println("Select a User (0 to exit): ");
+				userIndex = Integer.parseInt(this.readInput());
+				while (userIndex < 0 || userIndex > size) {
+					EMS.PrintHeader("Invalid Input!");
+					userIndex = -1;
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Input!");
+				userIndex = -1;
+			}
+		}
+		return userIndex;
+		
+	}
+	
+	protected int readIntInput(String inputField) {
+		
+		int input = -1;
+		while (input == -1) {
+			try {
+				System.out.println(inputField + ": ");
+				input = Integer.parseInt(this.readInput());
+				if (input < 0) {
+					EMS.PrintHeader("Invalid Input!");
+					input = -1;
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Input!");
+				input = -1;
+			}
+		}
+		return input;
+		
+	}
+	
+	protected double readDoubleInput(String inputField) {
+		
+		double input = -1;
+		while (input == -1) {
+			try {
+				System.out.println(inputField + ": ");
+				input = Double.parseDouble(this.readInput());
+				if (input < 0) {
+					EMS.PrintHeader("Invalid Input!");
+					input = -1;
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Input!");
+				input = -1;
+			}
+		}
+		return input;
+		
 	}
 
 }
