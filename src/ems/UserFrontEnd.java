@@ -51,7 +51,12 @@ public class UserFrontEnd extends FrontEnd{
 			this.userOperations();
 		}
 		else if(operation.equals("5")) {
-			this.reviewEvent();
+			if(this.user instanceof Guest) {
+				EMS.PrintHeader("Only Members can review events!");
+			}
+			else {
+				this.reviewEvent();
+			}
 			this.userOperations();
 		}
 		else if(operation.equals("6")) {
