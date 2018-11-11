@@ -17,17 +17,6 @@ public class Event {
 	private boolean isMature;
 	private ArrayList<UUID> reviewIds;
 	
-	public Event(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-		this.id = UUID.randomUUID();
-		this.name = name;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.locationId = location.getId();
-		this.ticketIds = new ArrayList<UUID>();
-		this.isMature = isMature;
-		this.reviewIds = new ArrayList<UUID>();
-	}
-	
 	public Event(String name, Date startTime, Date endTime, Vendor vendor, Location location, boolean isMature) {
 		this.id = UUID.randomUUID();
 		this.name = name;
