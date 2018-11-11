@@ -30,7 +30,7 @@ public abstract class FrontEnd {
 		this.printEventList(events);
 		
 		//Event selection
-		int eventIndex = this.eventDetailsSelection(events.size());
+		int eventIndex = this.listSelection(events.size(), "Select an Event to view details (0 to exit)");
 		System.out.println();
 		
 		//Display details for selected event
@@ -70,7 +70,7 @@ public abstract class FrontEnd {
 		this.printEventList(searchResult);
 		
 		//Event selection
-		int eventIndex = this.eventDetailsSelection(searchResult.size());
+		int eventIndex = this.listSelection(searchResult.size(), "Select an Event to view details (0 to exit)");
 		System.out.println();
 		
 		//Display details for selected event
@@ -166,6 +166,26 @@ public abstract class FrontEnd {
 		return input;
 	}
 	
+	protected int listSelection(int size, String text) {
+		
+		int index = -1;
+		while(index == -1) {
+			try {
+				System.out.println(text + ": ");
+				index = Integer.parseInt(this.readInput());
+				if(index < 0 || index > size) {
+					EMS.PrintHeader("Invalid Input!");
+					index = -1;
+				}
+			} catch (NumberFormatException e) {
+				EMS.PrintHeader("Invalid Input!");
+				index = -1;
+			}
+		}
+		return index;
+		
+	}
+	
 	protected void printEventList(ArrayList<Event> events) {
 		
 		int count = 1;
@@ -173,46 +193,6 @@ public abstract class FrontEnd {
 			System.out.println(count + ": " + event.getName());
 			count++;
 		}
-		
-	}
-	
-	protected int eventDetailsSelection(int size) {
-		
-		int eventIndex = -1;
-		while(eventIndex == -1) {
-			try {
-				System.out.println("Select an Event to view details (0 to exit): ");
-				eventIndex = Integer.parseInt(this.readInput());
-				if(eventIndex < 0 || eventIndex > size) {
-					EMS.PrintHeader("Invalid Input!");
-					eventIndex = -1;
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Input!");
-				eventIndex = -1;
-			}
-		}
-		return eventIndex;
-		
-	}
-	
-	protected int eventSelection(int size) {
-		
-		int eventIndex = -1;
-		while(eventIndex == -1) {
-			try {
-				System.out.println("Select an Event (0 to exit): ");
-				eventIndex = Integer.parseInt(this.readInput());
-				if(eventIndex < 0 || eventIndex > size) {
-					EMS.PrintHeader("Invalid Input!");
-					eventIndex = -1;
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Input!");
-				eventIndex = -1;
-			}
-		}
-		return eventIndex;
 		
 	}
 	
@@ -226,26 +206,6 @@ public abstract class FrontEnd {
 		
 	}
 	
-	protected int locationSelection(int size) {
-		
-		int locationIndex = -1;
-		while (locationIndex == -1) {
-			try {
-				System.out.println("Select a Location (0 to exit): ");
-				locationIndex = Integer.parseInt(this.readInput());
-				while (locationIndex < 0 || locationIndex > size) {
-					EMS.PrintHeader("Invalid Input!");
-					locationIndex = -1;
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Input!");
-				locationIndex = -1;
-			}
-		}
-		return locationIndex;
-		
-	}
-	
 	protected void printUserList(ArrayList<User> users) {
 		
 		int count = 1;
@@ -253,26 +213,6 @@ public abstract class FrontEnd {
 			System.out.println(count + ": " + user.getHKID());
 			count++;
 		}
-		
-	}
-	
-	protected int userSelection(int size) {
-		
-		int userIndex = -1;
-		while (userIndex == -1) {
-			try {
-				System.out.println("Select a User (0 to exit): ");
-				userIndex = Integer.parseInt(this.readInput());
-				while (userIndex < 0 || userIndex > size) {
-					EMS.PrintHeader("Invalid Input!");
-					userIndex = -1;
-				}
-			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Input!");
-				userIndex = -1;
-			}
-		}
-		return userIndex;
 		
 	}
 	

@@ -93,7 +93,7 @@ public class VendorFrontEnd extends FrontEnd{
 		this.printEventList(events);
 		
 		//Event selection
-		int eventIndex = this.eventDetailsSelection(events.size());
+		int eventIndex = this.listSelection(events.size(), "Select an Event to view details (0 to exit)");
 		System.out.println();
 		
 		//Display details for selected event
@@ -148,7 +148,7 @@ public class VendorFrontEnd extends FrontEnd{
 		this.printLocationList(locations);
 		
 		//Location selection
-		int locationIndex = this.locationSelection(locations.size());
+		int locationIndex = this.listSelection(locations.size(), "Select a Location (0 to exit)");
 		
 		if(locationIndex > 0) {
 			
@@ -236,7 +236,7 @@ public class VendorFrontEnd extends FrontEnd{
 		this.printEventList(events);
 		
 		//Event selection
-		int eventIndex = this.eventSelection(events.size());
+		int eventIndex = this.listSelection(events.size(), "Select an Event (0 to exit)");
 		
 		if(eventIndex > 0) {
 			
@@ -296,7 +296,7 @@ public class VendorFrontEnd extends FrontEnd{
 		ArrayList<Event> events = this.vendor.getEvents();
 		
 		//Event selection
-		int eventIndex = this.eventSelection(events.size());
+		int eventIndex = this.listSelection(events.size(), "Select an Event (0 to exit)");
 		
 		if(eventIndex > 0) {
 			
@@ -383,7 +383,7 @@ public class VendorFrontEnd extends FrontEnd{
 		this.printEventList(ongoingEvents);
 		
 		//Event selection
-		int eventIndex = this.eventSelection(ongoingEvents.size());
+		int eventIndex = this.listSelection(ongoingEvents.size(), "Select an Event (0 to exit)");
 		
 		if(eventIndex > 0) {
 			
@@ -405,7 +405,7 @@ public class VendorFrontEnd extends FrontEnd{
 			this.printUserList(users);
 			
 			//User selection
-			int ticketIndex = this.userSelection(users.size());
+			int ticketIndex = this.listSelection(users.size(), "Select a User (0 to exit)");
 			
 			if(ticketIndex > 0) {
 				
@@ -425,10 +425,10 @@ public class VendorFrontEnd extends FrontEnd{
 		EMS.PrintHeader("- Check-Out -");
 		
 		//Get vendor event list
-		ArrayList<Event> ongoingEvents = this.vendor.getEvents();
+		ArrayList<Event> startedEvents = this.vendor.getEvents();
 		
 		//Filter for started events
-		Iterator<Event> eventIterator = ongoingEvents.iterator();
+		Iterator<Event> eventIterator = startedEvents.iterator();
 		while(eventIterator.hasNext()) {
 			Event event = eventIterator.next();
 			if(event.getStartTime().compareTo(new Date()) > 0) {
@@ -437,14 +437,14 @@ public class VendorFrontEnd extends FrontEnd{
 		}
 		
 		//Print event list
-		this.printEventList(ongoingEvents);
+		this.printEventList(startedEvents);
 		
 		//Event selection
-		int eventIndex = this.eventSelection(ongoingEvents.size());
+		int eventIndex = this.listSelection(startedEvents.size(), "Select an Event (0 to exit)");
 		
 		if(eventIndex > 0) {
 			
-			Event event = ongoingEvents.get(eventIndex - 1);
+			Event event = startedEvents.get(eventIndex - 1);
 			
 			//Get entered ticket list
 			ArrayList<Ticket> tickets = new ArrayList<Ticket>();
@@ -462,7 +462,7 @@ public class VendorFrontEnd extends FrontEnd{
 			this.printUserList(users);
 			
 			//User selection
-			int ticketIndex = this.userSelection(users.size());
+			int ticketIndex = this.listSelection(users.size(), "Select a User (0 to exit)");
 			
 			if(ticketIndex > 0) {
 				

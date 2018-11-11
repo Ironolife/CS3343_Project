@@ -945,6 +945,7 @@
       "eventId": "b2ca5454-ead4-483c-93d1-f15d7c33ebca",
       "seat": 1,
       "entryTime": "Nov 11, 2018 5:01:39 PM",
+      "exitTime": "Nov 12, 2018 12:44:55 AM",
       "price": 120.0,
       "purchaserId": "15d8e679-a2fe-494a-a292-e179d4e0bcf3",
       "purchaseTime": "Nov 11, 2018 4:53:18 PM"
@@ -1749,6 +1750,8 @@
       "id": "9bae07bd-5ba8-4769-8aec-cc0e4bc8b289",
       "eventId": "b2ca5454-ead4-483c-93d1-f15d7c33ebca",
       "seat": 90,
+      "entryTime": "Nov 12, 2018 12:44:27 AM",
+      "exitTime": "Nov 12, 2018 12:44:58 AM",
       "price": 120.0,
       "purchaserId": "f8e7b49d-90c4-4aba-b1dc-31d82dbae017",
       "purchaseTime": "Nov 11, 2018 4:52:40 PM"
