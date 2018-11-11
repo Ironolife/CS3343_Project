@@ -23,7 +23,7 @@ public class Transaction {
 		this.vendorId = vendor.getId();
 		
 		this.initialAmount = ticket.getPrice();
-		this.discountedAmount = this.initialAmount * purchaser.getDiscount();
+		this.discountedAmount = round(this.initialAmount * purchaser.getDiscount(), 1);
 		
 	}
 	
@@ -74,7 +74,7 @@ public class Transaction {
 	}
 	
 	public void useCoupon(Coupon coupon) {
-		this.discountedAmount = coupon.getDiscountedAmount(discountedAmount);
+		this.discountedAmount = round(coupon.getDiscountedAmount(discountedAmount), 1);
 	}
 	
 	public double completeTransaction() {
@@ -86,6 +86,11 @@ public class Transaction {
 		
 		return this.discountedAmount;
 		
+	}
+	
+	public static double round (double value, int precision) {
+	    int scale = (int) Math.pow(10, precision);
+	    return (double) Math.round(value * scale) / scale;
 	}
 	
 }

@@ -117,8 +117,15 @@ public abstract class FrontEnd {
 		System.out.println();
 		System.out.println("----------");
 		
-		System.out.println("Average Rating: " + event.getAverageRating());
+		this.displayEventTickets(event);
+		
 		System.out.println();
+		System.out.println("----------");
+		
+		if(event.getReviews().size() > 0) {
+			System.out.println("Average Rating: " + event.getAverageRating());
+			System.out.println();
+		}
 		System.out.println("Reviews: ");
 		if(event.getReviews().size() == 0) {
 			System.out.println("No Reviews.");
@@ -137,6 +144,7 @@ public abstract class FrontEnd {
 		ArrayList<Ticket> tickets = event.getTickets();
 		
 		System.out.println("Total Tickets: " + tickets.size());
+		System.out.println();
 		
 		int availableNormalTicket = 0;
 		int purchasedNormalTicket = 0;
@@ -168,10 +176,10 @@ public abstract class FrontEnd {
 		}
 		
 		if(vipPrice != -1) {
-			System.out.println("VIP Tickets: " + availableVIPTicket + " Available " + purchasedVIPTicket + " Purchased, " + "Price: " + vipPrice);
+			System.out.println("VIP Tickets: " + availableVIPTicket + " Available, " + purchasedVIPTicket + " Purchased, " + "Price: " + vipPrice);
 		}
 		if(price != -1) {
-			System.out.println("Normal Tickets: " + availableNormalTicket + " Available " + purchasedNormalTicket + " Purchased, " + "Price: " + price);
+			System.out.println("Normal Tickets: " + availableNormalTicket + " Available, " + purchasedNormalTicket + " Purchased, " + "Price: " + price);
 		}
 		
 	}

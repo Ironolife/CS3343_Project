@@ -143,14 +143,14 @@ public class UserFrontEnd extends FrontEnd{
 		int eventIndex = -1;
 		while (eventIndex == -1) {
 			try {
-				System.out.println("Please Select an Event: ");
+				System.out.println("Please Select an Event (0 to exit): ");
 				for(int i=0; i<availableEvents.size(); i++) {
 					System.out.println((i+1) + ": " + availableEvents.get(i).getName());
 				}
 				eventIndex = Integer.parseInt(this.readInput());
-				while (eventIndex < 1 || eventIndex > availableEvents.size()) {
+				while (eventIndex < 0 || eventIndex > availableEvents.size()) {
 					EMS.PrintHeader("Invalid Event!");
-					System.out.println("Please Select an Event: ");
+					System.out.println("Please Select an Event (0 to exit): ");
 					for(int i=0; i<availableEvents.size(); i++) {
 						System.out.println((i+1) + ": " + availableEvents.get(i).getName());
 					}
@@ -161,199 +161,134 @@ public class UserFrontEnd extends FrontEnd{
 				eventIndex = -1;
 			}
 		}
-		Event event = availableEvents.get(eventIndex - 1);
 		
-		int normalTicketCount = 0;
-		int vipTicketCount = 0;
-		double normalTicketPrice = -1;
-		double vipTicketPrice = -1;
-		
-		for(Ticket ticket: event.getTickets()) {
-			if(ticket.getStatus() == 0) {
-				if(ticket instanceof VIPTicket) {
-					vipTicketCount++;
-					vipTicketPrice = ticket.getPrice();
-				}
-				else {
-					normalTicketCount++;
-					normalTicketPrice = ticket.getPrice();
-				}
-			}
-		}
-		
-		Ticket ticketToPurchase = null;
-		while(ticketToPurchase == null) {
-			System.out.println("Choose ticket type: ");
-			System.out.print("1: Normal Ticket, " + normalTicketCount + " left");
-			if(normalTicketPrice != -1) {
-				System.out.print(", " + (normalTicketPrice * this.user.getDiscount()) + " HKD");
-			}
-			System.out.println();
-			System.out.print("2: VIP Ticket, " + vipTicketCount + " left");
-			if(vipTicketPrice != -1) {
-				System.out.print(", " + (vipTicketPrice * this.user.getDiscount()) + " HKD");
-			}
-			System.out.println();
-			String ticketType = this.readInput();
+		if(eventIndex > 0) {
 			
-			if(ticketType.equals("1")) {
-				if(normalTicketCount > 0) {
-					for(Ticket ticket: event.getTickets()) {
-						if(ticket.getStatus() == 0 && !(ticket instanceof VIPTicket)) {
-							ticketToPurchase = ticket;
-							break;
-						}
+			Event event = availableEvents.get(eventIndex - 1);
+			
+			int normalTicketCount = 0;
+			int vipTicketCount = 0;
+			double normalTicketPrice = -1;
+			double vipTicketPrice = -1;
+			
+			for(Ticket ticket: event.getTickets()) {
+				if(ticket.getStatus() == 0) {
+					if(ticket instanceof VIPTicket) {
+						vipTicketCount++;
+						vipTicketPrice = ticket.getPrice();
+					}
+					else {
+						normalTicketCount++;
+						normalTicketPrice = ticket.getPrice();
 					}
 				}
-				else {
-					EMS.PrintHeader("Normal Ticket sold out!");
-				}
 			}
-			else if(ticketType.equals("2")) {
-				if(vipTicketCount > 0) {
-					for(Ticket ticket: event.getTickets()) {
-						if(ticket.getStatus() == 0 && ticket instanceof VIPTicket) {
-							ticketToPurchase = ticket;
-							break;
-						}
-					}
+			
+			Ticket ticketToPurchase = null;
+			while(ticketToPurchase == null) {
+				System.out.println("Choose ticket type: ");
+				System.out.print("1: Normal Ticket, " + normalTicketCount + " left");
+				if(normalTicketPrice != -1) {
+					System.out.print(", " + Transaction.round((normalTicketPrice * this.user.getDiscount()), 1) + " HKD");
 				}
-				else {
-					EMS.PrintHeader("VIP Ticket sold out!");
+				System.out.println();
+				System.out.print("2: VIP Ticket, " + vipTicketCount + " left");
+				if(vipTicketPrice != -1) {
+					System.out.print(", " + Transaction.round((vipTicketPrice * this.user.getDiscount()), 1) + " HKD");
 				}
-			}
-			else {
-				EMS.PrintHeader("Invalid Ticket Type!");
-			}
-		}
-		
-		System.out.println("Use coupon? (Y/N): ");
-		String useCoupon = this.readInput();
-		while(!useCoupon.equals("Y") && !useCoupon.equals("N")) {
-			EMS.PrintHeader("Invalid Input");
-			System.out.println("Use coupon? (Y/N): ");
-			useCoupon = this.readInput();
-		}
-		
-		Coupon couponToUse = null;
-		if(useCoupon.equals("Y")) {
-			while(couponToUse == null) {
-				System.out.println("Coupon Code: ");
-				String code = this.readInput();
+				System.out.println();
+				String ticketType = this.readInput();
 				
-				for(Coupon coupon: backEnd.getCoupons()) {
-					if(coupon.getCode().equals(code) && coupon.getEvent()==event && coupon.getExpiryDate().compareTo(new Date()) > 0) {
-						couponToUse = coupon;
-						EMS.PrintHeader("Coupon Applied!");
+				if(ticketType.equals("1")) {
+					if(normalTicketCount > 0) {
+						for(Ticket ticket: event.getTickets()) {
+							if(ticket.getStatus() == 0 && !(ticket instanceof VIPTicket)) {
+								ticketToPurchase = ticket;
+								break;
+							}
+						}
+					}
+					else {
+						EMS.PrintHeader("Normal Ticket sold out!");
+					}
+				}
+				else if(ticketType.equals("2")) {
+					if(vipTicketCount > 0) {
+						for(Ticket ticket: event.getTickets()) {
+							if(ticket.getStatus() == 0 && ticket instanceof VIPTicket) {
+								ticketToPurchase = ticket;
+								break;
+							}
+						}
+					}
+					else {
+						EMS.PrintHeader("VIP Ticket sold out!");
+					}
+				}
+				else {
+					EMS.PrintHeader("Invalid Ticket Type!");
+				}
+			}
+			
+			System.out.println("Use coupon? (Y/N): ");
+			String useCoupon = this.readInput();
+			while(!useCoupon.equals("Y") && !useCoupon.equals("N")) {
+				EMS.PrintHeader("Invalid Input");
+				System.out.println("Use coupon? (Y/N): ");
+				useCoupon = this.readInput();
+			}
+			
+			Coupon couponToUse = null;
+			if(useCoupon.equals("Y")) {
+				while(couponToUse == null) {
+					System.out.println("Coupon Code (0 to cancel): ");
+					String code = this.readInput();
+					
+					if(code.equals("0")) {
 						break;
 					}
-				}
-				
-				if(couponToUse == null) {
-					EMS.PrintHeader("Invalid Coupon Code");
+					
+					for(Coupon coupon: backEnd.getCoupons()) {
+						if(coupon.getCode().equals(code) && coupon.getEvent()==event && coupon.getExpiryDate().compareTo(new Date()) > 0) {
+							couponToUse = coupon;
+							EMS.PrintHeader("Coupon Applied!");
+							break;
+						}
+					}
+					
+					if(couponToUse == null) {
+						EMS.PrintHeader("Invalid Coupon Code");
+					}
 				}
 			}
-		}
-		
-		Transaction transaction = new Transaction(ticketToPurchase, this.user, event.getVendor());
-		
-		if(couponToUse != null) {
-			transaction.useCoupon(couponToUse);
-		}
-		
-		if(transaction.getInitialAmount() != transaction.getDiscountedAmount()) {
-			System.out.println("Discounted Price: " + transaction.getDiscountedAmount());
-		}
-		else {
-			System.out.println("Price: " + transaction.getInitialAmount());
-		}
-		
-		String method = "-1";
-		while(method.equals("-1")) {
-			System.out.println("Choose payment method: ");
-			System.out.println("1: Cash");
-			System.out.println("2: Credit Card");
-			if(this.user instanceof Member) {
-				System.out.println("3: Account Balance");
-			}
-			method = this.readInput();
 			
-			if(method.equals("1")) {
-				System.out.println("Please insert cash . . .");
-				try {
-					Thread.sleep(3000); //simulate action of inserting cash
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				transaction.completeTransaction();
-				backEnd.createNewTransaction(transaction);
-				EMS.PrintHeader("Ticket Purchased!");
+			Transaction transaction = new Transaction(ticketToPurchase, this.user, event.getVendor());
+			
+			if(couponToUse != null) {
+				transaction.useCoupon(couponToUse);
 			}
-			else if(method.equals("2")) {
-				
-				ArrayList<CreditCard> creditCards = this.user.getCreditCard();
-				int creditCardIndex = -1;
-				while (creditCardIndex == -1) {
-					try {
-						System.out.println("Please Select a Credit Card (0 to added a new card): ");
-						for(int i=0; i<creditCards.size(); i++) {
-							System.out.println((i+1) + ": " + creditCards.get(i).getCardNumber());
-						}
-						creditCardIndex = Integer.parseInt(this.readInput());
-						while (creditCardIndex < 0 || creditCardIndex > creditCards.size()) {
-							EMS.PrintHeader("Invalid Input!");
-							System.out.println("Please Select a Credit Card (0 to added a new card): ");
-							for(int i=0; i<creditCards.size(); i++) {
-								System.out.println((i+1) + ": " + creditCards.get(i).getCardNumber());
-							}
-							creditCardIndex = Integer.parseInt(this.readInput());
-						}
-					} catch (NumberFormatException e) {
-						EMS.PrintHeader("Invalid Input!");
-						creditCardIndex = -1;
-					}
+			
+			if(transaction.getInitialAmount() != transaction.getDiscountedAmount()) {
+				System.out.println("Discounted Price: " + transaction.getDiscountedAmount());
+			}
+			else {
+				System.out.println("Price: " + transaction.getInitialAmount());
+			}
+			
+			String method = "-1";
+			while(method.equals("-1")) {
+				System.out.println("Choose payment method: ");
+				System.out.println("1: Cash");
+				System.out.println("2: Credit Card");
+				if(this.user instanceof Member) {
+					System.out.println("3: Account Balance");
 				}
-				if(creditCardIndex == 0) {
-					CreditCard creditCard = null;
-					while(creditCard == null) {
-						System.out.println("Card Number: ");
-						String cardNumber = this.readInput();
-						int securityCode = -1;
-						while (securityCode == -1) {
-							try {
-								System.out.println("Security Code: ");
-								securityCode = Integer.parseInt(this.readInput());
-								while (securityCode < 0) {
-									EMS.PrintHeader("Invalid Security Code!");
-									System.out.println("Security Code: ");
-									securityCode = Integer.parseInt(this.readInput());
-								}
-							} catch (NumberFormatException e) {
-								EMS.PrintHeader("Invalid Security Code!");
-								securityCode = -1;
-							}
-						}
-						Date expiryDate = null;
-						while(expiryDate == null) {
-							System.out.println("Expiry Date (MM/YY): ");
-							String shortDateString = this.readInput();
-							String longDateString = "20" + shortDateString.split("/")[1] + "-" + shortDateString.split("/")[0] + "-01 00:00"; 
-							expiryDate = DateUtils.parseDate(longDateString);
-						}
-						
-						CreditCard cardToValidate = new CreditCard(cardNumber, securityCode, expiryDate);
-						if(cardToValidate.validate() == false) {
-							EMS.PrintHeader("Credit Card validation failed!");
-						}
-						else {
-							creditCard = cardToValidate;
-							EMS.PrintHeader("Validation Success!");
-							this.user.addCreditCard(creditCard);
-						}
-					}
-					System.out.println("Payment in progress . . .");
+				method = this.readInput();
+				
+				if(method.equals("1")) {
+					System.out.println("Please insert cash . . .");
 					try {
-						Thread.sleep(3000); //simulate credit card payment
+						Thread.sleep(3000); //simulate action of inserting cash
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -361,9 +296,68 @@ public class UserFrontEnd extends FrontEnd{
 					backEnd.createNewTransaction(transaction);
 					EMS.PrintHeader("Ticket Purchased!");
 				}
-				else {
-					CreditCard creditCard = creditCards.get(creditCardIndex - 1);
-					if(creditCard.validate() == true) {
+				else if(method.equals("2")) {
+					
+					ArrayList<CreditCard> creditCards = this.user.getCreditCard();
+					int creditCardIndex = -1;
+					while (creditCardIndex == -1) {
+						try {
+							System.out.println("Please Select a Credit Card (0 to added a new card): ");
+							for(int i=0; i<creditCards.size(); i++) {
+								System.out.println((i+1) + ": " + creditCards.get(i).getCardNumber());
+							}
+							creditCardIndex = Integer.parseInt(this.readInput());
+							while (creditCardIndex < 0 || creditCardIndex > creditCards.size()) {
+								EMS.PrintHeader("Invalid Input!");
+								System.out.println("Please Select a Credit Card (0 to added a new card): ");
+								for(int i=0; i<creditCards.size(); i++) {
+									System.out.println((i+1) + ": " + creditCards.get(i).getCardNumber());
+								}
+								creditCardIndex = Integer.parseInt(this.readInput());
+							}
+						} catch (NumberFormatException e) {
+							EMS.PrintHeader("Invalid Input!");
+							creditCardIndex = -1;
+						}
+					}
+					if(creditCardIndex == 0) {
+						CreditCard creditCard = null;
+						while(creditCard == null) {
+							System.out.println("Card Number: ");
+							String cardNumber = this.readInput();
+							int securityCode = -1;
+							while (securityCode == -1) {
+								try {
+									System.out.println("Security Code: ");
+									securityCode = Integer.parseInt(this.readInput());
+									while (securityCode < 0) {
+										EMS.PrintHeader("Invalid Security Code!");
+										System.out.println("Security Code: ");
+										securityCode = Integer.parseInt(this.readInput());
+									}
+								} catch (NumberFormatException e) {
+									EMS.PrintHeader("Invalid Security Code!");
+									securityCode = -1;
+								}
+							}
+							Date expiryDate = null;
+							while(expiryDate == null) {
+								System.out.println("Expiry Date (MM/YY): ");
+								String shortDateString = this.readInput();
+								String longDateString = "20" + shortDateString.split("/")[1] + "-" + shortDateString.split("/")[0] + "-01 00:00"; 
+								expiryDate = DateUtils.parseDate(longDateString);
+							}
+							
+							CreditCard cardToValidate = new CreditCard(cardNumber, securityCode, expiryDate);
+							if(cardToValidate.validate() == false) {
+								EMS.PrintHeader("Credit Card validation failed!");
+							}
+							else {
+								creditCard = cardToValidate;
+								EMS.PrintHeader("Validation Success!");
+								this.user.addCreditCard(creditCard);
+							}
+						}
 						System.out.println("Payment in progress . . .");
 						try {
 							Thread.sleep(3000); //simulate credit card payment
@@ -375,34 +369,49 @@ public class UserFrontEnd extends FrontEnd{
 						EMS.PrintHeader("Ticket Purchased!");
 					}
 					else {
-						EMS.PrintHeader("Credit Card validation failed!");
-						this.displayAccountOperations();
+						CreditCard creditCard = creditCards.get(creditCardIndex - 1);
+						if(creditCard.validate() == true) {
+							System.out.println("Payment in progress . . .");
+							try {
+								Thread.sleep(3000); //simulate credit card payment
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							transaction.completeTransaction();
+							backEnd.createNewTransaction(transaction);
+							EMS.PrintHeader("Ticket Purchased!");
+						}
+						else {
+							EMS.PrintHeader("Credit Card validation failed!");
+							this.displayAccountOperations();
+						}
 					}
 				}
-			}
-			else if(method.equals("3") && this.user instanceof Member) {
-				Member member = (Member)this.user;
-				if(member.getBalance() >= transaction.getDiscountedAmount()) {
-					member.substractBalance(transaction.getDiscountedAmount());
-					System.out.println(transaction.getDiscountedAmount() + " deducted from balance. " + member.getBalance() + " left in balance.");
-					transaction.completeTransaction();
-					backEnd.createNewTransaction(transaction);
-					EMS.PrintHeader("Ticket Purchased!");
+				else if(method.equals("3") && this.user instanceof Member) {
+					Member member = (Member)this.user;
+					if(member.getBalance() >= transaction.getDiscountedAmount()) {
+						member.substractBalance(transaction.getDiscountedAmount());
+						System.out.println(transaction.getDiscountedAmount() + " deducted from balance. " + member.getBalance() + " left in balance.");
+						transaction.completeTransaction();
+						backEnd.createNewTransaction(transaction);
+						EMS.PrintHeader("Ticket Purchased!");
+					}
+					else {
+						EMS.PrintHeader("Insufficient balance! Please add " + (transaction.getDiscountedAmount() - member.getBalance()) + " to balance: ");
+						this.addBalance(transaction.getDiscountedAmount() - member.getBalance());
+						member.substractBalance(transaction.getDiscountedAmount());
+						System.out.println(transaction.getDiscountedAmount() + " deducted from balance. " + member.getBalance() + " left in balance.");
+						transaction.completeTransaction();
+						backEnd.createNewTransaction(transaction);
+						EMS.PrintHeader("Ticket Purchased!");
+					}
 				}
 				else {
-					EMS.PrintHeader("Insufficient balance! Please add " + (transaction.getDiscountedAmount() - member.getBalance()) + " to balance: ");
-					this.addBalance(transaction.getDiscountedAmount() - member.getBalance());
-					member.substractBalance(transaction.getDiscountedAmount());
-					System.out.println(transaction.getDiscountedAmount() + " deducted from balance. " + member.getBalance() + " left in balance.");
-					transaction.completeTransaction();
-					backEnd.createNewTransaction(transaction);
-					EMS.PrintHeader("Ticket Purchased!");
+					EMS.PrintHeader("Invalid input!");
+					method = "-1";
 				}
 			}
-			else {
-				EMS.PrintHeader("Invalid input!");
-				method = "-1";
-			}
+			
 		}
 		
 	}
@@ -429,15 +438,15 @@ public class UserFrontEnd extends FrontEnd{
 		int eventIndex = -1;
 		while(eventIndex == -1) {
 			try {
-				System.out.println("Select an event to review (0 to exit): ");
+				System.out.println("Select an Event to review (0 to exit): ");
 				eventIndex = Integer.parseInt(this.readInput());
 				while(eventIndex < 0 || eventIndex > attendedEvents.size()) {
 					EMS.PrintHeader("Invalid Input");
-					System.out.println("Select an event to review (0 to exit): ");
+					System.out.println("Select an Event to review (0 to exit): ");
 					eventIndex = Integer.parseInt(this.readInput());
 				}
 			} catch (NumberFormatException e) {
-				EMS.PrintHeader("Invalid Input!");
+				EMS.PrintHeader("Invalid Event!");
 				eventIndex = -1;
 			}
 		}
@@ -445,31 +454,47 @@ public class UserFrontEnd extends FrontEnd{
 		if(eventIndex > 0) {
 			Event event = attendedEvents.get(eventIndex - 1);
 			
-			double rating = -1;
-			while (rating == -1) {
-				try {
-					System.out.println("Rating (0 to 5): ");
-					rating = Double.parseDouble(this.readInput());
-					while (rating < 0 || rating > 5) {
-						EMS.PrintHeader("Invalid Rating!");
-						System.out.println("Rating (0 to 5): ");
-						rating = Double.parseDouble(this.readInput());
-					}
-				} catch (NumberFormatException e) {
-					EMS.PrintHeader("Invalid Rating!");
-					rating = -1;
+			boolean isNewReviewer = true;
+			for(Review review: event.getReviews()) {
+				if(this.user == review.getMember()) {
+					isNewReviewer = false;
+					break;
 				}
 			}
 			
-			System.out.println("Comment: ");
-			String comment = this.readInput();
+			if(isNewReviewer == true) {
+				
+				double rating = -1;
+				while (rating == -1) {
+					try {
+						System.out.println("Rating (0 to 5): ");
+						rating = Double.parseDouble(this.readInput());
+						while (rating < 0 || rating > 5) {
+							EMS.PrintHeader("Invalid Rating!");
+							System.out.println("Rating (0 to 5): ");
+							rating = Double.parseDouble(this.readInput());
+						}
+					} catch (NumberFormatException e) {
+						EMS.PrintHeader("Invalid Rating!");
+						rating = -1;
+					}
+				}
+				
+				System.out.println("Comment: ");
+				String comment = this.readInput();
+				
+				Review review = new Review((Member)this.user, rating, comment);
+				event.addReview(review);
+				BackEnd backEnd = BackEnd.getInstance();
+				backEnd.createNewReview(review);
+				
+				EMS.PrintHeader("Review Submitted!");
+				
+			}
+			else {
+				EMS.PrintHeader("You have already reviewed this event!");
+			}
 			
-			Review review = new Review((Member)this.user, rating, comment);
-			event.addReview(review);
-			BackEnd backEnd = BackEnd.getInstance();
-			backEnd.createNewReview(review);
-			
-			EMS.PrintHeader("Review Submitted!");
 		}
 		
 	}

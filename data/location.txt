@@ -1,14 +1,11 @@
 [
   {
-    "id": "7deb7b10-85a4-40cf-bd5e-191133a9f206",
+    "id": "398db02a-7c0a-4a82-867a-f78772f37f8a",
     "name": "L1",
-    "capacity": 30,
+    "capacity": 100,
     "eventIds": [
-      "81fb0631-1c60-4a54-b073-9e44aef42c96",
-      "b3be1842-6f0d-4281-90b8-2e12290cf096",
-      "9e9d2525-dbcd-4990-b5e5-213c76564c90",
-      "8219d0b7-b792-41f4-a1ff-214e685e5e7a",
-      "6d543871-66da-4d3d-a474-a99e4d48ff3e"
+      "c147655a-b8af-4e8a-bc8e-d20b67af8b0e",
+      "b2ca5454-ead4-483c-93d1-f15d7c33ebca"
     ]
   }
 ]
