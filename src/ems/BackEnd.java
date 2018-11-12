@@ -271,6 +271,30 @@ public class BackEnd {
 		return null;
 	}
 	
+	public boolean isDuplicateLoginId(String loginId) {
+		
+		ArrayList<String> loginIds = new ArrayList<String>();
+		
+		for (Vendor vendor : this.vendors) {
+			loginIds.add(vendor.getLoginId());
+		}
+		for (User user : this.users) {
+			loginIds.add(user.getLoginId());
+		}
+		return loginIds.contains(loginId);
+		
+	}
+	
+	public boolean isDuplicateHKID(String hkID) {
+		
+		ArrayList<String> hkIDs = new ArrayList<String>();
+		for (User user : this.users) {
+			hkIDs.add(user.getHKID());
+		}
+		return hkIDs.contains(hkID);
+		
+	}
+	
 	public void createNewLocation(Location location) {
 		this.locations.add(location);
 		this.serialize();

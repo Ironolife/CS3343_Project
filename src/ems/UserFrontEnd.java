@@ -423,6 +423,7 @@ public class UserFrontEnd extends FrontEnd{
 					System.out.println("HKID: " + this.user.getHKID());
 					System.out.println("Age: " + this.user.getAge());
 					System.out.println("Tickets Count: " + this.user.getTickets().size());
+					System.out.println();
 				}
 				else if(operation.equals("2")) {
 					
@@ -465,6 +466,7 @@ public class UserFrontEnd extends FrontEnd{
 					System.out.println("Age: " + member.getAge());
 					System.out.println("Tickets Count: " + member.getTickets().size());
 					System.out.println("Balance: " + member.getBalance());
+					System.out.println();
 				}
 				else if(operation.equals("2")) {
 					
