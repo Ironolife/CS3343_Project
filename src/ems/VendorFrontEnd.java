@@ -190,7 +190,6 @@ public class VendorFrontEnd extends FrontEnd{
 			}
 			
 			//Get event age restriction
-			System.out.println("Is Event age-restricted? (Y/N): ");
 			String isMatureString = null;
 			while(isMatureString == null) {
 				System.out.println("Is Event age-restricted? (Y/N): ");
@@ -294,6 +293,9 @@ public class VendorFrontEnd extends FrontEnd{
 		
 		//Get vendor event list
 		ArrayList<Event> events = this.vendor.getEvents();
+		
+		//Print event list
+		this.printEventList(events);
 		
 		//Event selection
 		int eventIndex = this.listSelection(events.size(), "Select an Event (0 to exit)");
