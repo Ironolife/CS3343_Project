@@ -47,7 +47,7 @@ public class EventTest {
 	String vendorName2;
 	String vendorPassword2;
 	Vendor vendor2;
-	ArrayList<Ticket> generatedTicketListForEventStub;
+	ArrayList<Ticket> generatedTicketListForEvent;
 	String userLoginId;
 	String userName;
 	String userPassword;
@@ -60,7 +60,7 @@ public class EventTest {
 	String reviewerHKId;
 	String comment1;
 	String comment2;
-	ArrayList<Review> reviewListForEventStub;
+	ArrayList<Review> reviewListForEvent;
 	
 	@Before
 	public void setUp() {
@@ -94,7 +94,8 @@ public class EventTest {
 		backEndLocationList = backEnd.getLocations();
 		backEndLocationList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new Event(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		Location tResult = tEvent.getLocation();
 		assertEquals(null, tResult);
 	}
@@ -106,7 +107,8 @@ public class EventTest {
 		backEndLocationList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
 		location2 = new Location(locationName2, locationCapacity2);
-		tEvent = new Event(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		backEndLocationList.add(location2);
 		Location tResult = tEvent.getLocation();
 		assertEquals(null, tResult);
@@ -119,7 +121,8 @@ public class EventTest {
 		backEndLocationList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
 		location2 = new Location(locationName2, locationCapacity2);
-		tEvent = new Event(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		backEndLocationList.add(location2);
 		backEndLocationList.add(location1);
 		Location tResult = tEvent.getLocation();
@@ -184,7 +187,8 @@ public class EventTest {
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 100;
 		int vipSize = 100;
-		tEvent = new Event(tEventName1, startTime, endTime,  location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1,  location1, true);
 		ArrayList<Ticket> tResult = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
 		assertEquals(null, tResult);
 		backEndLocationList.clear();
@@ -200,7 +204,8 @@ public class EventTest {
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 0;
 		int vipSize = 0;
-		tEvent = new Event(tEventName1, startTime, endTime,  location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime,  vendor1, location1, true);
 		ArrayList<Ticket> tResult = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
 		assertEquals(0, tResult.size());
 		backEndLocationList.clear();
@@ -216,7 +221,8 @@ public class EventTest {
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 1;
 		int vipSize = 1;
-		tEvent = new Event(tEventName1, startTime, endTime,  location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime,  vendor1, location1, true);
 		ArrayList<Ticket> tResult = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
 		assertEquals(price, tResult.get(normalSize - 1).getPrice(), 2);
 		assertEquals(price*vipPriceMultiplier, tResult.get(normalSize).getPrice(), 2);
@@ -233,7 +239,8 @@ public class EventTest {
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 2;
 		int vipSize = 2;
-		tEvent = new Event(tEventName1, startTime, endTime,  location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime,  vendor1, location1, true);
 		ArrayList<Ticket> tResult = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
 		assertEquals(price, tResult.get(normalSize - 1).getPrice(), 2);
 		assertEquals(price*vipPriceMultiplier, tResult.get(normalSize).getPrice(), 2);
@@ -245,7 +252,8 @@ public class EventTest {
 		backEndTicketList = backEnd.getTickets();
 		backEndTicketList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new Event(tEventName1, startTime, endTime,  location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime,  vendor1, location1, true);
 		ArrayList<Ticket> tResult = tEvent.getTickets();
 		assertEquals(0, tResult.size());
 
@@ -253,54 +261,40 @@ public class EventTest {
 	
 	@Test 
 	public void testGetTicketWithNoTicketInBackEnd() {
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-//			public EventStub(String name, Date startTime, Date endTime, Vendor vendor, Location location, boolean isMature) {
-//				super( name,  startTime,  endTime,  vendor,  location,  isMature);
-//			}
-//			
-			@Override 
-			public Location getLocation() {
-				return location1;
-			}
-		}
+		
 		backEndTicketList = backEnd.getTickets();
+		backEndLocationList = backEnd.getLocations();
 		double price = 10;
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 1;
 		int vipSize = 0;
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime,  location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		backEndLocationList.clear();
+		backEndLocationList.add(location1);
+		tEvent = new Event(tEventName1, startTime, endTime,  vendor1, location1, true);
 		tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
 		backEndTicketList.clear();
 		ArrayList<Ticket> tResult = tEvent.getTickets();
 		assertEquals(0, tResult.size());
+		backEndLocationList.clear();
 	}
 	
 	@Test
 	public void testGetTicketThatBackEndAndEventContainTheSameOne() {
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override 
-			public Location getLocation() {
-				return location1;
-			}
-		}
+	
 		
 		backEndTicketList = backEnd.getTickets();
+		backEndLocationList = backEnd.getLocations();
+		backEndLocationList.clear();
 		double price = 10;
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 1;
 		int vipSize = 0;
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime,  location1, true);
+		backEndLocationList.add(location1);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1,   location1, true);
 		ArrayList<Ticket> ticketListGenerated = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
 		backEndTicketList.clear();
 		for(Ticket ticket: ticketListGenerated) {
@@ -311,6 +305,8 @@ public class EventTest {
 		for(int i = 0; i < tResult.size(); i++) {
 			assertEquals(ticketListGenerated.get(i), tResult.get(i));
 		}
+		backEndTicketList.clear();
+		backEndLocationList.clear();
 	}
 	
 	
@@ -318,25 +314,18 @@ public class EventTest {
 	
 	@Test
 	public void testGetTicketToGetTwoTicketsThatBackEndAndEventBothContain() {
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override 
-			public Location getLocation() {
-				return location1;
-			}
-		}
 		
 		backEndTicketList = backEnd.getTickets();
+		backEndLocationList = backEnd.getLocations();
+		backEndLocationList.clear();
 		double price = 10;
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 2;
 		int vipSize = 0;
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime,  location1, true);
+		backEndLocationList.add(location1);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime,  vendor1, location1, true);
 		ArrayList<Ticket> ticketListGenerated = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
 		backEndTicketList.clear();
 		for(Ticket ticket: ticketListGenerated) {
@@ -347,27 +336,18 @@ public class EventTest {
 		for(int i = 0; i < tResult.size(); i++) {
 			assertEquals(ticketListGenerated.get(i), tResult.get(i));
 		}
+		backEndTicketList.clear();
+		backEndLocationList.clear();
 	}
 	
 	@Test
 	public void testIsSoldOutWithNoTicketInTheEvent() {
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override
-			public ArrayList<Ticket> getTickets() {
-				return new ArrayList<Ticket>();
-				
-			}
-		}
+		
 		
 		backEndTicketList = backEnd.getTickets();
-
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime,  location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		backEndTicketList.clear();
 		boolean tResult = tEvent.isSoldOut();
 		assertEquals(true, tResult);
@@ -376,58 +356,33 @@ public class EventTest {
 	@Test
 	public void testIsSoldOutWithOneTicketInTheEventButHaveNotBeenSold() {
 		
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override 
-			public Location getLocation() {
-				return location1;
-			}
-			
-			@Override
-			public ArrayList<Ticket> getTickets() {
-				return generatedTicketListForEventStub;
-				
-			}
-		}
-		
 		backEndTicketList = backEnd.getTickets();
+		backEndLocationList = backEnd.getLocations();
+		backEndLocationList.clear();
 		double price = 10;
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 1;
 		int vipSize = 0;
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime,  location1, true);
-		generatedTicketListForEventStub = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
+		backEndLocationList.add(location1);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
+		generatedTicketListForEvent = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
 		backEndTicketList.clear();
+		for(Ticket ticket: generatedTicketListForEvent) {
+			backEndTicketList.add(ticket);
+		}
 		boolean tResult = tEvent.isSoldOut();
 		assertEquals(false, tResult);
+		backEndTicketList.clear();
+		backEndLocationList.clear();
 	}
 	
 	
 	@Test
 	public void testIsSoldOutWithTwoTicketInTheEventButHaveNotBeenSold() {
 		
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override 
-			public Location getLocation() {
-				return location1;
-			}
-			
-			@Override
-			public ArrayList<Ticket> getTickets() {
-				return generatedTicketListForEventStub;
-				
-			}
-		}
+		
 		userLoginId = "human";
 		userName = "human";
 		userPassword = "human123";
@@ -435,103 +390,84 @@ public class EventTest {
 		userHKId = "A123456";
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, userHKId);
 		backEndTicketList = backEnd.getTickets();
+		backEndLocationList = backEnd.getLocations();
+		backEndLocationList.clear();
 		double price = 10;
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 2;
 		int vipSize = 0;
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime,  location1, true);
-		generatedTicketListForEventStub = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
-		generatedTicketListForEventStub.get(0).Purchase(purchaser);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		backEndLocationList.add(location1);
 		backEndTicketList.clear();
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
+		generatedTicketListForEvent = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
+		for(Ticket ticket: generatedTicketListForEvent) {
+			backEndTicketList.add(ticket);
+		}
+		generatedTicketListForEvent.get(0).Purchase(purchaser);
+		
 		boolean tResult = tEvent.isSoldOut();
 		assertEquals(false, tResult);
+		backEndTicketList.clear();
+		backEndLocationList.clear();
 	}
 	
 	@Test
 	public void testGetSalesWithZeroTicket() {
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override 
-			public Location getLocation() {
-				return location1;
-			}
-			
-			@Override
-			public ArrayList<Ticket> getTickets() {
-				return generatedTicketListForEventStub;
-				
-			}
-		}
+		backEndLocationList = backEnd.getLocations();
+		backEndLocationList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime, location1, true);
+		backEndLocationList.add(location1);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		double price = 10;
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 0;
 		int vipSize = 0;
 		
-		generatedTicketListForEventStub = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
+		generatedTicketListForEvent = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
 		double tResult = tEvent.getSales();
 		assertEquals(0, tResult, 2);
+		backEndLocationList.clear();
 	}
 	
 	
 	@Test
 	public void testGetSalesWithOneTicket() {
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override 
-			public Location getLocation() {
-				return location1;
-			}
-			
-			@Override
-			public ArrayList<Ticket> getTickets() {
-				return generatedTicketListForEventStub;
-				
-			}
-		}
+		backEndTicketList = backEnd.getTickets();
+		backEndTicketList.clear();
+		backEndLocationList = backEnd.getLocations();
+		backEndLocationList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime, location1, true);
+		backEndLocationList.add(location1);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		double price = 10;
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 1;
 		int vipSize = 0;
 		
-		generatedTicketListForEventStub = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
+		generatedTicketListForEvent = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
+		for(Ticket ticket: generatedTicketListForEvent) {
+			backEndTicketList.add(ticket);
+		}
 		double tResult = tEvent.getSales();
 		assertEquals(0, tResult, 2);
+		backEndLocationList.clear();
+		backEndTicketList.clear();
 	}
 	
 	@Test
 	public void testGetSalesWithTwoTicketWhileOneTicketHasBeenPurchasedAndTheOtherNot() {
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override 
-			public Location getLocation() {
-				return location1;
-			}
-			
-			@Override
-			public ArrayList<Ticket> getTickets() {
-				return generatedTicketListForEventStub;
-				
-			}
-		}
+		backEndTicketList = backEnd.getTickets();
+		backEndTicketList.clear();
+		backEndLocationList =backEnd.getLocations();
+		backEndLocationList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime, location1, true);
+		backEndLocationList.add(location1);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		double price = 10;
 		double vipPriceMultiplier = 0.5;
 		int normalSize = 2;
@@ -545,10 +481,16 @@ public class EventTest {
 		backEndUserList = backEnd.getUsers();
 		backEndUserList.clear();
 		backEndUserList.add(purchaser);
-		generatedTicketListForEventStub = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
-		generatedTicketListForEventStub.get(0).Purchase(purchaser);
+		generatedTicketListForEvent = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
+		generatedTicketListForEvent.get(0).Purchase(purchaser);
+		for(Ticket ticket: generatedTicketListForEvent) {
+			backEndTicketList.add(ticket);
+		}
 		double tResult = tEvent.getSales();
 		assertEquals(10, tResult, 2);
+		backEndUserList.clear();
+		backEndTicketList.clear();
+		backEndLocationList.clear();
 	}
 	
 	@Test
@@ -556,7 +498,8 @@ public class EventTest {
 		backEndReviewList = backEnd.getReviews();
 		backEndReviewList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new Event(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		ArrayList<Review> tResult = tEvent.getReviews();
 		assertEquals(0 ,tResult.size());
 	}
@@ -566,7 +509,8 @@ public class EventTest {
 		backEndReviewList = backEnd.getReviews();
 		backEndReviewList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new Event(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		
 		Member reviewer = new Member(reviewerLoginId, reviewerPassword,  reviewerName,  reviewerAge,  reviewerHKId);
 		Review review = new Review(reviewer, 20, comment1); 
@@ -580,7 +524,8 @@ public class EventTest {
 		backEndReviewList = backEnd.getReviews();
 		backEndReviewList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new Event(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		
 		Member reviewer = new Member(reviewerLoginId, reviewerPassword,  reviewerName,  reviewerAge,  reviewerHKId);
 		Review review1 = new Review(reviewer, 20, comment1); 
@@ -597,7 +542,8 @@ public class EventTest {
 		backEndReviewList = backEnd.getReviews();
 		backEndReviewList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new Event(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		
 		Member reviewer = new Member(reviewerLoginId, reviewerPassword,  reviewerName,  reviewerAge,  reviewerHKId);
 		Review review1 = new Review(reviewer, 20, comment1); 
@@ -615,7 +561,8 @@ public class EventTest {
 		backEndReviewList = backEnd.getReviews();
 		backEndReviewList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new Event(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		
 		Member reviewer = new Member(reviewerLoginId, reviewerPassword,  reviewerName,  reviewerAge,  reviewerHKId);
 		Review review1 = new Review(reviewer, 20, comment1); 
@@ -632,64 +579,37 @@ public class EventTest {
 	
 	@Test
 	public void testGetAverageRatingWithOneReviewInEvent() {
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override
-			public ArrayList<Review> getReviews() {
-				for(Review review: reviewListForEventStub) {
-					this.addReview(review);
-				}
-				
-				return reviewListForEventStub;
-				
-			}
-		}
+		
 		
 		backEndReviewList = backEnd.getReviews();
 		backEndReviewList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		Member reviewer = new Member(reviewerLoginId, reviewerPassword,  reviewerName,  reviewerAge,  reviewerHKId);
 		Review review1 = new Review(reviewer, 20, comment1);
-		reviewListForEventStub = new ArrayList<>();
-		reviewListForEventStub.add(review1);
+		backEndReviewList.add(review1);
+		tEvent.addReview(review1);
 		double tResult = tEvent.getAverageRating();
 		assertEquals(20 ,tResult, 2);
 	}
 	
 	@Test
 	public void testGetAverageRatingWithTwoReviewInEvent() {
-		class EventStub extends Event{
-			public EventStub(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-				super( name,  startTime,  endTime,  location,  isMature);
-			}
-			
-			
-			@Override
-			public ArrayList<Review> getReviews() {
-				for(Review review: reviewListForEventStub) {
-					this.addReview(review);
-				}
-				
-				return reviewListForEventStub;
-				
-			}
-		}
+		
 		
 		backEndReviewList = backEnd.getReviews();
 		backEndReviewList.clear();
 		location1 = new Location(locationName1, locationCapacity1);
-		tEvent = new EventStub(tEventName1, startTime, endTime, location1, true);
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime, vendor1, location1, true);
 		Member reviewer = new Member(reviewerLoginId, reviewerPassword,  reviewerName,  reviewerAge,  reviewerHKId);
 		Review review1 = new Review(reviewer, 20, comment1);
 		Review review2 = new Review(reviewer, 20, comment2);
-		reviewListForEventStub = new ArrayList<>();
-		reviewListForEventStub.add(review1);
-		reviewListForEventStub.add(review2);
+		backEndReviewList.add(review1);
+		backEndReviewList.add(review2);
+		tEvent.addReview(review1);
+		tEvent.addReview(review2);
 		double tResult = tEvent.getAverageRating();
 		assertEquals(20 ,tResult, 2);
 	}
