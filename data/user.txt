@@ -1,32 +1,68 @@
 [
   {
-    "type": "Member",
+    "type": "Guest",
     "properties": {
-      "name": "U1",
-      "balance": 176.5,
-      "id": "5e321c85-b4b4-4d56-abf1-f42ef4bb225e",
+      "id": "1f225b83-7d5c-47b7-89dc-7aefc6e4fce1",
       "loginId": "U1",
       "password": "U1",
       "age": 20,
       "hkID": "A123456(3)",
       "ticketIds": [
-      	"330af81f-f720-4218-902a-c9d80d64e5bc",
-        "04a91e18-5f6d-4fd4-83d5-a649d7cc6a73",
-        "15c6338a-9fe4-40be-8fb5-ca4079ec5dc0",
-        "25bd696e-0429-4257-9ca0-f503d82c7e06"
+        "13c13c22-f26a-4db7-8844-ca4bc00159ab",
+        "b792e99a-5a30-41ac-8982-9a7708b176d1"
       ],
       "creditCards": [
         {
           "cardNumber": "4000000000000000",
           "securityCode": 400,
-          "expiryDate": "Sep 1, 2021 12:00:00 AM"
+          "expiryDate": "Jan 1, 2021 12:00:00 AM"
         }
       ],
       "transactionIds": [
-        "a7397134-3d1b-4857-aabf-19128ffe9d41",
-        "4aa3853d-38b3-4d75-887c-3a60f44f6b82",
-        "abf5894a-c228-43e7-91ee-15e395021fc4",
-        "9a09262d-e606-4dda-8e0e-397ec6342553"
+        "17f1a76e-dbff-45eb-9818-8ce56c4201e9",
+        "9c8c15aa-6ae0-4b16-8e5c-d60e387c472d"
+      ]
+    }
+  },
+  {
+    "type": "Member",
+    "properties": {
+      "name": "U2",
+      "balance": 0.0,
+      "id": "f8e7b49d-90c4-4aba-b1dc-31d82dbae017",
+      "loginId": "U2",
+      "password": "U2",
+      "age": 20,
+      "hkID": "Y666283(6)",
+      "ticketIds": [
+        "f0ab976c-d0dc-4697-a667-b33062ef6744",
+        "9bae07bd-5ba8-4769-8aec-cc0e4bc8b289"
+      ],
+      "creditCards": [],
+      "transactionIds": [
+        "5ed5fe96-9c42-4574-a07a-a172e1b7e357",
+        "01f0674b-f13a-4a19-8c1f-d6c3828b5fdd"
+      ]
+    }
+  },
+  {
+    "type": "Member",
+    "properties": {
+      "name": "U3",
+      "balance": 0.0,
+      "id": "15d8e679-a2fe-494a-a292-e179d4e0bcf3",
+      "loginId": "U3",
+      "password": "U3",
+      "age": 20,
+      "hkID": "AB987654(2)",
+      "ticketIds": [
+        "c1ba44e7-6c27-45d0-84da-30a70b42bfd5",
+        "e08d7eac-3b57-4165-a780-4249b239a819"
+      ],
+      "creditCards": [],
+      "transactionIds": [
+        "b2118cfb-ca0e-4454-8a61-285ad2acc423",
+        "fbcb54ac-8dd2-4331-a4f1-a5567d305d54"
       ]
     }
   }

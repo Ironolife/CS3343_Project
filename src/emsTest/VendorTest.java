@@ -123,7 +123,7 @@ public class VendorTest {
 		newPassword = "newPassword";
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		BackEnd backEnd = BackEnd.getInstance();
 		ArrayList<Event> eventList = backEnd.getEvents();
 		eventList.clear();
@@ -140,7 +140,7 @@ public class VendorTest {
 		newPassword = "newPassword";
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		BackEnd backEnd = BackEnd.getInstance();
 		ArrayList<Event> eventList = backEnd.getEvents();
 		eventList.clear();
@@ -159,8 +159,8 @@ public class VendorTest {
 		newPassword = "newPassword";
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
-		Event event2 = new Event(eventName2, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
+		Event event2 = new Event(eventName2, startTime, endTime, tVendor, location, true);
 		BackEnd backEnd = BackEnd.getInstance();
 		ArrayList<Event> eventList = backEnd.getEvents();
 		eventList.clear();
@@ -179,8 +179,8 @@ public class VendorTest {
 		newPassword = "newPassword";
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
-		Event event2 = new Event(eventName2, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
+		Event event2 = new Event(eventName2, startTime, endTime, tVendor, location, true);
 		BackEnd backEnd = BackEnd.getInstance();
 		ArrayList<Event> eventList = backEnd.getEvents();
 		eventList.clear();
@@ -202,7 +202,7 @@ public class VendorTest {
 		newPassword = "newPassword";
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 
 		tVendor.addEvent(event1);
 
@@ -219,7 +219,7 @@ public class VendorTest {
 		newPassword = "newPassword";
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		Event tResult = tVendor.removeEvent(event1);
 		assertEquals(null, tResult);
 
@@ -233,7 +233,7 @@ public class VendorTest {
 		newPassword = "newPassword";
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		double tResult = tVendor.getAccumulatedSales();
 		assertEquals(0, tResult, 1);
 
@@ -247,7 +247,7 @@ public class VendorTest {
 		newPassword = "newPassword";
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		BackEnd backEnd = BackEnd.getInstance();
 		ArrayList<Event> eventList = backEnd.getEvents();
 		eventList.clear();
@@ -270,8 +270,8 @@ public class VendorTest {
 		BackEnd backEnd = BackEnd.getInstance();
 		ArrayList<Event> eventList = backEnd.getEvents();
 		eventList.clear();
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
-		Event event2 = new Event(eventName2, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
+		Event event2 = new Event(eventName2, startTime, endTime, tVendor, location, true);
 		tVendor.addEvent(event1);
 		tVendor.addEvent(event2);
 		eventList.add(event1);
@@ -308,7 +308,7 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		Ticket aTicket = new Ticket(event1, 12, 100);
 		Transaction aTransaction = new Transaction(aTicket, purchaser, tVendor);
 		tVendor.addTransaction(aTransaction);
@@ -330,8 +330,8 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
-		Event event2 = new Event(eventName2, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
+		Event event2 = new Event(eventName2, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Ticket ticketForEvent2 = new Ticket(event2, 20, 18);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);
@@ -356,8 +356,8 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
-		Event event2 = new Event(eventName2, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
+		Event event2 = new Event(eventName2, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Ticket ticketForEvent2 = new Ticket(event2, 20, 18);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);
@@ -387,8 +387,8 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
-		Event event2 = new Event(eventName2, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
+		Event event2 = new Event(eventName2, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Ticket ticketForEvent2 = new Ticket(event2, 20, 18);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);
@@ -418,7 +418,7 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);
 		Transaction tResult = tVendor.removeTransaction(transactionForTicket1);
@@ -439,7 +439,7 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);
 		tVendor.addTransaction(transactionForTicket1);
@@ -461,7 +461,7 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);
 		double tResult = tVendor.getAccumulatedSales();
@@ -482,7 +482,7 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);
 		BackEnd backEnd = BackEnd.getInstance();
@@ -509,8 +509,8 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
-		Event event2 = new Event(eventName2, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
+		Event event2 = new Event(eventName2, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Ticket ticketForEvent2 = new Ticket(event2, 20, 18);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);
@@ -541,7 +541,7 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		double tResult = tVendor.getAccumulatedProfit();
 		assertEquals(0, tResult, 1);
@@ -561,7 +561,7 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);
 		BackEnd backEnd = BackEnd.getInstance();
@@ -589,8 +589,8 @@ public class VendorTest {
 		Member purchaser = new Member(userLoginId, userPassword, userName, userAge, useHKId);
 		Vendor tVendor = new Vendor(vendorLoginId, vendorPassword, vendorName);
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
-		Event event2 = new Event(eventName2, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, tVendor, location, true);
+		Event event2 = new Event(eventName2, startTime, endTime, tVendor, location, true);
 		Ticket ticketForEvent1 = new Ticket(event1, 12, 100);
 		Ticket ticketForEvent2 = new Ticket(event2, 20, 18);
 		Transaction transactionForTicket1 = new Transaction(ticketForEvent1, purchaser, tVendor);

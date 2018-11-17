@@ -1,10 +1,18 @@
 [
   {
-    "id": "b595c44b-b723-4e4e-b836-6cbd94a92d9e",
+    "id": "1a5fb228-9041-4619-ba16-bea17d87efc9",
     "code": "C1",
-    "eventId": "81fb0631-1c60-4a54-b073-9e44aef42c96",
-    "discountType": 0,
-    "discount": 5.0,
-    "expiryDate": "Nov 20, 2018 12:00:00 PM"
+    "eventId": "c147655a-b8af-4e8a-bc8e-d20b67af8b0e",
+    "discountType": 1,
+    "discount": 0.1,
+    "expiryDate": "Nov 21, 2018 12:00:00 PM"
+  },
+  {
+    "id": "d2930809-8799-4552-90a7-f28e2be70081",
+    "code": "C2",
+    "eventId": "b2ca5454-ead4-483c-93d1-f15d7c33ebca",
+    "discountType": 2,
+    "discount": 0.0,
+    "expiryDate": "Nov 20, 2018 8:00:00 PM"
   }
 ]

@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "id": "f31fc783-2c4f-47fd-87f2-e8658cf54cf2",
+    "memberId": "15d8e679-a2fe-494a-a292-e179d4e0bcf3",
+    "rating": 3.0,
+    "comment": "Good Movie",
+    "date": "Nov 11, 2018 5:03:42 PM"
+  }
+]

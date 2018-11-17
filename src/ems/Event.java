@@ -16,17 +16,7 @@ public class Event {
 	private ArrayList<UUID> ticketIds;
 	private boolean isMature;
 	private ArrayList<UUID> reviewIds;
-	
-	public Event(String name, Date startTime, Date endTime, Location location, boolean isMature) {
-		this.id = UUID.randomUUID();
-		this.name = name;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.locationId = location.getId();
-		this.ticketIds = new ArrayList<UUID>();
-		this.isMature = isMature;
-		this.reviewIds = new ArrayList<UUID>();
-	}
+	private ArrayList<String> tags;
 	
 	public Event(String name, Date startTime, Date endTime, Vendor vendor, Location location, boolean isMature) {
 		this.id = UUID.randomUUID();
@@ -185,6 +175,14 @@ public class Event {
 			ratingSum += r.getRating();
 		}
 		return ratingSum / this.reviewIds.size();
+	}
+	
+	public void setTags(ArrayList<String> tags) {
+		this.tags = tags;
+	}
+	
+	public ArrayList<String> getTags() {
+		return this.tags;
 	}
 
 }

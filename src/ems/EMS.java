@@ -20,6 +20,8 @@ public class EMS {
 	}
 
 	public void accountManagement() {
+		
+		BackEnd backEnd = BackEnd.getInstance();
 
 		System.out.println("Choose operations: ");
 		System.out.println("1: Login");
@@ -27,13 +29,18 @@ public class EMS {
 		String operation = this.readInput();
 
 		if (operation.equals("1")) {
+			
 			EMS.PrintHeader("- Login -");
+			
+			//Read loginId
 			System.out.println("LoginId: ");
 			String loginId = this.readInput();
+			
+			//Read password
 			System.out.println("Password: ");
 			String password = this.readInput();
 
-			BackEnd backEnd = BackEnd.getInstance();
+			//Validate login and initialize frontEnd
 			boolean isValid = false;
 			for (Vendor vendor : backEnd.getVendors()) {
 				if (vendor.getLoginId().equals(loginId)) {
@@ -68,116 +75,123 @@ public class EMS {
 				this.accountManagement();
 			}
 		} else if (operation.equals("2")) {
+			
 			EMS.PrintHeader("- Register -");
-			System.out.println("Account Type: ");
-			System.out.println("1: User");
-			System.out.println("2: Vendor");
-			String accountType = this.readInput();
-			while (!accountType.equals("1") && !accountType.equals("2")) {
-				EMS.PrintHeader("Invalid Account Type!");
+			
+			//Read account type
+			String accountType = null;
+			while (accountType == null) {
 				System.out.println("Account Type: ");
 				System.out.println("1: User");
 				System.out.println("2: Vendor");
 				accountType = this.readInput();
+				if(!accountType.equals("1") && !accountType.equals("2")) {
+					EMS.PrintHeader("Invalid Account Type!");
+					accountType = null;
+				}
 			}
 
-			System.out.println("LoginId: ");
-			String loginId = this.readInput();
-
-			BackEnd backEnd = BackEnd.getInstance();
-			ArrayList<String> loginIds = new ArrayList<String>();
-			for (Vendor vendor : backEnd.getVendors()) {
-				loginIds.add(vendor.getLoginId());
-			}
-			for (User user : backEnd.getUsers()) {
-				loginIds.add(user.getLoginId());
-			}
-
-			boolean isDuplicateLoginId = loginIds.contains(loginId);
-			while (isDuplicateLoginId == true) {
-				EMS.PrintHeader("Duplicate LoginId! Please try another one.");
+			//Read loginId and check for duplicate
+			String loginId = null;
+			while (loginId == null) {
 				System.out.println("LoginId: ");
 				loginId = this.readInput();
-				isDuplicateLoginId = loginIds.contains(loginId);
+				if(backEnd.isDuplicateLoginId(loginId)) {
+					EMS.PrintHeader("Duplicate LoginId! Please try another one.");
+					loginId = null;
+				}
 			}
-
+			
+			//Read password
 			System.out.println("Password: ");
 			String password = this.readInput();
 
 			if (accountType.equals("1")) {
-				System.out.println("HKID: ");
-				String hkID = this.readInput();
-
-				ArrayList<String> hkIDs = new ArrayList<String>();
-				for (User user : backEnd.getUsers()) {
-					hkIDs.add(user.getHKID());
-				}
-
-				boolean isDuplicateHKID = hkIDs.contains(hkID);
-				while (User.validateHKID(hkID) == false || isDuplicateHKID == true) {
-					if (isDuplicateHKID == true) {
-						EMS.PrintHeader("HKID already registered!");
-					} else {
-						EMS.PrintHeader("Invalid HKID!");
-					}
+				
+				//Read HKID and validate
+				String hkID = null;
+				while (hkID == null) {
 					System.out.println("HKID: ");
 					hkID = this.readInput();
-					isDuplicateHKID = hkIDs.contains(hkID);
+					if (backEnd.isDuplicateHKID(hkID) == true) {
+						EMS.PrintHeader("HKID already registered!");
+						hkID = null;
+					} else if(User.validateHKID(hkID) == false){
+						EMS.PrintHeader("Invalid HKID!");
+						hkID = null;
+					}
 				}
 
+				//Read age and validate
 				int age = -1;
 				while (age == -1) {
 					try {
 						System.out.println("Age: ");
 						age = Integer.parseInt(this.readInput());
 						while (age < 0 || age > 122) {
-							EMS.PrintHeader("Invalid Age!");
-							System.out.println("Age: ");
-							age = Integer.parseInt(this.readInput());
+							EMS.PrintHeader("Invalid Input!");
+							age = -1;
 						}
 					} catch (NumberFormatException e) {
-						EMS.PrintHeader("Invalid Age!");
+						EMS.PrintHeader("Invalid Input!");
 						age = -1;
 					}
 				}
 
-				System.out.println("Please select an account type: ");
-				System.out.println("1: Guest");
-				System.out.println("2: Member");
-				String userAccountType = this.readInput();
-
-				while (!userAccountType.equals("1") && !userAccountType.equals("2")) {
-					EMS.PrintHeader("Invalid Input");
+				//Read User account type
+				String userAccountType = null;
+				while (userAccountType == null) {
 					System.out.println("Please select an account type: ");
 					System.out.println("1: Guest");
 					System.out.println("2: Member");
 					userAccountType = this.readInput();
+					if(!userAccountType.equals("1") && !userAccountType.equals("2")) {
+						EMS.PrintHeader("Invalid Input");
+						userAccountType = null;
+					}
 				}
 
 				if (userAccountType.equals("1")) {
+					
+					//Create guest
 					Guest guest = new Guest(loginId, password, age, hkID);
 					backEnd.addUser(guest);
+					
 					EMS.PrintHeader("Guest Created!");
 					this.accountManagement();
+					
 				} else if (userAccountType.equals("2")) {
+					
+					//Read name
 					System.out.println("Name: ");
 					String name = this.readInput();
+					
+					//Create Member
 					Member member = new Member(loginId, password, name, age, hkID);
 					backEnd.addUser(member);
+					
 					EMS.PrintHeader("Member Created!");
 					this.accountManagement();
+					
 				}
 			} else if (accountType.equals("2")) {
+				
+				//Read vendor name
 				System.out.println("Vendor Name: ");
 				String name = this.readInput();
+				
+				//Create vendor
 				Vendor vendor = new Vendor(loginId, password, name);
 				backEnd.createNewVendor(vendor);
+				
 				EMS.PrintHeader("Vendor Created!");
 				this.accountManagement();
 			}
 		} else {
+			
 			EMS.PrintHeader("Invalid Input!");
 			this.accountManagement();
+			
 		}
 
 	}

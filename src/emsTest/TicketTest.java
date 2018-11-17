@@ -14,6 +14,7 @@ import ems.Location;
 import ems.Member;
 import ems.Ticket;
 import ems.User;
+import ems.Vendor;
 
 public class TicketTest {
 	Date startTime;
@@ -34,7 +35,7 @@ public class TicketTest {
 	String userPassword2;
 	int userAge2;
 	String useHKId2;
-	
+	Vendor testingVendor;
 	
 	@Before
 	public void setUp() {
@@ -44,7 +45,7 @@ public class TicketTest {
 		endTime = new Date(2018, 9, 18,10, 30);
 		locationName = "locationName";
 		locationCapacity = 100;
-	
+		testingVendor = new Vendor("V1", "V1", "V1");
 	}
 	
 //	@Test
@@ -56,7 +57,7 @@ public class TicketTest {
 	@Test
 	public void testGetEvent1() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 100, 20);
 		BackEnd backEnd = BackEnd.getInstance();
 		ArrayList<Event> eventList = backEnd.getEvents();
@@ -69,7 +70,7 @@ public class TicketTest {
 	@Test
 	public void testGetEvent2() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 100, 20);
 		BackEnd backEnd = BackEnd.getInstance();
 		ArrayList<Event> eventList = backEnd.getEvents();
@@ -84,8 +85,8 @@ public class TicketTest {
 	@Test
 	public void testGetEvent3() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
-		Event event2 = new Event(eventName2, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
+		Event event2 = new Event(eventName2, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event2, 100, 20);
 		BackEnd backEnd = BackEnd.getInstance();
 		ArrayList<Event> eventList = backEnd.getEvents();
@@ -101,7 +102,7 @@ public class TicketTest {
 	@Test
 	public void testGetSeat() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 100, 20);
 		assertEquals(20, tTicket.getSeat());
 	}
@@ -109,7 +110,7 @@ public class TicketTest {
 	@Test
 	public void testGetPrice() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		assertEquals(12.5, tTicket.getPrice(), 1);
 	}
@@ -117,7 +118,7 @@ public class TicketTest {
 	@Test
 	public void testSetEntryTime1() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		boolean tResult = tTicket.setEntryTime();
 		assertEquals(true, tResult);
@@ -127,7 +128,7 @@ public class TicketTest {
 	@Test
 	public void testSetEntryTime2() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		tTicket.setEntryTime();
 		boolean tResult = tTicket.setEntryTime();
@@ -138,7 +139,7 @@ public class TicketTest {
 	@Test
 	public void testSetExitTime1() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		boolean tResult = tTicket.setExitTime();
 		assertEquals(true, tResult);
@@ -148,7 +149,7 @@ public class TicketTest {
 	@Test
 	public void testSetExitTime2() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		tTicket.setExitTime();
 		boolean tResult = tTicket.setExitTime();
@@ -159,7 +160,7 @@ public class TicketTest {
 	@Test
 	public void testPurchase1() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		userLoginId = "human";
 		userName = "human";
@@ -176,7 +177,7 @@ public class TicketTest {
 	@Test
 	public void testPurchase2() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		userLoginId = "human";
 		userName = "human";
@@ -194,7 +195,7 @@ public class TicketTest {
 	@Test
 	public void testGetPurchaser1() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		userLoginId = "human";
 		userName = "human";
@@ -215,7 +216,7 @@ public class TicketTest {
 	@Test
 	public void testGetPurchaser2() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		userLoginId = "human";
 		userName = "human";
@@ -237,7 +238,7 @@ public class TicketTest {
 	@Test
 	public void testGetPurchaser3() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		userLoginId = "human";
 		userName = "human";
@@ -267,7 +268,7 @@ public class TicketTest {
 	@Test
 	public void testGetPurchaseTime() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		userLoginId = "human";
 		userName = "human";
@@ -289,7 +290,7 @@ public class TicketTest {
 	@Test
 	public void testGetStatus1() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		int tResult = tTicket.getStatus();
 		assertEquals(0,tResult);
@@ -300,7 +301,7 @@ public class TicketTest {
 	@Test
 	public void testGetStatus2() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		userLoginId = "human";
 		userName = "human";
@@ -317,7 +318,7 @@ public class TicketTest {
 	@Test
 	public void testGetStatus3() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		userLoginId = "human";
 		userName = "human";
@@ -335,7 +336,7 @@ public class TicketTest {
 	@Test
 	public void testGetStatus4() {
 		Location location = new Location(locationName, locationCapacity);
-		Event event1 = new Event(eventName1, startTime, endTime, location, true);
+		Event event1 = new Event(eventName1, startTime, endTime, testingVendor, location, true);
 		Ticket tTicket = new Ticket(event1, 12.5, 20);
 		userLoginId = "human";
 		userName = "human";

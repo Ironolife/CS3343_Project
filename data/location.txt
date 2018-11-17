@@ -1,10 +1,11 @@
 [
   {
-    "id": "7deb7b10-85a4-40cf-bd5e-191133a9f206",
+    "id": "398db02a-7c0a-4a82-867a-f78772f37f8a",
     "name": "L1",
-    "capacity": 30,
+    "capacity": 100,
     "eventIds": [
-      "81fb0631-1c60-4a54-b073-9e44aef42c96"
+      "c147655a-b8af-4e8a-bc8e-d20b67af8b0e",
+      "b2ca5454-ead4-483c-93d1-f15d7c33ebca"
     ]
   }
 ]
