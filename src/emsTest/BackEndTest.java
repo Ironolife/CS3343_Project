@@ -2,28 +2,117 @@ package emsTest;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import ems.BackEnd;
+import ems.Event;
+import ems.Location;
+import ems.LogsRecorder;
+import ems.Member;
+import ems.Review;
+import ems.Ticket;
+import ems.User;
+import ems.Vendor;
+
 public class BackEndTest {
+	
+	BackEnd backEnd = BackEnd.getInstance();
+	
+	User user1;
+	String userLoginId1;
+	String userPassword1;
+	int userAge1;
+	String userHkid1;
+	ArrayList<User> userList;
+
+	String vendorLoginId1;
+	String vendorName1;
+	String vendorPassword1;
+	Vendor vendor1;
+	ArrayList<Vendor> vendorList;
+	
+	String locationName1;
+	int locationCapacity1;
+	Location location1;
+	ArrayList<Location> locationList;
+	
+	String eventName1;
+	Date eventStartTime1;
+	Date eventEndTime1;
+	Vendor eventVendor1;
+	Location eventLocation1;
+	boolean eventIsMature1;
+	Event event1;
+	ArrayList<Event> eventList;
+
+	
+	/*
+		ArrayList<Event> backEndEventList;
+	ArrayList<Event> tempBackEndEventList;
+	
+	
+	ArrayList<Location> tempBackEndLocationList;
+	
+	ArrayList<Ticket> backEndTicketList;
+	
+	ArrayList<Review>  backEndReviewList;
+	Date startTime;
+	Date endTime;
+	String tEventName1;
+	String eventName2;
+	Event tEvent;
+
+	String vendorLoginId2;
+	String vendorName2;
+	String vendorPassword2;
+	Vendor vendor2;
+	ArrayList<Ticket> generatedTicketListForEvent;
+	String userLoginId;
+	String userName;
+	String userPassword;
+	int userAge;
+	String userHKId;
+	String reviewerLoginId;
+	String reviewerName;
+	String reviewerPassword;
+	int reviewerAge;
+	String reviewerHKId;
+	String comment1;
+	String comment2;
+	ArrayList<Review> reviewListForEvent;(*/
+	
+	
 
 	@Before
 	public void setUp() throws Exception {
-	}
-
-	@Test
-	public void testGetInstance() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSerialize() {
-		fail("Not yet implemented");
+		vendorLoginId1 = "vendor1";
+		vendorName1 = "Vendor 1";
+		vendorPassword1 = "123456";
+		
+		locationName1 = "Location 1";
+		locationCapacity1 = 200;
+		
+		eventName1 = "Event 1";
+		eventStartTime1 = new Date();
+		eventEndTime1 =  new Date();
+		eventVendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		eventLocation1 = new Location(locationName1, locationCapacity1);
+		eventIsMature1 = true;
+		
+		
 	}
 
 	@Test
 	public void testCreateNewVendor() {
-		fail("Not yet implemented");
+		vendorList = backEnd.getVendors();
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		boolean result = vendorList.add(vendor1);
+		assertEquals(true, result);
+		vendorList.clear();
 	}
 
 	@Test
@@ -33,12 +122,16 @@ public class BackEndTest {
 
 	@Test
 	public void testRemoveVendor() {
-		fail("Not yet implemented");
+		vendorList = backEnd.getVendors();
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		boolean result = vendorList.remove(vendor1);
+		assertEquals(vendor1, result);
+		vendorList.clear();
 	}
 
 	@Test
 	public void testAddUser() {
-		fail("Not yet implemented");
+
 	}
 
 	@Test
@@ -53,7 +146,11 @@ public class BackEndTest {
 
 	@Test
 	public void testCreateNewLocation() {
-		fail("Not yet implemented");
+		locationList = backEnd.getLocations();
+		location1 = new Location(locationName1, locationCapacity1);
+		boolean result = locationList.add(location1);
+		assertEquals(true, result);
+		locationList.clear();
 	}
 
 	@Test
@@ -73,7 +170,11 @@ public class BackEndTest {
 
 	@Test
 	public void testCreateNewEvent() {
-		fail("Not yet implemented");
+		eventList = backEnd.getEvents();
+		event1 = new Event(eventName1, eventStartTime1, eventEndTime1, eventVendor1, eventLocation1, eventIsMature1);
+		boolean result = eventList.add(event1);
+		assertEquals(true, result);
+		eventList.clear();
 	}
 
 	@Test
