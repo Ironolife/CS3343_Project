@@ -20,6 +20,8 @@ import ems.Vendor;
 
 public class BackEndTest {
 	
+	BackEnd backEnd = BackEnd.getInstance();
+	
 	User user1;
 	String userLoginId1;
 	String userPassword1;
@@ -35,17 +37,23 @@ public class BackEndTest {
 	
 	String locationName1;
 	int locationCapacity1;
-	String locationName2;
-	int locationCapacity2;
 	Location location1;
-	Location location2;
 	ArrayList<Location> locationList;
+	
+	String eventName1;
+	Date eventStartTime1;
+	Date eventEndTime1;
+	Vendor eventVendor1;
+	Location eventLocation1;
+	boolean eventIsMature1;
+	Event event1;
+	ArrayList<Event> eventList;
 
 	
-	
+	/*
 		ArrayList<Event> backEndEventList;
 	ArrayList<Event> tempBackEndEventList;
-	BackEnd backEnd = BackEnd.getInstance();
+	
 	
 	ArrayList<Location> tempBackEndLocationList;
 	
@@ -75,7 +83,7 @@ public class BackEndTest {
 	String reviewerHKId;
 	String comment1;
 	String comment2;
-	ArrayList<Review> reviewListForEvent;
+	ArrayList<Review> reviewListForEvent;(*/
 	
 	
 
@@ -84,6 +92,18 @@ public class BackEndTest {
 		vendorLoginId1 = "vendor1";
 		vendorName1 = "Vendor 1";
 		vendorPassword1 = "123456";
+		
+		locationName1 = "Location 1";
+		locationCapacity1 = 200;
+		
+		eventName1 = "Event 1";
+		eventStartTime1 = new Date();
+		eventEndTime1 =  new Date();
+		eventVendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		eventLocation1 = new Location(locationName1, locationCapacity1);
+		eventIsMature1 = true;
+		
+		
 	}
 
 	@Test
@@ -105,7 +125,7 @@ public class BackEndTest {
 		vendorList = backEnd.getVendors();
 		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
 		boolean result = vendorList.remove(vendor1);
-		assertEquals(true, result);
+		assertEquals(vendor1, result);
 		vendorList.clear();
 	}
 
@@ -150,7 +170,11 @@ public class BackEndTest {
 
 	@Test
 	public void testCreateNewEvent() {
-		fail("Not yet implemented");
+		eventList = backEnd.getEvents();
+		event1 = new Event(eventName1, eventStartTime1, eventEndTime1, eventVendor1, eventLocation1, eventIsMature1);
+		boolean result = eventList.add(event1);
+		assertEquals(true, result);
+		eventList.clear();
 	}
 
 	@Test
