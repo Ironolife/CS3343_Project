@@ -9,12 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ems.BackEnd;
+import ems.Coupon;
 import ems.Event;
 import ems.Location;
 import ems.LogsRecorder;
 import ems.Member;
 import ems.Review;
 import ems.Ticket;
+import ems.Transaction;
 import ems.User;
 import ems.Vendor;
 
@@ -22,73 +24,71 @@ public class BackEndTest {
 	
 	BackEnd backEnd = BackEnd.getInstance();
 	
+	ArrayList<User> userList;
 	User user1;
 	String userLoginId1;
 	String userPassword1;
+	String userName1;
 	int userAge1;
 	String userHkid1;
-	ArrayList<User> userList;
-
+	
+	ArrayList<Vendor> vendorList;
+	Vendor vendor1;
 	String vendorLoginId1;
 	String vendorName1;
 	String vendorPassword1;
-	Vendor vendor1;
-	ArrayList<Vendor> vendorList;
 	
+	ArrayList<Location> locationList;
+	Location location1;
 	String locationName1;
 	int locationCapacity1;
-	Location location1;
-	ArrayList<Location> locationList;
 	
+	ArrayList<Event> eventList;
+	Event event1;
 	String eventName1;
 	Date eventStartTime1;
 	Date eventEndTime1;
 	Vendor eventVendor1;
 	Location eventLocation1;
 	boolean eventIsMature1;
-	Event event1;
-	ArrayList<Event> eventList;
-
 	
-	/*
-		ArrayList<Event> backEndEventList;
-	ArrayList<Event> tempBackEndEventList;
+	ArrayList<Ticket> ticketList;
+	Ticket ticket1;
+	Event ticketEvent1; 
+	double ticketPrice1;
+	int ticketSeat1;
 	
+	ArrayList<Coupon> couponList;
+	Coupon coupon1;
+	String couponCode1;
+	Event couponEvent1; 
+	int couponDiscountType1;
+	double couponDiscount1;
+	Date couponExpiryDate1;
 	
-	ArrayList<Location> tempBackEndLocationList;
+	ArrayList<Review> reviewList;
+	Review review1;
+	Member reviewMember1;
+	double reviewRating1;
+	String reviewComment1;
 	
-	ArrayList<Ticket> backEndTicketList;
-	
-	ArrayList<Review>  backEndReviewList;
-	Date startTime;
-	Date endTime;
-	String tEventName1;
-	String eventName2;
-	Event tEvent;
-
-	String vendorLoginId2;
-	String vendorName2;
-	String vendorPassword2;
-	Vendor vendor2;
-	ArrayList<Ticket> generatedTicketListForEvent;
-	String userLoginId;
-	String userName;
-	String userPassword;
-	int userAge;
-	String userHKId;
-	String reviewerLoginId;
-	String reviewerName;
-	String reviewerPassword;
-	int reviewerAge;
-	String reviewerHKId;
-	String comment1;
-	String comment2;
-	ArrayList<Review> reviewListForEvent;(*/
+	ArrayList<Transaction> transactionList;
+	Transaction transaction1;
+	Ticket transactionTicket1;
+	User transactionPurchaser1;
+	Vendor transactionVendor1;
 	
 	
 
 	@Before
 	public void setUp() throws Exception {
+		
+		userLoginId1 = "member1";
+		userPassword1 = "123456";
+		userName1 = "Member 1";
+		userAge1 = 20;
+		userHkid1 = "V102142(7)";
+		
 		vendorLoginId1 = "vendor1";
 		vendorName1 = "Vendor 1";
 		vendorPassword1 = "123456";
@@ -103,7 +103,23 @@ public class BackEndTest {
 		eventLocation1 = new Location(locationName1, locationCapacity1);
 		eventIsMature1 = true;
 		
+		ticketEvent1 = new Event(eventName1, eventStartTime1, eventEndTime1, eventVendor1, eventLocation1, eventIsMature1); 
+		ticketPrice1 = 400;
+		ticketSeat1 = 2;
 		
+		couponCode1 = "C001";
+		couponEvent1 = new Event(eventName1, eventStartTime1, eventEndTime1, eventVendor1, eventLocation1, eventIsMature1); 
+		couponDiscountType1 = 0;
+		couponDiscount1 = 20;
+		couponExpiryDate1 = new Date();
+		
+		reviewMember1 = new Member(userLoginId1, userPassword1, userName1, userAge1, userHkid1);
+		reviewRating1 = 2 ;
+		reviewComment1 = "Good";
+		
+		transactionTicket1 = new Ticket(ticketEvent1, ticketPrice1, ticketSeat1);
+		transactionPurchaser1 = new Member(userLoginId1, userPassword1, userName1, userAge1, userHkid1);
+		transactionVendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);	
 	}
 
 	@Test
@@ -131,7 +147,11 @@ public class BackEndTest {
 
 	@Test
 	public void testAddUser() {
-
+		userList = backEnd.getUsers();
+		user1 = new Member(userLoginId1, userPassword1, userName1, userAge1, userHkid1);
+		boolean result = vendorList.add(vendor1);
+		assertEquals(true, result);
+		vendorList.clear();
 	}
 
 	@Test
@@ -189,7 +209,11 @@ public class BackEndTest {
 
 	@Test
 	public void testCreateNewTickets() {
-		fail("Not yet implemented");
+		ticketList = backEnd.getTickets();
+		ticket1 = new Ticket(ticketEvent1, ticketPrice1, ticketSeat1);
+		boolean result = ticketList.add(ticket1);
+		assertEquals(true, result);
+		ticketList.clear();
 	}
 
 	@Test
@@ -204,7 +228,11 @@ public class BackEndTest {
 
 	@Test
 	public void testCreateNewCoupon() {
-		fail("Not yet implemented");
+		couponList = backEnd.getCoupons();
+		coupon1 = new Coupon(couponCode1, couponEvent1, couponDiscountType1, couponDiscount1, couponExpiryDate1);
+		boolean result = couponList.add(coupon1);
+		assertEquals(true, result);
+		couponList.clear();
 	}
 
 	@Test
@@ -224,7 +252,11 @@ public class BackEndTest {
 
 	@Test
 	public void testCreateNewReview() {
-		fail("Not yet implemented");
+		reviewList = backEnd.getReviews();
+		review1 = new Review(reviewMember1, reviewRating1, reviewComment1);
+		boolean result = reviewList.add(review1);
+		assertEquals(true, result);
+		reviewList.clear();
 	}
 
 	@Test
@@ -239,7 +271,11 @@ public class BackEndTest {
 
 	@Test
 	public void testCreateNewTransaction() {
-		fail("Not yet implemented");
+		transactionList = backEnd.getTransactions();
+		transaction1 = new Transaction(transactionTicket1, transactionPurchaser1, transactionVendor1);
+		boolean result = transactionList.add(transaction1);
+		assertEquals(true, result);
+		transactionList.clear();
 	}
 
 	@Test
