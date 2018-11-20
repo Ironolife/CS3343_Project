@@ -26,6 +26,7 @@ public class TransactionTest {
 	ArrayList<Ticket> backEndTicketList;
 	ArrayList<User> backEndUserList;
 	ArrayList<Vendor> backEndVendorList;
+	ArrayList<Transaction> backEndTransactionList;
 	Date startTime;
 	Date endTime;
 	String eventName;
@@ -35,8 +36,7 @@ public class TransactionTest {
 	Event event;
 	Ticket ticket1;
 	Ticket ticket2;
-	
-	
+
 	@Test
 	public void testGetTicketWithNoTicketInBackEnd() {
 		this.backEndTicketList = backEnd.getTickets();
@@ -47,7 +47,7 @@ public class TransactionTest {
 		locationCapacity = 100;
 		location = new Location(locationName, locationCapacity);
 		startTime = new Date(2018, 9, 18, 9, 30);
-		endTime = new Date(2018, 9, 18,10, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
 		eventName = "eventName";
 		event = new Event(eventName, startTime, endTime, vendor1, location, true);
 		ticket1 = new Ticket(event, 100, 20);
@@ -55,7 +55,7 @@ public class TransactionTest {
 		Ticket tResult = tTransaction.getTicket();
 		assertEquals(null, tResult);
 	}
-	
+
 	@Test
 	public void testGetTicketWithOneSameTicketInBackEnd() {
 		this.backEndTicketList = backEnd.getTickets();
@@ -66,7 +66,7 @@ public class TransactionTest {
 		locationCapacity = 100;
 		location = new Location(locationName, locationCapacity);
 		startTime = new Date(2018, 9, 18, 9, 30);
-		endTime = new Date(2018, 9, 18,10, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
 		eventName = "eventName";
 		event = new Event(eventName, startTime, endTime, vendor1, location, true);
 		ticket1 = new Ticket(event, 100, 20);
@@ -76,7 +76,7 @@ public class TransactionTest {
 		assertEquals(ticket1, tResult);
 		this.backEndTicketList.clear();
 	}
-	
+
 	@Test
 	public void testGetTicketWithTwoTicketInBackEndAndOnlyOneTicketIsTheRequiredOne() {
 		this.backEndTicketList = backEnd.getTickets();
@@ -87,7 +87,7 @@ public class TransactionTest {
 		locationCapacity = 100;
 		location = new Location(locationName, locationCapacity);
 		startTime = new Date(2018, 9, 18, 9, 30);
-		endTime = new Date(2018, 9, 18,10, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
 		eventName = "eventName";
 		event = new Event(eventName, startTime, endTime, vendor1, location, true);
 		ticket1 = new Ticket(event, 100, 20);
@@ -99,8 +99,7 @@ public class TransactionTest {
 		assertEquals(ticket2, tResult);
 		this.backEndTicketList.clear();
 	}
-	
-	
+
 	@Test
 	public void testGetPurchaserWithNoUserInBackEnd() {
 		this.backEndUserList = backEnd.getUsers();
@@ -111,7 +110,7 @@ public class TransactionTest {
 		locationCapacity = 100;
 		location = new Location(locationName, locationCapacity);
 		startTime = new Date(2018, 9, 18, 9, 30);
-		endTime = new Date(2018, 9, 18,10, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
 		eventName = "eventName";
 		event = new Event(eventName, startTime, endTime, vendor1, location, true);
 		ticket1 = new Ticket(event, 100, 20);
@@ -119,7 +118,7 @@ public class TransactionTest {
 		User tResult = tTransaction.getPurchaser();
 		assertEquals(null, tResult);
 	}
-	
+
 	@Test
 	public void testGetPurchaserWithTheSameUserInBackEnd() {
 		this.backEndUserList = backEnd.getUsers();
@@ -131,7 +130,7 @@ public class TransactionTest {
 		locationCapacity = 100;
 		location = new Location(locationName, locationCapacity);
 		startTime = new Date(2018, 9, 18, 9, 30);
-		endTime = new Date(2018, 9, 18,10, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
 		eventName = "eventName";
 		event = new Event(eventName, startTime, endTime, vendor1, location, true);
 		ticket1 = new Ticket(event, 100, 20);
@@ -140,7 +139,7 @@ public class TransactionTest {
 		assertEquals(purchaser1, tResult);
 		this.backEndUserList.clear();
 	}
-	
+
 	@Test
 	public void testGetPurchaserWithTwoUserInBackEndAndOnlyOneUserIsRequired() {
 		this.backEndUserList = backEnd.getUsers();
@@ -154,7 +153,7 @@ public class TransactionTest {
 		locationCapacity = 100;
 		location = new Location(locationName, locationCapacity);
 		startTime = new Date(2018, 9, 18, 9, 30);
-		endTime = new Date(2018, 9, 18,10, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
 		eventName = "eventName";
 		event = new Event(eventName, startTime, endTime, vendor1, location, true);
 		ticket1 = new Ticket(event, 100, 20);
@@ -163,8 +162,7 @@ public class TransactionTest {
 		assertEquals(purchaser2, tResult);
 		this.backEndUserList.clear();
 	}
-	
-	
+
 	@Test
 	public void testGetVendorWithNoUserInBackEnd() {
 		this.backEndVendorList = backEnd.getVendors();
@@ -175,7 +173,7 @@ public class TransactionTest {
 		locationCapacity = 100;
 		location = new Location(locationName, locationCapacity);
 		startTime = new Date(2018, 9, 18, 9, 30);
-		endTime = new Date(2018, 9, 18,10, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
 		eventName = "eventName";
 		event = new Event(eventName, startTime, endTime, vendor1, location, true);
 		ticket1 = new Ticket(event, 100, 20);
@@ -183,7 +181,7 @@ public class TransactionTest {
 		Vendor tResult = tTransaction.getVendor();
 		assertEquals(null, tResult);
 	}
-	
+
 	@Test
 	public void testGetVendorWithTheSameVendorInBackEnd() {
 		this.backEndVendorList = backEnd.getVendors();
@@ -195,7 +193,7 @@ public class TransactionTest {
 		locationCapacity = 100;
 		location = new Location(locationName, locationCapacity);
 		startTime = new Date(2018, 9, 18, 9, 30);
-		endTime = new Date(2018, 9, 18,10, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
 		eventName = "eventName";
 		event = new Event(eventName, startTime, endTime, vendor1, location, true);
 		ticket1 = new Ticket(event, 100, 20);
@@ -204,7 +202,7 @@ public class TransactionTest {
 		assertEquals(vendor1, tResult);
 		this.backEndVendorList.clear();
 	}
-	
+
 	@Test
 	public void testGetVendorWithTwoVendorsInBackEndAndOnlyOneVendorIsTheRequiredOne() {
 		this.backEndVendorList = backEnd.getVendors();
@@ -219,7 +217,7 @@ public class TransactionTest {
 		locationCapacity = 100;
 		location = new Location(locationName, locationCapacity);
 		startTime = new Date(2018, 9, 18, 9, 30);
-		endTime = new Date(2018, 9, 18,10, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
 		eventName = "eventName";
 		event = new Event(eventName, startTime, endTime, vendor1, location, true);
 		ticket1 = new Ticket(event, 100, 20);
@@ -228,7 +226,43 @@ public class TransactionTest {
 		assertEquals(vendor2, tResult);
 		this.backEndVendorList.clear();
 	}
-	
-	
+
+	@Test
+	public void testCompleteTransaction() {
+		this.backEndTicketList = backEnd.getTickets();
+		this.backEndTicketList.clear();
+		this.backEndUserList = backEnd.getUsers();
+		this.backEndUserList.clear();
+		this.backEndVendorList = backEnd.getVendors();
+		this.backEndVendorList.clear();
+		this.backEndTransactionList = backEnd.getTransactions();
+		this.backEndTransactionList.clear();
+		vendor1 = new Vendor("V1", "V1", "V1");
+		purchaser1 = new Member("userLoginId", "userPassword", "userName", 20, "A1234567");
+		locationName = "locationName";
+		locationCapacity = 100;
+		location = new Location(locationName, locationCapacity);
+		startTime = new Date(2018, 9, 18, 9, 30);
+		endTime = new Date(2018, 9, 18, 10, 30);
+		eventName = "eventName";
+		event = new Event(eventName, startTime, endTime, vendor1, location, true);
+		ticket1 = new Ticket(event, 100, 20);
+		backEndTicketList.add(ticket1);
+		backEndUserList.add(purchaser1);
+		backEndVendorList.add(vendor1);
+		Transaction tTransaction = new Transaction(ticket1, purchaser1, vendor1);
+		this.backEndTransactionList.add(tTransaction);
+		Double tResult = tTransaction.completeTransaction();
+		Double expectedDiscountedAmount = ticket1.getPrice() * purchaser1.getDiscount();
+		assertEquals(expectedDiscountedAmount, tResult);
+		assertEquals(purchaser1.getId(),tTransaction.getTicket().getPurchaser().getId());
+		assertEquals(tTransaction.getId(), tTransaction.getPurchaser().getTransactions().get(0).getId());
+		assertEquals(ticket1.getId(), tTransaction.getPurchaser().getTickets().get(0).getId());
+		assertEquals(tTransaction.getId(), tTransaction.getVendor().getTransactions().get(0).getId());
+		this.backEndTicketList.clear();
+		this.backEndUserList.clear();
+		this.backEndVendorList.clear();
+		this.backEndTransactionList.clear();
+	}
 
 }
