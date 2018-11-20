@@ -30,7 +30,8 @@ public class CreditCard {
 
     public String getCardType(){
     	
-        switch(this.cardNumber.charAt(0)){
+    	if(cardNumber.length() > 0) {
+    		switch(this.cardNumber.charAt(0)){
             case '3':
                 return "American Express";
             case '4':
@@ -39,7 +40,9 @@ public class CreditCard {
                 return "Mastercard";
             default:
                 return null;
-        }
+    		}
+    	}
+    	return null;
         
     }
     
