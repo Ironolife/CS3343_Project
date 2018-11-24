@@ -212,10 +212,11 @@ public class BackEndTest {
 	@Test
 	public void testRemoveVendor() {
 		vendorList = backEnd.getVendors();
-		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
-		boolean result = vendorList.remove(vendor1);
-		assertEquals(vendor1, result);
 		vendorList.clear();
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		vendorList.add(vendor1);
+		Vendor result = backEnd.removeVendor(vendor1);
+		assertEquals(vendor1, result);
 	}
 
 	@Test
@@ -241,7 +242,12 @@ public class BackEndTest {
 
 	@Test
 	public void testRemoveUser() {
-		fail("Not yet implemented");
+		userList = backEnd.getUsers();
+		userList.clear();
+		user1 = new Member(userLoginId1, userPassword1, userName1, userAge1, userHkid1);
+		userList.add(user1);
+		User result = backEnd.removeUser(user1);
+		assertEquals(user1, result);
 	}
 
 	@Test
@@ -267,13 +273,22 @@ public class BackEndTest {
 
 	@Test
 	public void testRemoveLocation() {
-		fail("Not yet implemented");
+		locationList = backEnd.getLocations();
+		locationList.clear();
+		location1 = new Location(locationName1, locationCapacity1);
+		locationList.add(location1);
+		Location result = backEnd.removeLocation(location1);
+		assertEquals(location1, result);
 	}
 
 	@Test
 	public void testIsDuplicateLocationName() {
-		fail("Not yet implemented");
-	}
+		locationList = backEnd.getLocations();
+		location1 = new Location(locationName1, locationCapacity1);
+		locationList.add(location1);
+		boolean result = backEnd.isDuplicateLocationName(locationName1);
+		assertEquals(true, result);
+		locationList.clear();	}
 
 	@Test
 	public void testCreateNewEvent() {
@@ -298,7 +313,12 @@ public class BackEndTest {
 
 	@Test
 	public void testRemoveEvent() {
-		fail("Not yet implemented");
+		eventList = backEnd.getEvents();
+		eventList.clear();
+		event1 = new Event(eventName1, eventStartTime1, eventEndTime1, eventVendor1, eventLocation1, eventIsMature1);
+		eventList.add(event1);
+		Event result = backEnd.removeEvent(event1);
+		assertEquals(event1, result);
 	}
 
 	@Test
@@ -324,7 +344,12 @@ public class BackEndTest {
 
 	@Test
 	public void testRemoveTicket() {
-		fail("Not yet implemented");
+		ticketList = backEnd.getTickets();
+		ticketList.clear();
+		ticket1 = new Ticket(ticketEvent1, ticketPrice1, ticketSeat1);
+		ticketList.add(ticket1);
+		Ticket result = backEnd.removeTicket(ticket1);
+		assertEquals(ticket1, result);
 	}
 
 	@Test
@@ -350,12 +375,22 @@ public class BackEndTest {
 
 	@Test
 	public void testRemoveCoupon() {
-		fail("Not yet implemented");
+		couponList = backEnd.getCoupons();
+		couponList.clear();
+		coupon1 = new Coupon(couponCode1, couponEvent1, couponDiscountType1, couponDiscount1, couponExpiryDate1);
+		couponList.add(coupon1);
+		Coupon result = backEnd.removeCoupon(coupon1);
+		assertEquals(coupon1, result);
 	}
 
 	@Test
 	public void testIsDuplicateCouponCode() {
-		fail("Not yet implemented");
+		couponList = backEnd.getCoupons();
+		coupon1 = new Coupon(couponCode1, couponEvent1, couponDiscountType1, couponDiscount1, couponExpiryDate1);
+		couponList.add(coupon1);
+		boolean result = backEnd.isDuplicateCouponCode(couponCode1);
+		assertEquals(true, result);
+		couponList.clear();
 	}
 
 	@Test
@@ -381,7 +416,12 @@ public class BackEndTest {
 
 	@Test
 	public void testRemoveReview() {
-		fail("Not yet implemented");
+		reviewList = backEnd.getReviews();
+		reviewList.clear();
+		review1 = new Review(reviewMember1, reviewRating1, reviewComment1);
+		reviewList.add(review1);
+		Review result = backEnd.removeReview(review1);
+		assertEquals(review1, result);
 	}
 
 	@Test
@@ -407,7 +447,12 @@ public class BackEndTest {
 
 	@Test
 	public void testRemoveTransaction() {
-		fail("Not yet implemented");
+		transactionList = backEnd.getTransactions();
+		transactionList.clear();
+		transaction1 = new Transaction(transactionTicket1, transactionPurchaser1, transactionVendor1);
+		transactionList.add(transaction1);
+		Transaction result = backEnd.removeTransaction(transaction1);
+		assertEquals(transaction1, result);
 	}
 
 }
