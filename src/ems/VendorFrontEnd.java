@@ -82,7 +82,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	protected void displayVendorEvents() {
+	public void displayVendorEvents() {
 		
 		EMS.PrintHeader("- My Events -");
 		
