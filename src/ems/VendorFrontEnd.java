@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class VendorFrontEnd extends FrontEnd{
 	
-	private Vendor vendor;
+	protected Vendor vendor;
 	
 	public VendorFrontEnd(Vendor vendor) {
 		
