@@ -316,6 +316,7 @@ public class VendorFrontEnd extends FrontEnd{
 					while (discountType < 1 || discountType > 3) {
 						EMS.PrintHeader("Invalid Number!");
 						discountType = -1;
+						break;// added as finding endless loop bug
 					}
 				} catch (NumberFormatException e) {
 					EMS.PrintHeader("Invalid Number!");
