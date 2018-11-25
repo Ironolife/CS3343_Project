@@ -82,7 +82,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void displayVendorEvents() {
+	protected void displayVendorEvents() {
 		
 		EMS.PrintHeader("- My Events -");
 		
@@ -107,7 +107,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void createLocation() {
+	protected void createLocation() {
 		
 		EMS.PrintHeader("- Create Location -");
 		
@@ -133,7 +133,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void createEvent() {
+	protected void createEvent() {
 		
 		EMS.PrintHeader("- Create Event -");
 		
@@ -224,7 +224,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void generateTickets() {
+	protected void generateTickets() {
 		
 		EMS.PrintHeader("- Generate Tickets -");
 		
@@ -272,7 +272,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void generateCoupon() {
+	protected void generateCoupon() {
 		
 		EMS.PrintHeader("- Generate Coupon -");
 		
@@ -354,7 +354,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void displayTotalSales() {
+	protected void displayTotalSales() {
 		
 		System.out.println("Total Sales: " + this.vendor.getAccumulatedSales());
 		System.out.println("Total Profit: " + this.vendor.getAccumulatedProfit());
@@ -362,7 +362,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void checkIn() {
+	protected void checkIn() {
 		
 		EMS.PrintHeader("- Check-In -");
 		
@@ -422,7 +422,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void checkOut() {
+	protected void checkOut() {
 		
 		EMS.PrintHeader("- Check-Out -");
 		
