@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public abstract class FrontEnd {
 	
-	protected final BackEnd backEnd = BackEnd.getInstance();
+	protected BackEnd backEnd = BackEnd.getInstance();
 	
 	public FrontEnd() {
 		
