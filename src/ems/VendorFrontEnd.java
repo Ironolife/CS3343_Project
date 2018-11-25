@@ -18,7 +18,7 @@ public class VendorFrontEnd extends FrontEnd{
 		
 	}
 	
-	protected void vendorOperations() {
+	public void vendorOperations() {
 		
 		this.baseOperations();
 		System.out.println("3: My Events");
