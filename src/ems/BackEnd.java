@@ -31,7 +31,7 @@ public class BackEnd {
 	private File reviewFile;
 	private File transactionFile;
 	
-	private BackEnd() {
+	protected BackEnd() {
 		this.vendors = new ArrayList<Vendor>();
 		this.users = new ArrayList<User>();
 		this.locations = new ArrayList<Location>();
