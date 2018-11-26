@@ -21,7 +21,6 @@ public class UserFrontEnd extends FrontEnd{
 	}
 	
 	public void userOperations() {
-		
 		this.baseOperations();
 		System.out.println("3: My Upcoming Events");
 		System.out.println("4: Purchase Ticket");
@@ -34,7 +33,7 @@ public class UserFrontEnd extends FrontEnd{
 		validateUserInput(operation);
 	}
 	
-	protected boolean validateUserInput(String operation) {
+	public boolean validateUserInput(String operation) {
 		boolean isRecursiveUserOperation = true;
 		switch(operation) {
 		case "1":
@@ -74,7 +73,7 @@ public class UserFrontEnd extends FrontEnd{
 		return isRecursiveUserOperation;	
 	}
 	
-	protected void displayUpcomingEvents() {
+	public void displayUpcomingEvents() {
 		
 		EMS.PrintHeader("- Upcoming Events -");
 		
@@ -113,7 +112,6 @@ public class UserFrontEnd extends FrontEnd{
 		for(Ticket ticket: this.user.getTickets()) {
 			myEvents.add(ticket.getEvent());
 		}
-		
 		//Get event list and filter for available events
 		ArrayList<Event> availableEvents = new ArrayList<Event>();
 		for(Event event: backEnd.getEvents()) {
