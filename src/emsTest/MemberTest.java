@@ -32,4 +32,19 @@ public class MemberTest {
 		assertFalse(testFail);
 	}
 	
+	@Test
+	public void testGetName() {
+		Member testMember = new Member("testId", "password", "name", 20, "hkid");
+		assertEquals("name", testMember.getName());
+	}
+	
+	@Test
+	public void testGetDiscount() {
+		Member testMember = new Member("testId", "password", "name", 20, "hkid");
+		double errorMargin = 0.0001;
+		assertEquals(0.95, testMember.getDiscount(), errorMargin);
+	}
+	
+	
+	
 }
