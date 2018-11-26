@@ -294,7 +294,7 @@ public class UserFrontEnd extends FrontEnd{
 		}
 	}
 	
-	protected void purchaseTicket() {
+	public void purchaseTicket() {
 		EMS.PrintHeader("- Purchase Ticket -");
 		//Get user event list
 		ArrayList<Event> availableEvents = getAvailableEventList();
@@ -332,6 +332,7 @@ public class UserFrontEnd extends FrontEnd{
 				printTicketDetails(normalTicketCount, vipTicketCount, normalTicketPrice, vipTicketPrice);
 				String ticketType = this.readInput();//Read ticket type
 				ticketToPurchase = validateTicketPurchase(ticketType, event, normalTicketCount, vipTicketCount);
+				//334 line causes infinite loop
 			}
 			
 			//Read coupon
@@ -428,7 +429,7 @@ public class UserFrontEnd extends FrontEnd{
 		return review;
 	}
 	
-	protected void reviewEvent() {
+	public void reviewEvent() {
 		
 		EMS.PrintHeader("- Review Event -");
 		
@@ -603,6 +604,7 @@ public class UserFrontEnd extends FrontEnd{
 			System.out.println("Expiry Date (MM/YY): ");
 			String shortDateString = this.readInput();
 			String longDateString = "20" + shortDateString.split("/")[1] + "-" + shortDateString.split("/")[0] + "-01 00:00"; 
+			//line 606 result in array out of bound exception
 			expiryDate = DateUtils.parseDate(longDateString);
 		}
 		
