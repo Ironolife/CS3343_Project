@@ -4,6 +4,9 @@
 # Log file
 *.log
 
+# Data files
+data/
+
 # BlueJ files
 *.ctxt
 
@@ -22,4 +25,3 @@
 hs_err_pid*
 /.metadata/
 /bin/
-/data/
