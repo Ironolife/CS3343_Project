@@ -449,90 +449,103 @@ public class UserFrontEnd extends FrontEnd{
 		}
 	}
 	
+	public void displayAccountOperationsAsGuest(){
+		String operation = "-1";
+		while(operation.equals("-1")) {
+			
+			System.out.println("Choose operations: ");
+			System.out.println("1: View Account Details");
+			System.out.println("2: Upgrade to Member");
+			operation = this.readInput();
+		}
+	}
+	
+	public String validateAccountOperationAsGuest(String operation) {
+		if(operation.equals("1")) {
+			
+			EMS.PrintHeader("- Account Details -");
+			
+			//Print details
+			System.out.println("HKID: " + this.user.getHKID());
+			System.out.println("Age: " + this.user.getAge());
+			System.out.println("Tickets Count: " + this.user.getTickets().size());
+			System.out.println();
+		}
+		else if(operation.equals("2")) {
+			
+			EMS.PrintHeader("- Upgrade Account -");
+			
+			//Read name
+			System.out.println("Name: ");
+			String name = this.readInput();
+			
+			//Upgrade account
+			this.user = User.upgradeAccount((Guest)this.user, name);
+		}
+		else {
+			EMS.PrintHeader("Invalid Operation");
+			operation = "-1";
+		}
+		
+		return operation;
+	}
+	
+	public void displayAccountOperationsAsUser() {
+		String operation = "-1";
+		while(operation.equals("-1")) {
+			
+			System.out.println("Choose operations: ");
+			System.out.println("1: View Account Details");
+			System.out.println("2: Add Balance");
+			operation = this.readInput();
+			validateAccountOperationAsUser(operation);
+		}
+	}
+	
+	public String validateAccountOperationAsUser(String operation) {
+		Member member = (Member)this.user;
+		if(operation.equals("1")) {
+			
+			EMS.PrintHeader("- Account Details -");
+			
+			//Print details
+			System.out.println("Name: " + member.getName());
+			System.out.println("HKID: " + member.getHKID());
+			System.out.println("Age: " + member.getAge());
+			System.out.println("Tickets Count: " + member.getTickets().size());
+			System.out.println("Balance: " + member.getBalance());
+			System.out.println();
+		}
+		else if(operation.equals("2")) {
+			
+			EMS.PrintHeader("- Add Balance -");
+			
+			double amount = this.readDoubleInput("Amount");
+			this.addBalance(amount);
+		}
+		else {
+			EMS.PrintHeader("Invalid Operation");
+			operation = "-1";
+		}
+		return operation;
+	}
+	
+	
+	
 	protected void displayAccountOperations() {
 		
 		EMS.PrintHeader("- My Account -");
 		
 		if(this.user instanceof Guest) {
-			
-			String operation = "-1";
-			while(operation.equals("-1")) {
-				
-				System.out.println("Choose operations: ");
-				System.out.println("1: View Account Details");
-				System.out.println("2: Upgrade to Member");
-				operation = this.readInput();
-				
-				if(operation.equals("1")) {
-					
-					EMS.PrintHeader("- Account Details -");
-					
-					//Print details
-					System.out.println("HKID: " + this.user.getHKID());
-					System.out.println("Age: " + this.user.getAge());
-					System.out.println("Tickets Count: " + this.user.getTickets().size());
-					System.out.println();
-				}
-				else if(operation.equals("2")) {
-					
-					EMS.PrintHeader("- Upgrade Account -");
-					
-					//Read name
-					System.out.println("Name: ");
-					String name = this.readInput();
-					
-					//Upgrade account
-					this.user = User.upgradeAccount((Guest)this.user, name);
-				}
-				else {
-					EMS.PrintHeader("Invalid Operation");
-					operation = "-1";
-				}
-				
-			}
-			
+			displayAccountOperationsAsGuest();
 		}
 		else if(this.user instanceof Member) {
-			
-			Member member = (Member)this.user;
-			
-			String operation = "-1";
-			while(operation.equals("-1")) {
-				
-				System.out.println("Choose operations: ");
-				System.out.println("1: View Account Details");
-				System.out.println("2: Add Balance");
-				operation = this.readInput();
-				
-				if(operation.equals("1")) {
-					
-					EMS.PrintHeader("- Account Details -");
-					
-					//Print details
-					System.out.println("Name: " + member.getName());
-					System.out.println("HKID: " + member.getHKID());
-					System.out.println("Age: " + member.getAge());
-					System.out.println("Tickets Count: " + member.getTickets().size());
-					System.out.println("Balance: " + member.getBalance());
-					System.out.println();
-				}
-				else if(operation.equals("2")) {
-					
-					EMS.PrintHeader("- Add Balance -");
-					
-					double amount = this.readDoubleInput("Amount");
-					this.addBalance(amount);
-				}
-				else {
-					EMS.PrintHeader("Invalid Operation");
-					operation = "-1";
-				}
-			}
+			displayAccountOperationsAsUser();
 		}
 		
 	}
 	
-	protected void displayPurchaseHistory() {
+	public void displayPurchaseHistory() {
 		
 		EMS.PrintHeader("- Purchase History -");
 		
@@ -567,62 +580,64 @@ public class UserFrontEnd extends FrontEnd{
 		System.out.println();
 	}
 	
-	private void printCreditCardList(ArrayList<CreditCard> creditCards) {
+	public void printCreditCardList() {
 		
 		int count = 1;
-		for(CreditCard creditCard: creditCards) {
+		for(CreditCard creditCard: this.user.getCreditCard()) {
 			System.out.println(count + ": " + creditCard.getCardNumber());
 			count++;
 		}
 		
 	}
 	
-	private CreditCard creditCardPayment() {
+	public CreditCard inputCreditCardInfo() {
+		CreditCard creditCard = null;
+		//Read card Number
+		System.out.println("Card Number: ");
+		String cardNumber = this.readInput();
 		
-		//Get user credit card list
-		ArrayList<CreditCard> creditCards = this.user.getCreditCard();
+		//Read security code
+		int securityCode = this.readIntInput("Security Code");
+		
+		//Read expiry date
+		Date expiryDate = null;
+		while(expiryDate == null) {
+			System.out.println("Expiry Date (MM/YY): ");
+			String shortDateString = this.readInput();
+			String longDateString = "20" + shortDateString.split("/")[1] + "-" + shortDateString.split("/")[0] + "-01 00:00"; 
+			expiryDate = DateUtils.parseDate(longDateString);
+		}
+		
+		creditCard = new CreditCard(cardNumber, securityCode, expiryDate);
+		if(creditCard.validate() == false) {
+			EMS.PrintHeader("Credit Card validation failed!");
+			creditCard = null;
+		}
+		else {
+			EMS.PrintHeader("Validation Success!");
+			this.user.addCreditCard(creditCard);
+		}
+		return creditCard;
+	}
+	
+	public CreditCard creditCardPayment() {
 		
 		//print credit card list
-		this.printCreditCardList(creditCards);
+		this.printCreditCardList();
 		
 		//Credit card selection
-		int creditCardIndex = this.listSelection(creditCards.size(), "Select a Credit Card (0 to added a new card)");
+		int creditCardIndex = this.listSelection(this.user.getCreditCard().size(), "Select a Credit Card (0 to added a new card)");
 
 		CreditCard creditCard = null;
 		if(creditCardIndex == 0) {
 			
 			//Create Credit Card
 			while(creditCard == null) {
-				
-				//Read card Number
-				System.out.println("Card Number: ");
-				String cardNumber = this.readInput();
-				
-				//Read security code
-				int securityCode = this.readIntInput("Security Code");
-				
-				//Read expiry date
-				Date expiryDate = null;
-				while(expiryDate == null) {
-					System.out.println("Expiry Date (MM/YY): ");
-					String shortDateString = this.readInput();
-					String longDateString = "20" + shortDateString.split("/")[1] + "-" + shortDateString.split("/")[0] + "-01 00:00"; 
-					expiryDate = DateUtils.parseDate(longDateString);
-				}
-				
-				creditCard = new CreditCard(cardNumber, securityCode, expiryDate);
-				if(creditCard.validate() == false) {
-					EMS.PrintHeader("Credit Card validation failed!");
-					creditCard = null;
-				}
-				else {
-					EMS.PrintHeader("Validation Success!");
-					this.user.addCreditCard(creditCard);
-				}
+				creditCard = inputCreditCardInfo();
 			}
 		}
 		else {
-			creditCard = creditCards.get(creditCardIndex - 1);
+			creditCard = this.user.getCreditCard().get(creditCardIndex - 1);
 			if(creditCard.validate() == true) {
 				EMS.PrintHeader("Validation Success!");
 			}
@@ -635,56 +650,64 @@ public class UserFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void addBalance(double amount) {
-		
+	public String validateAddBalanceMethod(String method, double amount) {
 		Member member = (Member)this.user;
+		if(method.equals("1")) {
+			
+			System.out.println("Please insert cash . . .");
+			try {
+				Thread.sleep(3000); //simulate action of inserting cash
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println(amount + " received.");
+			
+			//Add balance
+			member.addBalance(amount);
+			
+			EMS.PrintHeader("Balance addded!");
+		}
+		else if(method.equals("2")) {
+			
+			CreditCard creditCard = this.creditCardPayment();
+			
+			System.out.println("Payment in progress . . .");
+			try {
+				Thread.sleep(3000); //simulate credit card payment
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println(amount + " deducted from credit card " + creditCard.getCardNumber() + ".");
+			
+			//Add balance
+			member.addBalance(amount);
+			
+			EMS.PrintHeader("Balance addded!");
+		}
+		else {
+			EMS.PrintHeader("Invalid input!");
+			method = "-1";
+			
+		}
+		return method;
+	}
+	
+	
+	public void displayPaymentMethod() {
+		System.out.println("Choose payment method: ");
+		System.out.println("1: Cash");
+		System.out.println("2: Credit Card");	
+	}
+	
+	public void addBalance(double amount) {
+		
 		
 		String method = "-1";
 		while(method.equals("-1")) {
-			
-			System.out.println("Choose payment method: ");
-			System.out.println("1: Cash");
-			System.out.println("2: Credit Card");
+			displayPaymentMethod();
 			method = this.readInput();
 			
-			if(method.equals("1")) {
-				
-				System.out.println("Please insert cash . . .");
-				try {
-					Thread.sleep(3000); //simulate action of inserting cash
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				System.out.println(amount + " received.");
-				
-				//Add balance
-				member.addBalance(amount);
-				
-				EMS.PrintHeader("Balance addded!");
-			}
-			else if(method.equals("2")) {
-				
-				CreditCard creditCard = this.creditCardPayment();
-				
-				System.out.println("Payment in progress . . .");
-				try {
-					Thread.sleep(3000); //simulate credit card payment
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				System.out.println(amount + " deducted from credit card " + creditCard.getCardNumber() + ".");
-				
-				//Add balance
-				member.addBalance(amount);
-				
-				EMS.PrintHeader("Balance addded!");
-			}
-			else {
-				
-				EMS.PrintHeader("Invalid input!");
-				method = "-1";
-				
-			}
+			method = validateAddBalanceMethod(method, amount);
 		}
 		
 	}

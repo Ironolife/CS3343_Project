@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.Before;
@@ -16,6 +17,7 @@ import ems.EMS;
 import ems.Event;
 import ems.Location;
 import ems.Member;
+import ems.Review;
 import ems.Ticket;
 import ems.Transaction;
 import ems.User;
@@ -28,7 +30,6 @@ public class UserFrontEndTest {
 	StubUserFrontEnd stubUserFrontEnd;
 	Event event;
 	Transaction transaction;
-	
 	private class StubUserFrontEnd extends UserFrontEnd{
 		
 		public StubUserFrontEnd(User user) {
@@ -92,15 +93,14 @@ public class UserFrontEndTest {
 	
 	@Test
 	public void getUpcomingEventListTest() {
-		assertEquals(0, stubUserFrontEnd.getUpcomingEventList().size());
+		assertEquals(new ArrayList<Event>(), stubUserFrontEnd.getUpcomingEventList());
 	}
 	//Need one more test case to show 
 	
 	
 	@Test
 	public void getAvailableEventListTest() {
-		assertEquals(0, stubUserFrontEnd.getAvailableEventList().size());
-
+		assertEquals(new ArrayList<Event>(), stubUserFrontEnd.getAvailableEventList());
 	}
 	
 	@Test
@@ -190,7 +190,19 @@ public class UserFrontEndTest {
 	
 	
 	
+	@Test
+	public void getAttenededEventTest() {
+		assertEquals(new ArrayList<Event>(), stubUserFrontEnd.getAttenededEvent());
+	}
 	
+	@Test
+	public void validateRatingTest() {
+	}
+	
+	@Test
+	public void createReviewTest() {
+		//assertEquals(new Review((Member)this.user, 0, ""), stubUserFrontEnd.createReview(event));
+	}
 	
 	@Test
 	public void purchaseTicketTest() {
@@ -200,6 +212,8 @@ public class UserFrontEndTest {
 	@Test
 	public void reviewEventTest() {
 		
+		
+		
 	}
 	
 	@Test
@@ -207,21 +221,184 @@ public class UserFrontEndTest {
 		
 	}
 	
+	
+	
+	@Test
+	public void validateAccountOperationAsGuestTest_01() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		EMS.PrintHeader("- Account Details -");
+		
+		System.out.println("HKID: " + this.user.getHKID());
+		System.out.println("Age: " + this.user.getAge());
+		System.out.println("Tickets Count: " + this.user.getTickets().size());
+		System.out.println();
+		
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.validateAccountOperationAsGuest("1");
+		assertEquals(testContent.toString(), systemContent.toString());
+		assertEquals("1", stubUserFrontEnd.validateAccountOperationAsGuest("1"));
+	}
+	
+	@Test
+	public void validateAccountOperationAsGuestTest_02() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		EMS.PrintHeader("Invalid Operation");
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.validateAccountOperationAsGuest("3");
+		assertEquals(testContent.toString(), systemContent.toString());
+		assertEquals("-1", stubUserFrontEnd.validateAccountOperationAsGuest("3"));
+	}
+	
+	
+	@Test
+	public void validateAccountOperationAsUserTest_01() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		EMS.PrintHeader("- Account Details -");
+		Member member = (Member)this.user;
+		System.out.println("Name: " + member.getName());
+		System.out.println("HKID: " + member.getHKID());
+		System.out.println("Age: " + member.getAge());
+		System.out.println("Tickets Count: " + member.getTickets().size());
+		System.out.println("Balance: " + member.getBalance());
+		System.out.println();
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.validateAccountOperationAsUser("1");
+		assertEquals(testContent.toString(), systemContent.toString());
+		assertEquals("1", stubUserFrontEnd.validateAccountOperationAsUser("1"));
+	}
+	
+	@Test
+	public void validateAccountOperationAsUserTest_02() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		EMS.PrintHeader("Invalid Operation");
+		
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.validateAccountOperationAsUser("3");
+		assertEquals(testContent.toString(), systemContent.toString());
+		assertEquals("-1", stubUserFrontEnd.validateAccountOperationAsUser("3"));
+	}
+	
 	@Test
 	public void displayPurchaseHistoryTest() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		EMS.PrintHeader("- Purchase History -");
+		System.out.println("----------");
+		System.out.println("0 transactions, 0.0 spent.");
+		System.out.println();
 		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.displayPurchaseHistory();
+		assertEquals(testContent.toString(), systemContent.toString());
+
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	@Test
 	public void printCreditCardListTest() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
 		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.printCreditCardList();
+		assertEquals(testContent.toString(), systemContent.toString());
 	}
+	//This one need more
+	
+	
 	
 	@Test
 	public void creditCardPaymentTest() {
 		
 	}
+	
+	@Test
+	public void validateAddBalanceMethodTest_01() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		System.out.println("Please insert cash . . .");
+		System.out.println("500.0 received.");
+		EMS.PrintHeader("Balance addded!");
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.validateAddBalanceMethod("1", 500);
+		assertEquals(testContent.toString(), systemContent.toString());
+		assertEquals("1",stubUserFrontEnd.validateAddBalanceMethod("1", 500));
+	}
+	
+	@Test
+	public void validateAddBalanceMethodTest_02() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		System.out.println("Payment in progress . . .");
+		//System.out.println("500.0 deducted from credit card 0.");
+		EMS.PrintHeader("Balance addded!");
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		//stubUserFrontEnd.validateAddBalanceMethod("2", 500);
+		//assertEquals(testContent.toString(), systemContent.toString());
+	}
+	
+	@Test
+	public void validateAddBalanceMethodTest_03() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		EMS.PrintHeader("Invalid input!");
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.validateAddBalanceMethod("3", 500);
+		assertEquals(testContent.toString(), systemContent.toString());
+		assertEquals("-1",stubUserFrontEnd.validateAddBalanceMethod("3", 500));
+	}
+	
+	
+	
+	
+	@Test
+	public void displayPaymentMethodTest() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		System.out.println("Choose payment method: ");
+		System.out.println("1: Cash");
+		System.out.println("2: Credit Card");	
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.displayPaymentMethod();
+		assertEquals(testContent.toString(), systemContent.toString());
+
+	}
+	
 	
 	@Test
 	public void addBalanceTest() {
