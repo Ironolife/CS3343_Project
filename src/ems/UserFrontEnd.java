@@ -18,12 +18,9 @@ public class UserFrontEnd extends FrontEnd{
 		else if(user instanceof Member) {
 			EMS.PrintHeader("- Welcome " + ((Member)user).getName() + " -");
 		}
-		
-		this.userOperations();
-		
 	}
 	
-	protected void userOperations() {
+	public void userOperations() {
 		
 		this.baseOperations();
 		System.out.println("3: My Upcoming Events");
@@ -34,62 +31,55 @@ public class UserFrontEnd extends FrontEnd{
 		System.out.println("8: Logout");
 		String operation = this.readInput();
 		
-		if(operation.equals("1")) {
+		validateUserInput(operation);
+	}
+	
+	protected boolean validateUserInput(String operation) {
+		boolean isRecursiveUserOperation = true;
+		switch(operation) {
+		case "1":
 			this.displayEvents();
-			this.userOperations();
-		}
-		else if(operation.equals("2")) {
+			break;
+		case "2":
 			this.searchEvents();
-			this.userOperations();
-		}
-		else if(operation.equals("3")) {
+			break;
+		case "3":
 			this.displayUpcomingEvents();
-			this.userOperations();
-		}
-		else if(operation.equals("4")) {
+			break;
+		case "4":
 			this.purchaseTicket();
-			this.userOperations();
-		}
-		else if(operation.equals("5")) {
+			break;
+		case "5":
 			if(this.user instanceof Guest) {
 				EMS.PrintHeader("Only Members can review events!");
 			}
 			else {
 				this.reviewEvent();
 			}
-			this.userOperations();
-		}
-		else if(operation.equals("6")) {
+			break;
+		case "6":
 			this.displayAccountOperations();
-			this.userOperations();
-		}
-		else if(operation.equals("7")) {
-			this.displayPurchaseHistory();;
-			this.userOperations();
-		}
-		else if(operation.equals("8")) {
-			
-		}
-		else {
+			break;
+		case "7":
+			this.displayPurchaseHistory();
+			break;
+		case "8":
+			isRecursiveUserOperation = false;
+			break;
+		default:
 			EMS.PrintHeader("Invalid Operation");
-			this.userOperations();
+			break;
 		}
 		
+		return isRecursiveUserOperation;	
 	}
 	
-	private void displayUpcomingEvents() {
+	protected void displayUpcomingEvents() {
 		
 		EMS.PrintHeader("- Upcoming Events -");
 		
-		//Get user event list and filter for upcoming event
-		ArrayList<Event> upcomingEvents = new ArrayList<Event>();
-		for(Ticket ticket: this.user.getTickets()) {
-			Event event = ticket.getEvent();
-			if(event.getEndTime().compareTo(new Date()) > 0) {
-				upcomingEvents.add(event);
-			}
-		}
 		
+		ArrayList<Event> upcomingEvents = getUpcomingEventList();
 		//Print event list
 		this.printEventList(upcomingEvents);
 		
@@ -105,7 +95,19 @@ public class UserFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void purchaseTicket() {
+	public ArrayList<Event> getUpcomingEventList() {
+		//Get user event list and filter for upcoming event
+				ArrayList<Event> upcomingEvents = new ArrayList<Event>();
+				for(Ticket ticket: this.user.getTickets()) {
+					Event event = ticket.getEvent();
+					if(event.getEndTime().compareTo(new Date()) > 0) {
+						upcomingEvents.add(event);
+					}
+				}
+				return upcomingEvents;
+	}
+	
+	protected void purchaseTicket() {
 		
 		EMS.PrintHeader("- Purchase Ticket -");
 		
@@ -340,7 +342,7 @@ public class UserFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void reviewEvent() {
+	protected void reviewEvent() {
 		
 		EMS.PrintHeader("- Review Event -");
 		
@@ -401,7 +403,7 @@ public class UserFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void displayAccountOperations() {
+	protected void displayAccountOperations() {
 		
 		EMS.PrintHeader("- My Account -");
 		
@@ -484,7 +486,7 @@ public class UserFrontEnd extends FrontEnd{
 		
 	}
 	
-	private void displayPurchaseHistory() {
+	protected void displayPurchaseHistory() {
 		
 		EMS.PrintHeader("- Purchase History -");
 		

@@ -59,7 +59,7 @@ public class EMS {
 			for (User user : backEnd.getUsers()) {
 				if (user.getLoginId().equals(loginId)) {
 					if (user.validatePassword(password) == true) {
-						new UserFrontEnd(user);
+						new UserFrontEnd(user).userOperations();
 						isValid = true;
 						System.out.println();
 						this.accountManagement();
