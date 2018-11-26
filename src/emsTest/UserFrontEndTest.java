@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
 
+import ems.BackEnd;
 import ems.Coupon;
 import ems.DateUtils;
 import ems.EMS;
@@ -26,6 +27,7 @@ import ems.Vendor;
 
 public class UserFrontEndTest {
 	private User user;
+	Vendor vendor;
 	UserFrontEnd userFrontEnd;
 	StubUserFrontEnd stubUserFrontEnd;
 	Event event;
@@ -45,11 +47,18 @@ public class UserFrontEndTest {
 	@Before
 	public void setUp() {
 		user = new Member("U2", "U2", "U2", 20, "Y666283(6)");
+		vendor = new Vendor("vendorId1", "vendorPassword1", "vendorName1");
 		stubUserFrontEnd = new StubUserFrontEnd(user);
 		userFrontEnd = new UserFrontEnd(user);
 		
-		event = new Event("eventName1", new Date(2018, 9, 18, 9, 30), new Date(2018, 9, 18,10, 30), new Vendor("vendorId1", "vendorPassword1", "vendorName1"), new Location("locationName1", 100), true);
-		transaction = new Transaction(new Ticket(event, 100 ,20), user, new Vendor("V1", "V1", "V1"));
+		event = new Event("eventName1", new Date(2018, 9, 18, 9, 30), new Date(2018, 9, 18,10, 30), vendor, new Location("locationName1", 100), true);
+		Ticket ticket = new Ticket(event, 100 ,20);
+		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+		tickets.add(ticket);
+		BackEnd.getInstance().createNewTickets(tickets);
+		BackEnd.getInstance().addUser(user);
+		BackEnd.getInstance().createNewVendor(vendor);
+		transaction = new Transaction(ticket, user, vendor);
 	}
 	
 //	@After
@@ -175,14 +184,14 @@ public class UserFrontEndTest {
 		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(testContent));
 		System.out.println("Please insert cash . . .");
-		System.out.println("100 received.");
+		System.out.println("95.0 received.");
 		EMS.PrintHeader("Ticket Purchased!");
 		
 		
 		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(systemContent));
-		//stubUserFrontEnd.handlePayment("1", transaction); // This line causes nullpointerException
-		//assertEquals(testContent.toString(), systemContent.toString());
+		stubUserFrontEnd.handlePayment("1", transaction); // This line causes nullpointerException
+		assertEquals(testContent.toString(), systemContent.toString());
 	}
 	
 	
