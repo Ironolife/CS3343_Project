@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EMS {
-	private BackEnd backEnd = BackEnd.getInstance();
+	protected BackEnd backEnd = BackEnd.getInstance();
 
 	public static void main(String[] args) {
 
