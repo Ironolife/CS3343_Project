@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class EMS {
+	protected BackEnd backEnd = BackEnd.getInstance();
 
 	public static void main(String[] args) {
 
@@ -21,7 +22,7 @@ public class EMS {
 
 	public void accountManagement() {
 		
-		BackEnd backEnd = BackEnd.getInstance();
+	
 
 		System.out.println("Choose operations: ");
 		System.out.println("1: Login");
