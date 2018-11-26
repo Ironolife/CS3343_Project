@@ -25,3 +25,4 @@ data/
 hs_err_pid*
 /.metadata/
 /bin/
+*.txt
