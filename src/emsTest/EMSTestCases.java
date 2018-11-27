@@ -709,4 +709,85 @@ public class EMSTestCases {
 		EMSStub tEMSStub = new EMSStub();
 		assertEquals(outContent1.toString(), outContent2.toString());
 	}
+	
+	@Test
+	public void testAccountManagementInvalidInput() {
+
+		class EMSStub extends EMS {
+			int readInputCount = 0;
+
+			public EMSStub() {
+
+			}
+
+			@Override
+			public String readInput() {
+				if (this.readInputCount == 0) {
+					this.readInputCount++;
+					return "3";
+				}  else if (this.readInputCount == 1) {
+					this.readInputCount++;
+					return "1";
+				} else if (this.readInputCount == 2) {
+					this.readInputCount++;
+					return "V3";
+				} else if (this.readInputCount == 3) {
+					this.readInputCount++;
+					return "V3";
+				}
+				return "11";
+
+			}
+		}
+		vendor1 = new Vendor("V1", "V1", "V1");
+		vendor2 = new Vendor("V2", "V2", "V2");
+		vendorWeWillUse = new Vendor("V3", "V3", "V3");
+		backEndVendorList = backEnd.getVendors();
+		backEndVendorList.clear();
+		this.backEndUserList = backEnd.getUsers();
+		this.backEndUserList.clear();
+		backEndVendorList.add(vendor1);
+		backEndVendorList.add(vendor2);
+		backEndVendorList.add(vendorWeWillUse);
+		String input = "11";
+		System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+		ByteArrayOutputStream outContent1 = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent1));
+		EMS.PrintHeader("- Event Management System -");
+		System.out.println("Choose operations: ");
+		System.out.println("1: Login");
+		System.out.println("2: Register");
+		EMS.PrintHeader("Invalid Input!");
+		System.out.println("Choose operations: ");
+		System.out.println("1: Login");
+		System.out.println("2: Register");
+		System.out.println();
+		System.out.println("- Login -");
+		System.out.println();
+		System.out.println("LoginId: ");
+		System.out.println("Password: ");
+		System.out.println();
+		System.out.println("- Welcome " + vendorWeWillUse.getName() + " -");
+		System.out.println();
+		System.out.println("Choose operations: ");
+		System.out.println("1: Display Events");
+		System.out.println("2: Search Events");
+		System.out.println("3: My Events");
+		System.out.println("4: Create Location");
+		System.out.println("5: Create Event");
+		System.out.println("6: Generate Tickets");
+		System.out.println("7: Generate Coupon");
+		System.out.println("8: Check-In");
+		System.out.println("9: Check-Out");
+		System.out.println("10: My Total Sales");
+		System.out.println("11: Logout");
+		System.out.println();
+		ByteArrayOutputStream outContent2 = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent2));
+		EMSStub tEMSStub = new EMSStub();
+		assertEquals(outContent1.toString(), outContent2.toString());
+	}
+
+	
 }
