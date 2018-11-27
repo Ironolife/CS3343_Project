@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import ems.BackEnd;
 import ems.Coupon;
+import ems.CreditCard;
 import ems.DateUtils;
 import ems.EMS;
 import ems.Event;
@@ -24,17 +25,28 @@ import ems.Ticket;
 import ems.Transaction;
 import ems.User;
 import ems.UserFrontEnd;
+import ems.VIPTicket;
 import ems.Vendor;
 
 public class UserFrontEndTest {
 	private User user;
+	private User userUnderage;
 	Vendor vendor;
 	UserFrontEnd userFrontEnd;
 	StubUserFrontEnd stubUserFrontEnd;
 	Event event;
+	Event eventOverdue;
+	Event eventForUnderage;
+	Location location;
 	Transaction transaction;
+	Transaction transactionVIP;
 	Transaction transactionGuest;
+	Ticket ticket;
+	Ticket ticketVIP;
+	Ticket ticketOverdue;
+	Ticket ticketForUnderage;
 	StubUserFrontEndOverride stubUserFrontEndOverride;
+	ArrayList<Ticket> tickets;
 	
 	private class StubUserFrontEnd extends UserFrontEnd{
 		
@@ -92,21 +104,45 @@ public class UserFrontEndTest {
 	@Before
 	public void setUp() {
 		user = new Member("U2", "U2", "U2", 20, "Y666283(6)");
+		userUnderage = new Member("U2", "U2", "U2", 15, "Y666283(6)");
 		vendor = new Vendor("vendorId1", "vendorPassword1", "vendorName1");
 		stubUserFrontEnd = new StubUserFrontEnd(user);
 		userFrontEnd = new UserFrontEnd(user);
 		
-		event = new Event("eventName1", new Date(2018, 9, 18, 9, 30), new Date(2018, 9, 18,10, 30), vendor, new Location("locationName1", 100), true);
-		Ticket ticket = new Ticket(event, 100 ,20);
-		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+		location = new Location("locationName1", 100);
+		event = new Event("eventName1", new Date(2018, 12, 18, 9, 30), new Date(2018, 12, 18, 10, 30), vendor, location, true);
+		eventOverdue = new Event("overdue", DateUtils.parseDate("2012-11-10 09:18"), DateUtils.parseDate("2012-11-11 09:18"), vendor, location, true);
+		eventForUnderage = new Event("overdue", DateUtils.parseDate("2012-12-10 09:18"), DateUtils.parseDate("2012-12-11 09:18"), vendor, location, false);
+		ticket = new Ticket(event, 100 ,20);
+		ticketVIP = new VIPTicket(event, 200, 20, 1);
+		ticketOverdue = new Ticket(eventOverdue, 100 ,20);
+		ticketForUnderage = new Ticket(eventForUnderage, 100 ,20);
+		tickets = new ArrayList<Ticket>();
 		tickets.add(ticket);
+		tickets.add(ticketVIP);
+		tickets.add(ticketOverdue);
+		tickets.add(ticketForUnderage);
 		BackEnd.getInstance().createNewTickets(tickets);
 		BackEnd.getInstance().addUser(user);
+		BackEnd.getInstance().addUser(userUnderage);;
 		BackEnd.getInstance().createNewVendor(vendor);
+		
+
+		
 		transaction = new Transaction(ticket, user, vendor);
 		transactionGuest = new Transaction(ticket, new Guest("", "", 0, ""), vendor);
+		transactionVIP = new Transaction(ticketVIP, user, vendor);
 		
+		BackEnd.getInstance().createNewLocation(location);
+		BackEnd.getInstance().createNewEvent(event);
+		BackEnd.getInstance().createNewEvent(eventOverdue);
+		BackEnd.getInstance().createNewEvent(eventForUnderage);
+		BackEnd.getInstance().createNewTransaction(transaction);
+		BackEnd.getInstance().createNewTransaction(transactionGuest);
+		BackEnd.getInstance().createNewTransaction(transactionVIP);
 		stubUserFrontEndOverride = new StubUserFrontEndOverride(user);
+		
+		eventForUnderage.generateTickets(100, 1, 10, 10);
 	}
 	
 //	@After
@@ -198,7 +234,7 @@ public class UserFrontEndTest {
 	}
 	
 	@Test
-	public void displayUpcomingEventsTest() {
+	public void displayUpcomingEventsTest_01() {
 		class StubUserFrontEnd extends UserFrontEnd{
 			
 			public StubUserFrontEnd(User user) {
@@ -231,6 +267,77 @@ public class UserFrontEndTest {
 		
 	}
 	
+//	@Test
+//	public void displayUpcomingEventsTest_02() {
+//		class StubUserFrontEnd extends UserFrontEnd{
+//			
+//			public StubUserFrontEnd(User user) {
+//				super(user);
+//			}
+//
+//			@Override
+//			public String readInput() {
+//				return "8";
+//			}
+//			
+//			@Override
+//			public int listSelection(int size, String text) {
+//				return 1;
+//			}
+//			
+//			
+//		}
+//		user.addTicket(new Ticket(event, 100, 20));
+//		StubUserFrontEnd stubUserFrontEnd = new StubUserFrontEnd(user);
+//		
+//		
+//		
+//		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+//		System.setOut(new PrintStream(testContent));
+//		EMS.PrintHeader("- Upcoming Events -");
+//		System.out.println();
+//		
+//		
+//		
+//		System.out.println("Event Name: " + event.getName());
+//		System.out.println("Start Time: " + event.getStartTime().toLocaleString());
+//		System.out.println("End Time: " + event.getEndTime().toLocaleString());
+//		System.out.println("Location: locationName1");
+//		if(event.getIsMature() == true) {
+//			System.out.println("* Event is only available for age over 18.");
+//		}
+//		System.out.println("----------");
+//
+//		System.out.println("Total Tickets: 20");
+//		System.out.println("VIP Tickets: 20 Available, 0 Purchased, " + "Price: 100.0");
+//		System.out.println("Normal Tickets: 0 Available, 0 Purchased, " + "Price: 0");
+//		System.out.println("----------");		
+//		//Reviews 
+//		if(event.getReviews().size() > 0) {
+//			System.out.println("Average Rating: " + event.getAverageRating());
+//			System.out.println();
+//		}
+//		System.out.println("Reviews: ");
+//		if(event.getReviews().size() == 0) {
+//			System.out.println("No Reviews.");
+//			System.out.println();
+//		}
+//		for(Review r: event.getReviews()) {
+//			System.out.println(r.getMember().getName() + " - " + r.getRating());
+//			System.out.println(r.getComment() + " - " + r.getDate());
+//			System.out.println();
+//		}
+//		
+//		
+//		assertEquals(0, stubUserFrontEnd.getUpcomingEventList().size());
+//		
+//		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+//		System.setOut(new PrintStream(systemContent));
+//		stubUserFrontEnd.displayUpcomingEvents();
+//		
+//		assertEquals(testContent.toString(), systemContent.toString());
+//		
+//	}
 	
 	
 	
@@ -240,15 +347,49 @@ public class UserFrontEndTest {
 	
 	
 	@Test
-	public void getUpcomingEventListTest() {
+	public void getUpcomingEventListTest_01() {
 		assertEquals(new ArrayList<Event>(), stubUserFrontEnd.getUpcomingEventList());
+	}
+	
+	@Test
+	public void getUpcomingEventListTest_02() {
+		user.addTicket(ticket);
+		assertEquals(1, stubUserFrontEnd.getUpcomingEventList().size());
+		assertEquals(event, stubUserFrontEnd.getUpcomingEventList().get(0));
+	}
+	
+	
+	@Test
+	public void getUpcomingEventListTest_03() {
+		user.addTicket(ticket);
+		user.addTicket(ticketOverdue);
+		assertEquals(1, stubUserFrontEnd.getUpcomingEventList().size());
+		assertEquals(event, stubUserFrontEnd.getUpcomingEventList().get(0));
 	}
 	//Need one more test case to show 
 	
 	
 	@Test
-	public void getAvailableEventListTest() {
+	public void getAvailableEventListTest_01() {
 		assertEquals(new ArrayList<Event>(), stubUserFrontEnd.getAvailableEventList());
+	}
+
+	@Test
+	public void getAvailableEventListTest_02() {
+		userUnderage.addTicket(ticket);
+		userUnderage.addTicket(ticketOverdue);
+		stubUserFrontEnd = new StubUserFrontEnd(userUnderage);
+		assertEquals(0, stubUserFrontEnd.getAvailableEventList().size());
+	}
+
+	@Test
+	public void getAvailableEventListTest_03() {
+		userUnderage.addTicket(ticket);
+		userUnderage.addTicket(ticketOverdue);
+		userUnderage.addTicket(ticketForUnderage);
+		stubUserFrontEnd = new StubUserFrontEnd(userUnderage);
+		//assertEquals(1, stubUserFrontEnd.getAvailableEventList().size());
+		//assertEquals(eventForUnderage, stubUserFrontEnd.getAvailableEventList().get(0));
 	}
 	
 	@Test
@@ -303,6 +444,19 @@ public class UserFrontEndTest {
 	
 	@Test
 	public void validateTicketPurchaseTest_05() {
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		EMS.PrintHeader("VIP Ticket sold out!");
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		Ticket ticket = userFrontEnd.validateTicketPurchase("2", new Event("eventName1", new Date(2018, 9, 18, 9, 30), new Date(2018, 9, 18,10, 30), new Vendor("vendorId1", "vendorPassword1", "vendorName1"), new Location("locationName1", 100), true),10,0);
+		assertEquals(ticket, null);
+		assertEquals(testContent.toString(), systemContent.toString());
+	}
+	
+	@Test
+	public void validateTicketPurchaseTest_06() {
 		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(testContent));
 		EMS.PrintHeader("VIP Ticket sold out!");
@@ -962,12 +1116,44 @@ public class UserFrontEndTest {
 	
 	
 	@Test
-	public void displayPurchaseHistoryTest() {
+	public void displayPurchaseHistoryTest_01() {
 		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(testContent));
 		EMS.PrintHeader("- Purchase History -");
 		System.out.println("----------");
 		System.out.println("0 transactions, 0.0 spent.");
+		System.out.println();
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.displayPurchaseHistory();
+		assertEquals(testContent.toString(), systemContent.toString());
+
+	}
+	
+	@Test
+	public void displayPurchaseHistoryTest_02() {
+		user.addTransaction(transaction);
+		user.addTransaction(transactionVIP);
+		stubUserFrontEnd = new StubUserFrontEnd(user);
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		EMS.PrintHeader("- Purchase History -");
+		System.out.print("1: ");
+		System.out.print("Purchased a Normal Ticket");
+		
+		System.out.print(" for eventName1");
+		System.out.print(" at 95.0");
+		System.out.print(" from vendorName1");
+		System.out.println(" on " + transaction.getDate() + ".");
+		System.out.print("2: ");
+		System.out.print("Purchased a VIP Ticket");
+		System.out.print(" for eventName1");
+		System.out.print(" at 190.0");
+		System.out.print(" from vendorName1");
+		System.out.println(" on " + transaction.getDate() + ".");
+		System.out.println("----------");
+		System.out.println("2 transactions, 285.0 spent.");
 		System.out.println();
 		
 		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
@@ -991,8 +1177,9 @@ public class UserFrontEndTest {
 	
 	
 	
+	
 	@Test
-	public void printCreditCardListTest() {
+	public void printCreditCardListTest_01() {
 		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(testContent));
 		
@@ -1001,7 +1188,34 @@ public class UserFrontEndTest {
 		stubUserFrontEnd.printCreditCardList();
 		assertEquals(testContent.toString(), systemContent.toString());
 	}
-	//This one need more
+
+	@Test
+	public void printCreditCardListTest_02() {
+		user.addCreditCard(new CreditCard("4123456712345678", 995, DateUtils.parseDate("2018-12-18 10:30")));
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		System.out.println("1: " + "4123456712345678");
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.printCreditCardList();
+		assertEquals(testContent.toString(), systemContent.toString());
+	}
+	
+	@Test
+	public void printCreditCardListTest_03() {
+		user.addCreditCard(new CreditCard("3123456712345678", 9953, DateUtils.parseDate("2018-12-18 10:30")));
+		user.addCreditCard(new CreditCard("4123456712345678", 995, DateUtils.parseDate("2018-12-26 10:30")));
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		System.out.println("1: " + "3123456712345678");
+		System.out.println("2: " + "4123456712345678");
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.printCreditCardList();
+		assertEquals(testContent.toString(), systemContent.toString());
+	}
 	
 	
 	

@@ -86,6 +86,7 @@ public class UserFrontEnd extends FrontEnd{
 		int eventIndex = this.listSelection(upcomingEvents.size(), "Select an Event to view details (0 to exit)");
 		System.out.println();
 		
+		//this line is very likely to cause array out of bound exception...
 		//Display details for selected event
 		if(eventIndex > 0) {
 			Event event = upcomingEvents.get(eventIndex - 1);
@@ -604,7 +605,7 @@ public class UserFrontEnd extends FrontEnd{
 			System.out.println("Expiry Date (MM/YY): ");
 			String shortDateString = this.readInput();
 			String longDateString = "20" + shortDateString.split("/")[1] + "-" + shortDateString.split("/")[0] + "-01 00:00"; 
-			//line 606 result in array out of bound exception
+			//line 607 result in array out of bound exception
 			expiryDate = DateUtils.parseDate(longDateString);
 		}
 		
