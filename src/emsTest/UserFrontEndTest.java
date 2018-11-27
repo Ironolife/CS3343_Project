@@ -636,58 +636,58 @@ public class UserFrontEndTest {
 	
 	
 	
-//	@Test
-//	public void handlePaymentTest_04() {
-//		class StubUserFrontEnd extends UserFrontEnd{
-//			int count = 0;
-//			public StubUserFrontEnd(User user) {
-//				super(user);
-//			}
-//
-//
-//			@Override
-//			public int listSelection(int size, String text) {
-//				return 0;
-//			}
-//			
-//			@Override
-//			public String readInput() {
-//				if(count == 0) {
-//					count++;
-//					return "4123567812345678";
-//				}
-//				if(count == 1) {
-//					count++;
-//					return "11/25";
-//				}
-//				return "11/25";
-//			}
-//			
-//			@Override
-//			public int readIntInput(String string) {
-//				return 999;
-//				//security code
-//			}
-//			
-//			
-//		}
-//		
-//		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
-//		System.setOut(new PrintStream(testContent));
-//		System.out.println("Payment in progress . . .");
-//		System.out.println("Card Number: ");
-//		System.out.println("Expiry Date (MM/YY): ");
-//		EMS.PrintHeader("Validation Success!");
-//		System.out.println("Payment in progress . . .");
-//		System.out.println(transaction.getDiscountedAmount() + " deducted from credit card 4123567812345678.");
-//		EMS.PrintHeader("Ticket Purchased!");
-//		
-//		
-//		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
-//		System.setOut(new PrintStream(systemContent));
-//		stubUserFrontEnd.handlePayment("2", transaction);
-//		assertEquals(testContent.toString(), systemContent.toString());
-//	}
+	@Test
+	public void handlePaymentTest_04() {
+		class StubUserFrontEnd2 extends UserFrontEnd{
+			int count = 0;
+			public StubUserFrontEnd2(User user) {
+				super(user);
+			}
+
+
+			@Override
+			public int listSelection(int size, String text) {
+				return 0;
+			}
+			
+			@Override
+			public String readInput() {
+				if(count == 0) {
+					count++;
+					return "4123567812345678";
+				}
+				if(count == 1) {
+					count++;
+					return "11/25";
+				}
+				return "11/25";
+			}
+			
+			@Override
+			public int readIntInput(String string) {
+				return 999;
+				//security code
+			}
+			
+			
+		}
+		
+		StubUserFrontEnd2 stubUserFrontEnd2 = new StubUserFrontEnd2(user);
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		System.out.println("Card Number: ");
+		System.out.println("Expiry Date (MM/YY): ");
+		EMS.PrintHeader("Validation Success!");
+		System.out.println("Payment in progress . . .");
+		System.out.println(transaction.getDiscountedAmount() + " deducted from credit card 4123567812345678.");
+		EMS.PrintHeader("Ticket Purchased!");
+		
+		
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd2.handlePayment("2", transaction);
+		assertEquals(testContent.toString(), systemContent.toString());
+	}
 	
 	
 	
