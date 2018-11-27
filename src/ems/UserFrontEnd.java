@@ -86,7 +86,7 @@ public class UserFrontEnd extends FrontEnd{
 		int eventIndex = this.listSelection(upcomingEvents.size(), "Select an Event to view details (0 to exit)");
 		System.out.println();
 		
-		//this line is very likely to cause array out of bound exception...
+		//This line may cause array out of bound exception
 		//Display details for selected event
 		if(eventIndex > 0) {
 			Event event = upcomingEvents.get(eventIndex - 1);
@@ -457,6 +457,7 @@ public class UserFrontEnd extends FrontEnd{
 			System.out.println("1: View Account Details");
 			System.out.println("2: Upgrade to Member");
 			operation = this.readInput();
+			validateAccountOperationAsGuest(operation);
 		}
 	}
 	
@@ -532,7 +533,7 @@ public class UserFrontEnd extends FrontEnd{
 	
 	
 	
-	protected void displayAccountOperations() {
+	public void displayAccountOperations() {
 		
 		EMS.PrintHeader("- My Account -");
 		
