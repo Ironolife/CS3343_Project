@@ -333,7 +333,6 @@ public class UserFrontEnd extends FrontEnd{
 				printTicketDetails(normalTicketCount, vipTicketCount, normalTicketPrice, vipTicketPrice);
 				String ticketType = this.readInput();//Read ticket type
 				ticketToPurchase = validateTicketPurchase(ticketType, event, normalTicketCount, vipTicketCount);
-				//334 line causes infinite loop
 			}
 			
 			//Read coupon
