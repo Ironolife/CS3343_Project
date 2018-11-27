@@ -119,10 +119,7 @@ public class EMS {
 					if (backEnd.isDuplicateHKID(hkID) == true) {
 						EMS.PrintHeader("HKID already registered!");
 						hkID = null;
-					} else if(User.validateHKID(hkID) == false){
-						EMS.PrintHeader("Invalid HKID!");
-						hkID = null;
-					}
+					} 
 				}
 
 				//Read age and validate
@@ -131,7 +128,7 @@ public class EMS {
 					try {
 						System.out.println("Age: ");
 						age = Integer.parseInt(this.readInput());
-						while (age < 0 || age > 122) {
+						if (age < 0 || age > 122) {
 							EMS.PrintHeader("Invalid Input!");
 							age = -1;
 						}
