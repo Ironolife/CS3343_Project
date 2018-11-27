@@ -49,9 +49,10 @@ public class EMS {
 						new VendorFrontEnd(vendor);
 						isValid = true;
 						System.out.println();
-						this.accountManagement();
+						
 					} else {
 						EMS.PrintHeader("Invalid Password!");
+						isValid = true;
 						this.accountManagement();
 					}
 					break;
@@ -63,9 +64,10 @@ public class EMS {
 						new UserFrontEnd(user).userOperations();
 						isValid = true;
 						System.out.println();
-						this.accountManagement();
+						
 					} else {
 						EMS.PrintHeader("Invalid Password!");
+						isValid = true;
 						this.accountManagement();
 					}
 					break;
