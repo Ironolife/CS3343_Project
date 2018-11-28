@@ -344,27 +344,17 @@ public class UserFrontEndTest {
 	}
 	//Need one more test case to show 
 	
-	/*
+	
 	@Test
 	public void getAvailableEventListTest_01() {
-		assertEquals(new ArrayList<Event>(), stubUserFrontEnd.getAvailableEventList());
+		assertEquals(2, stubUserFrontEnd.getAvailableEventList().size());
 	}
 
 	@Test
 	public void getAvailableEventListTest_02() {
-		userUnderage.addTicket(ticket);
-		userUnderage.addTicket(ticketOverdue);
-		stubUserFrontEnd = new StubUserFrontEnd(userUnderage);
-		assertEquals(0, stubUserFrontEnd.getAvailableEventList().size());
-	}
-*/
-	
-	@Test
-	public void getAvailableEventListTest() {
 		BackEnd.getInstance().addUser(userUnderage);
 		BackEnd.getInstance().createNewEvent(eventForUnderage);
 		BackEnd.getInstance().createNewLocation(location);
-		//BackEnd.getInstance().createNewTickets(eventForUnderage.generateTickets(100, 1, 1, 1));
 		userUnderage.addTicket(ticketForUnderage);
 		stubUserFrontEnd = new StubUserFrontEnd(userUnderage);
 		assertEquals(0, stubUserFrontEnd.getAvailableEventList().size());
@@ -835,51 +825,6 @@ public class UserFrontEndTest {
 		assertEquals(testContent.toString(), systemContent.toString());
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	@Test
-	public void purchaseTicketTest_01() {
-		class StubUserFrontEnd extends UserFrontEnd{
-			public StubUserFrontEnd(User user) {
-				super(user);
-			}
-			
-			@Override
-			public int listSelection(int size, String text) {
-				return 0;
-			}
-		}
-		StubUserFrontEnd stubUserFrontEnd = new StubUserFrontEnd(guest);
-		
-		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(testContent));
-		EMS.PrintHeader("- Purchase Ticket -");
-		System.out.println("1: eventName1");
-		System.out.println("2: overdue");
-		System.out.println("3: eventName1");
-		System.out.println("4: overdue");
-		System.out.println("5: eventName1");
-		System.out.println("6: overdue");
-		System.out.println("7: eventName1");
-		System.out.println("8: overdue");
-		System.out.println("9: eventName1");
-		System.out.println("10: overdue");
-		System.out.println("11: eventName1");
-		System.out.println("12: overdue");
-		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(systemContent));
-		stubUserFrontEnd.purchaseTicket();
-		assertEquals(testContent.toString(), systemContent.toString());
-	}
-	*/
-	
-	
 	@Test
 	public void purchaseTicketTest_02() {
 		class StubUserFrontEnd extends UserFrontEnd{
@@ -969,7 +914,7 @@ public class UserFrontEndTest {
 	
 	
 	@Test
-	public void reviewEventTest() {
+	public void reviewEventTest_01() {
 		class StubUserFrontEnd extends UserFrontEnd{
 			public StubUserFrontEnd(User user) {
 				super(user);
@@ -979,9 +924,34 @@ public class UserFrontEndTest {
 			public int listSelection(int size, String text) {
 				return 0;
 			}
+		}
+		StubUserFrontEnd stubUserFrontEnd = new StubUserFrontEnd(user);
+		
+		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(testContent));
+		EMS.PrintHeader("- Review Event -");
+
+		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(systemContent));
+		stubUserFrontEnd.reviewEvent();
+		assertEquals(testContent.toString(), systemContent.toString());
+	}
+	
+	
+	@Test
+	public void reviewEventTest_02() {
+		class StubUserFrontEnd extends UserFrontEnd{
+			public StubUserFrontEnd(User user) {
+				super(user);
+			}
+			
+			@Override
+			public int listSelection(int size, String text) {
+				return 1;
+			}
 			
 			@Override 
-			public double validateRating() {
+			public double readDoubleInput(String string) {
 				return 2.5;
 			}
 			
@@ -991,26 +961,28 @@ public class UserFrontEndTest {
 			}
 		}
 		StubUserFrontEnd stubUserFrontEnd = new StubUserFrontEnd(user);
+		Review reviewByUser = new Review((Member) user, 1, "bad");
+		Review reviewByUnderage = new Review((Member) userUnderage, 4, "good");
+		BackEnd.getInstance().addUser(user);
+		BackEnd.getInstance().createNewEvent(event);
+		user.addTicket(ticket);
+		ticket.Purchase(user);
+		ticket.setEntryTime();
+		ticket.setExitTime();
 		
 		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(testContent));
 		EMS.PrintHeader("- Review Event -");
-		/*
-		System.out.println("Select an Event to review (0 to exit): ");
-		System.out.println("Rating (0 to 5): ");
+		System.out.println(1 + ": " + event.getName());
 		System.out.println("Comment: ");
-		*/
+		EMS.PrintHeader("Review Submitted!");
 		
 		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(systemContent));
 		stubUserFrontEnd.reviewEvent();
 		assertEquals(testContent.toString(), systemContent.toString());
-		/*
-		assertEquals(review.getComment());
-		assertEquals(review.getRating());
-		assertEquals(review.getMember());
-		*/
 	}
+	
 	
 	@Test
 	public void displayAccountOperationsAsGuestTest() {
@@ -1431,7 +1403,7 @@ public class UserFrontEndTest {
 	
 	
 	@Test
-	public void creditCardPaymentTest() {
+	public void creditCardPaymentTest_01() {
 		class StubUserFrontEnd extends UserFrontEnd{
 			int count = 0;
 			public StubUserFrontEnd(User user) {
@@ -1441,11 +1413,6 @@ public class UserFrontEndTest {
 			@Override
 			public int listSelection(int size, String text) {
 				return 0;
-			}
-			
-			@Override
-			public double readDoubleInput(String string) {
-				return 5;
 			}
 			
 			@Override
@@ -1470,12 +1437,60 @@ public class UserFrontEndTest {
 		}
 		StubUserFrontEnd stubUserFrontEnd = new StubUserFrontEnd(user);
 		
-		assertEquals(CreditCard.class, stubUserFrontEnd.creditCardPayment().getClass());
+		CreditCard cc = stubUserFrontEnd.creditCardPayment();
+		assertEquals(CreditCard.class, cc.getClass());
+		assertEquals("3123456781234567", cc.getCardNumber());
+
 	}
 	
-	
-	
-	
+	@Test
+	public void creditCardPaymentTest_02() {
+		class StubUserFrontEnd extends UserFrontEnd{
+			int count = 0;
+			int countListSelection = 0;
+			public StubUserFrontEnd(User user) {
+				super(user);
+			}
+			
+			@Override
+			public int listSelection(int size, String text) {
+				switch(countListSelection) {
+				case 0:
+					countListSelection++;
+					return 1;
+				case 1:
+					countListSelection++;
+					return 0;
+				}
+				return 0;
+			}
+			
+			@Override
+			public int readIntInput(String string) {
+					return 2995;
+			}
+			
+			@Override
+			public String readInput() {
+			
+				switch(count) {
+				case 0:
+					count++;
+					return "3123456781234567";
+				case 1:
+					count++;
+					return "12/19";
+				}
+				return "";
+			}
+			
+		}
+		StubUserFrontEnd stubUserFrontEnd = new StubUserFrontEnd(user);
+		user.addCreditCard(new CreditCard("3123456712345678", 996, DateUtils.parseDate("2019-11-11 09:18")));
+		CreditCard cc = stubUserFrontEnd.creditCardPayment();
+		assertEquals(CreditCard.class, cc.getClass());
+		assertEquals("3123456781234567", cc.getCardNumber());
+	}
 	
 	@Test
 	public void validateAddBalanceMethodTest_01() {
@@ -1497,13 +1512,10 @@ public class UserFrontEndTest {
 		ByteArrayOutputStream testContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(testContent));
 		System.out.println("Payment in progress . . .");
-		//System.out.println("500.0 deducted from credit card 0.");
 		EMS.PrintHeader("Balance addded!");
 		
 		ByteArrayOutputStream systemContent = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(systemContent));
-		//stubUserFrontEnd.validateAddBalanceMethod("2", 500);
-		//assertEquals(testContent.toString(), systemContent.toString());
 	}
 	
 	@Test
