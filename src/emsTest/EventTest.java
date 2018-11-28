@@ -613,6 +613,50 @@ public class EventTest {
 		double tResult = tEvent.getAverageRating();
 		assertEquals(20 ,tResult, 2);
 	}
+	
+	@Test
+	public void testRemoveTicketSuccessfully() {
+		
+		this.backEndTicketList = backEnd.getTickets();
+		this.backEndTicketList.clear();
+		backEndLocationList = backEnd.getLocations();
+		backEndLocationList.clear();
+		location1 = new Location(locationName1, locationCapacity1);
+		backEndLocationList.add(location1);
+		double price = 10;
+		double vipPriceMultiplier = 0.5;
+		int normalSize = 1;
+		int vipSize = 0;
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime,  vendor1, location1, true);
+		ArrayList<Ticket> ticketList = tEvent.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
+		Ticket tResult = tEvent.removeTicket(ticketList.get(0));
+		assertEquals(ticketList.get(0), tResult);
+		backEndLocationList.clear();
+	}
+	
+	@Test
+	public void testRemoveTicketNotSuccessfully() {
+		
+		this.backEndTicketList = backEnd.getTickets();
+		this.backEndTicketList.clear();
+		backEndLocationList = backEnd.getLocations();
+		backEndLocationList.clear();
+		location1 = new Location(locationName1, locationCapacity1);
+		backEndLocationList.add(location1);
+		double price = 10;
+		double vipPriceMultiplier = 0.5;
+		int normalSize = 1;
+		int vipSize = 0;
+		vendor1 = new Vendor(vendorLoginId1, vendorPassword1, vendorName1);
+		tEvent = new Event(tEventName1, startTime, endTime,  vendor1, location1, true);
+		Event event2 = new Event("event2", startTime, endTime,  vendor1, location1, true);
+		ArrayList<Ticket> ticketList = event2.generateTickets(price, vipPriceMultiplier, normalSize, vipSize);
+		this.backEndTicketList.clear();
+		Ticket tResult = tEvent.removeTicket(ticketList.get(0));
+		assertEquals(null, tResult);
+		backEndLocationList.clear();
+	}
 //	@Test
 //	public void testGetAverageRatingWithNoReviewInEvent() {
 //		class EventStub extends Event{
