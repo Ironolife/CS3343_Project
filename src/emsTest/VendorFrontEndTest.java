@@ -44,21 +44,7 @@ public class VendorFrontEndTest {
 	@Test
 	public void testConstructor() {
 		
-		class VendorStub extends Vendor {
-
-			public VendorStub(String loginId, String password, String name) {
-				super(loginId, password, name);
-				// TODO Auto-generated constructor stub
-			}
-
-			@Override
-			public ArrayList<Event> getEvents() {
-				ArrayList<Event> eventList = new ArrayList<Event>();
-				eventList.add(eventMaterial);
-				return eventList;
-			}
-
-		}
+	
 		
 		class VendorFrontEndStub extends VendorFrontEnd {
 
@@ -153,9 +139,7 @@ public class VendorFrontEndTest {
 
 			}
 
-			public void displayEventInfo(Event event) {
-
-			}
+			
 		}
 
 		Vendor vendor = new Vendor("loginId", "password", "name");
@@ -237,9 +221,7 @@ public class VendorFrontEndTest {
 
 			}
 
-			public void setVendor(Vendor aVendor) {
-				vendor = aVendor;
-			}
+			
 
 			protected void printEventList(ArrayList<Event> events) {
 
@@ -306,12 +288,7 @@ public class VendorFrontEndTest {
 				// TODO Auto-generated constructor stub
 			}
 
-			@Override
-			public ArrayList<Event> getEvents() {
-				ArrayList<Event> eventList = new ArrayList<Event>();
-				eventList.add(eventMaterial);
-				return eventList;
-			}
+			
 
 		}
 
@@ -319,12 +296,7 @@ public class VendorFrontEndTest {
 
 			int backEndDuplicatioLocationNameLoopCount = 0;
 
-			@Override
-			public ArrayList<Location> getLocations() {
-				ArrayList<Location> locationList = new ArrayList<>();
-				locationList.add(locationMaterial);
-				return locationList;
-			}
+			
 
 			@Override
 			public boolean isDuplicateLocationName(String name) {
@@ -355,10 +327,7 @@ public class VendorFrontEndTest {
 
 			}
 
-			public void setVendor(Vendor aVendor) {
-				vendor = aVendor;
-			}
-
+			
 			public void setBackEnd(BackEnd backEnd) {
 				this.backEnd = backEnd;
 			}
@@ -421,12 +390,7 @@ public class VendorFrontEndTest {
 				// TODO Auto-generated constructor stub
 			}
 
-			@Override
-			public ArrayList<Event> getEvents() {
-				ArrayList<Event> eventList = new ArrayList<Event>();
-				eventList.add(eventMaterial);
-				return eventList;
-			}
+			
 
 		}
 
@@ -511,12 +475,7 @@ public class VendorFrontEndTest {
 
 			}
 
-			@Override
-			protected int readIntInput(String inputField) {
-
-				return 30;
-
-			}
+			
 
 			@Override
 			protected void printLocationList(ArrayList<Location> locations) {
@@ -602,10 +561,7 @@ public class VendorFrontEndTest {
 		
 		class BackEndStub extends BackEnd {
 			int duplicateCouponCodeCount = 0;
-			@Override
-			public void createNewTickets(ArrayList<Ticket> tickets) {
-				
-			}
+			
 			
 			@Override
 			public boolean isDuplicateCouponCode(String code) {
@@ -616,10 +572,7 @@ public class VendorFrontEndTest {
 				return false;
 			}
 			
-			@Override
-			public void createNewCoupon(Coupon coupon) {
-				
-			}
+			
 		}
 		
 		class VendorFrontEndStub extends VendorFrontEnd {
@@ -648,33 +601,13 @@ public class VendorFrontEndTest {
 					this.readInputCount++;
 					return "0";
 				}
-				else if(this.readInputCount == 2) {
+				
 					this.readInputCount++;
 					return "123456";
-				} else if(this.readInputCount == 3) {
-					this.readInputCount++;
-					return "ABCD";
-				} else if(this.readInputCount == 4) {
-					this.readInputCount++;
-					return "-10";
-				} else if (this.readInputCount == 5) {
-					this.readInputCount++;
-					return "3";  // will be changed for branch testing
-				} else if(this.readInputCount == 6) {
-					this.readInputCount++;
-					return "2018-10-18 09:00";
-					
-				} 
-
-				return "2018-10-20 09:00";
+				
 			}
 			
-			@Override
-			protected double readDoubleInput(String inputField) {
-				
-				return 12;
-				
-			}
+			
 			
 			@Override
 			protected void printEventList(ArrayList<Event> events) {
@@ -822,11 +755,7 @@ public class VendorFrontEndTest {
 
 			}
 			
-			public ArrayList<Event> getEvents() {
-				ArrayList<Event> eventList = new ArrayList<>();
-				eventList.add(eventMaterial);
-				return eventList;
-			}
+			
 			
 			@Override
 			protected double readDoubleInput(String inputField) {
@@ -893,10 +822,7 @@ public class VendorFrontEndTest {
 		}
 		
 		class BackEndStub extends BackEnd {
-			@Override
-			public void createNewTickets(ArrayList<Ticket> tickets) {
-				
-			}
+			
 		}
 		
 		class EventStub extends Event {
@@ -908,15 +834,6 @@ public class VendorFrontEndTest {
 				// TODO Auto-generated constructor stub
 			}
 			
-			@Override
-			public ArrayList<Ticket> generateTickets(double price, double vipPriceMultiplier, int normalSize, int vipSize) {
-				if(this.generateTicketCount == 0) {
-					this.generateTicketCount++;
-					return null;
-				}
-				ArrayList<Ticket> tickets = new ArrayList<>();
-				return tickets;
-			}
 			
 		}
 		
@@ -939,22 +856,7 @@ public class VendorFrontEndTest {
 
 			
 
-			@Override
-			protected int readIntInput(String inputField) {
-
-				if(this.readIntInputCount == 0) {
-					this.readIntInputCount++;
-					return 100;
-				} else if(this.readIntInputCount == 1) {
-					this.readIntInputCount++;
-					return 100;
-				} else if (this.readIntInputCount == 2) {
-					this.readIntInputCount++;
-					return 80;
-				}
-				return 20;
-
-			}
+			
 			
 			@Override
 			protected void printEventList(ArrayList<Event> events) {
@@ -969,21 +871,9 @@ public class VendorFrontEndTest {
 
 			}
 			
-			public ArrayList<Event> getEvents() {
-				ArrayList<Event> eventList = new ArrayList<>();
-				eventList.add(eventMaterial);
-				return eventList;
-			}
 			
-			@Override
-			protected double readDoubleInput(String inputField) {
-				
-				if(inputField.equals("Price")) {
-					return 100;
-				} 
-				return 12;
-				
-			}
+			
+			
 			
 			@Override
 			protected void generateTickets() {super.generateTickets();}
@@ -1034,10 +924,7 @@ public class VendorFrontEndTest {
 		
 		class BackEndStub extends BackEnd {
 			int duplicateCouponCodeCount = 0;
-			@Override
-			public void createNewTickets(ArrayList<Ticket> tickets) {
-				
-			}
+			
 			
 			@Override
 			public boolean isDuplicateCouponCode(String code) {
@@ -1101,12 +988,7 @@ public class VendorFrontEndTest {
 				return "2018-10-20 09:00";
 			}
 			
-			@Override
-			protected double readDoubleInput(String inputField) {
-				
-				return 12;
-				
-			}
+			
 			
 			@Override
 			protected void printEventList(ArrayList<Event> events) {
@@ -1204,10 +1086,7 @@ public class VendorFrontEndTest {
 		
 		class BackEndStub extends BackEnd {
 			int duplicateCouponCodeCount = 0;
-			@Override
-			public void createNewTickets(ArrayList<Ticket> tickets) {
-				
-			}
+			
 			
 			@Override
 			public boolean isDuplicateCouponCode(String code) {
@@ -1367,10 +1246,7 @@ public class VendorFrontEndTest {
 		
 		class BackEndStub extends BackEnd {
 			int duplicateCouponCodeCount = 0;
-			@Override
-			public void createNewTickets(ArrayList<Ticket> tickets) {
-				
-			}
+			
 			
 			@Override
 			public boolean isDuplicateCouponCode(String code) {
@@ -1434,12 +1310,7 @@ public class VendorFrontEndTest {
 				return "2018-10-20 09:00";
 			}
 			
-			@Override
-			protected double readDoubleInput(String inputField) {
-				
-				return 12;
-				
-			}
+			
 			
 			@Override
 			protected void printEventList(ArrayList<Event> events) {
@@ -1584,10 +1455,7 @@ public class VendorFrontEndTest {
 
 			}
 			
-			class BackEndStub extends BackEnd {
-				int duplicateCouponCodeCount = 0;
-				
-			}
+			
 			
 			class VendorFrontEndStub extends VendorFrontEnd {
 				int readIntInputCount = 0;
@@ -1602,9 +1470,7 @@ public class VendorFrontEndTest {
 
 				}
 
-				public void setBackEnd(BackEnd backEnd) {
-					this.backEnd = backEnd;
-				}
+				
 				
 				protected void printUserList(ArrayList<User> users) {
 					
@@ -1750,10 +1616,7 @@ public class VendorFrontEndTest {
 
 			}
 			
-			class BackEndStub extends BackEnd {
-				int duplicateCouponCodeCount = 0;
-				
-			}
+			
 			
 			class VendorFrontEndStub extends VendorFrontEnd {
 				int readIntInputCount = 0;
@@ -1768,9 +1631,7 @@ public class VendorFrontEndTest {
 
 				}
 
-				public void setBackEnd(BackEnd backEnd) {
-					this.backEnd = backEnd;
-				}
+				
 				
 				protected void printUserList(ArrayList<User> users) {
 					
