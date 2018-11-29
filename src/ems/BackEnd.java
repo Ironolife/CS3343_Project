@@ -9,6 +9,10 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
+import emsAdapter.*;
+
+import emsAdapter.UserAdapter;
+
 public class BackEnd {
 	
 	private static BackEnd instance;

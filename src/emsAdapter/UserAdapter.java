@@ -1,9 +1,11 @@
-package ems;
+package emsAdapter;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import com.google.gson.*;
+
+import ems.User;
 
 public class UserAdapter implements JsonSerializer<User>, JsonDeserializer<User>{
 	
